@@ -3,22 +3,28 @@
     <h1 id="whos-using">Who's using My Geneset</h1>
     <Gallery>
       <LinkTo to="https://greenelab.com/"
-        ><img src="https://greenelab.com//icons/share-thumbnail.jpg"
+        ><img
+          src="https://raw.githubusercontent.com/greenelab/brand/master/text/for-light-bg.png"
       /></LinkTo>
       <LinkTo to="https://greenelab.com/"
-        ><img src="https://greenelab.com//icons/share-thumbnail.jpg"
+        ><img
+          src="https://raw.githubusercontent.com/greenelab/brand/master/text/for-light-bg.png"
       /></LinkTo>
       <LinkTo to="https://greenelab.com/"
-        ><img src="https://greenelab.com//icons/share-thumbnail.jpg"
+        ><img
+          src="https://raw.githubusercontent.com/greenelab/brand/master/text/for-light-bg.png"
       /></LinkTo>
       <LinkTo to="https://greenelab.com/"
-        ><img src="https://greenelab.com//icons/share-thumbnail.jpg"
+        ><img
+          src="https://raw.githubusercontent.com/greenelab/brand/master/text/for-light-bg.png"
       /></LinkTo>
       <LinkTo to="https://greenelab.com/"
-        ><img src="https://greenelab.com//icons/share-thumbnail.jpg"
+        ><img
+          src="https://raw.githubusercontent.com/greenelab/brand/master/text/for-light-bg.png"
       /></LinkTo>
       <LinkTo to="https://greenelab.com/"
-        ><img src="https://greenelab.com//icons/share-thumbnail.jpg"
+        ><img
+          src="https://raw.githubusercontent.com/greenelab/brand/master/text/for-light-bg.png"
       /></LinkTo>
     </Gallery>
   </Section>
@@ -41,7 +47,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 img {
-  height: 150px;
+  height: 100px;
   opacity: 0.5;
   filter: saturate(0);
   transition: opacity $fast, filter $fast;
