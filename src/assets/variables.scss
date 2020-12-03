@@ -38,7 +38,6 @@ $phone: 600px;
     margin-bottom: 0;
   }
 }
-
 @mixin trim-h-margins {
   &:first-child {
     margin-left: 0;
@@ -47,4 +46,8 @@ $phone: 600px;
   &:last-child {
     margin-right: 0;
   }
+}
+@mixin circle($angle, $radius) {
+  transform: rotate(-$angle) translate(-$radius) rotate($angle)
+    translate(-50%, -50%);
 }
