@@ -1,8 +1,8 @@
 <template>
   <div class="feature">
-    <i v-bind:class="icon" />
-    <span>{{ title }}</span>
-    <span>{{ description }}</span>
+    <div class="feature_icon"><i v-bind:class="icon" /></div>
+    <div class="feature_title">{{ title }}</div>
+    <div class="feature_description">{{ description }}</div>
   </div>
 </template>
 
@@ -28,13 +28,17 @@ export default defineComponent({
   text-align: center;
   text-decoration: none;
 
-  i {
+  & > * {
+    display: flex;
+  }
+
+  .feature_icon {
     color: $accent-dark;
     font-size: 3rem;
     margin-bottom: 20px;
   }
 
-  span:first-of-type {
+  .feature_title {
     font-weight: $medium;
     margin-bottom: 5px;
   }
