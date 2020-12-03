@@ -1,15 +1,15 @@
 <template>
   <div class="info_links">
-    <Link to="about#terms" text="Terms of Use" /> |
-    <Link to="about#cite" text="How to Cite" />
+    <LinkTo to="about#terms">Terms of Use</LinkTo> |
+    <LinkTo to="about#cite">How to Cite</LinkTo>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Link from "@/components/Link.vue";
+import LinkTo from "@/components/LinkTo.vue";
 
-const components = { Link };
+const components = { LinkTo };
 
 export default defineComponent({ components });
 </script>

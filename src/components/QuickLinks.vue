@@ -1,20 +1,24 @@
 <template>
   <div class="quick_links">
-    <Link to="https://github.com/" icon="fab fa-github fa-fw" />
-    <Link to="https://twitter.com/" icon="fab fa-twitter fa-fw" />
-    <Link to="https://google.com/" icon="fab fa-google fa-fw" />
-    <Link to="about#contact" icon="far fa-envelope fa-fw" />
-    <Link to="about" icon="far fa-question-circle fa-fw" />
+    <LinkTo to="https://github.com/biothings/mygeneset.info/"
+      ><i class="fab fa-github fa-fw"
+    /></LinkTo>
+    <LinkTo to="https://twitter.com/mygenesetinfo"
+      ><i class="fab fa-twitter fa-fw"
+    /></LinkTo>
+    <LinkTo to="about#contact"><i class="far fa-envelope fa-fw"/></LinkTo>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Link from "@/components/Link.vue";
+import LinkTo from "@/components/LinkTo.vue";
 
-const components = { Link };
-
-export default defineComponent({ components });
+export default defineComponent({
+  components: {
+    LinkTo
+  }
+});
 </script>
 
 <style scoped lang="scss">

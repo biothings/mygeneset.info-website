@@ -1,5 +1,5 @@
 <template>
-  <Header v-bind:big="true" />
+  <Header />
   <Main>
     <Section>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

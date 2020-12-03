@@ -12,15 +12,16 @@ import QuickLinks from "@/components/QuickLinks.vue";
 import InfoLinks from "@/components/InfoLinks.vue";
 import Copyright from "@/components/Copyright.vue";
 
-const props = ["big"];
-
-const components = {
-  QuickLinks,
-  InfoLinks,
-  Copyright
-};
-
-export default defineComponent({ props, components });
+export default defineComponent({
+  props: {
+    big: Boolean
+  },
+  components: {
+    QuickLinks,
+    InfoLinks,
+    Copyright
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -44,7 +45,7 @@ footer {
     & > * {
       text-align: center;
       margin: 5px 0;
-      @include trim-margins;
+      @include trim-v-margins;
     }
   }
 }

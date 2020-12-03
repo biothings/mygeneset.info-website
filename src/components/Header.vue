@@ -1,7 +1,7 @@
 <template>
   <header v-bind:big="big">
     <HexField />
-    <button @click="toggle">
+    <button @click="toggleExpanded">
       <i v-if="expanded" class="fas fa-angle-double-up"></i>
       <i v-else class="fas fa-bars"></i>
       <span v-if="expanded">Collapse</span>
@@ -23,24 +23,23 @@ import Account from "@/components/Account.vue";
 
 const expanded = ref(false);
 
-const props = ["big"];
-
-const components = {
-  HexField,
-  Nav,
-  Logo,
-  Account
-};
-
-const data = () => ({ expanded });
-
-const methods = {
-  toggle: () => {
-    expanded.value = !expanded.value;
+export default defineComponent({
+  props: {
+    big: Boolean
+  },
+  components: {
+    HexField,
+    Nav,
+    Logo,
+    Account
+  },
+  data: () => ({
+    expanded
+  }),
+  methods: {
+    toggleExpanded: () => (expanded.value = !expanded.value)
   }
-};
-
-export default defineComponent({ props, components, data, methods });
+});
 </script>
 
 <style scoped lang="scss">

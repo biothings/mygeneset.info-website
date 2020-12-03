@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: "/mygeneset.info-website/",
   css: {
     loaderOptions: {
       sass: {

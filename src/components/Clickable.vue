@@ -1,0 +1,73 @@
+<template>
+  <component
+    v-bind:is="component"
+    class="clickable"
+    v-bind:to="to"
+    v-bind:design="design"
+  >
+    <i v-if="icon" v-bind:class="icon" />
+    <span v-if="text">{{ text }}</span>
+  </component>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import LinkTo from "@/components/LinkTo.vue";
+
+export default defineComponent({
+  props: {
+    to: String,
+    icon: String,
+    text: String,
+    design: String
+  },
+  components: {
+    LinkTo
+  },
+  data: function() {
+    return {
+      component: this.to ? "LinkTo" : "button"
+    };
+  }
+});
+</script>
+
+<style scope lang="scss">
+.clickable {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  text-decoration: none;
+  background: $accent;
+  color: $black;
+  transition: background $fast;
+
+  &:hover,
+  &:focus {
+    background: $accent-light;
+  }
+
+  &[design="plain"] {
+    background: none;
+    color: $accent-dark;
+    padding: 5px 10px;
+  }
+
+  &[design="slim"] {
+    height: 30px;
+    padding: 5px 10px;
+  }
+
+  &[design="big"] {
+    min-width: 150px;
+    height: 40px;
+    padding: 10px 20px;
+
+    &:hover,
+    &:focus {
+      background: $accent-light;
+    }
+  }
+}
+</style>

@@ -11,9 +11,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-const props = ["big"];
-
-export default defineComponent({ props });
+export default defineComponent({
+  props: {
+    big: Boolean
+  }
+});
 </script>
 
 <style scoped lang="scss">

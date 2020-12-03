@@ -1,20 +1,24 @@
 <template>
-  <Link
-    class="header_link"
-    v-bind:to="to"
-    v-bind:text="text"
-    v-bind:icon="icon"
-  />
+  <LinkTo class="header_link" v-bind:to="to">
+    <i v-if="icon" v-bind:class="icon" />
+    <span>{{ text }}</span>
+  </LinkTo>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Link from "@/components/Link.vue";
+import LinkTo from "@/components/LinkTo.vue";
 
-const props = ["to", "text", "icon"];
-const components = { Link };
-
-export default defineComponent({ props, components });
+export default defineComponent({
+  props: {
+    to: String,
+    text: String,
+    icon: String
+  },
+  components: {
+    LinkTo
+  }
+});
 </script>
 
 <style scope lang="scss">

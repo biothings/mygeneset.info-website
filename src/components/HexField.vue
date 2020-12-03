@@ -78,13 +78,19 @@ const onMouseMove = (event: MouseEvent) => {
   xAngle.value = (0.5 - event.clientY / window.innerHeight) * 30;
 };
 
-// listen for mouse move
-const mounted = () => window.addEventListener("mousemove", onMouseMove);
-const unmounted = () => window.removeEventListener("mousemove", onMouseMove);
-
-const data = () => ({ cells, xAngle, yAngle });
-
-export default defineComponent({ mounted, unmounted, data });
+export default defineComponent({
+  data: () => ({
+    cells,
+    xAngle,
+    yAngle
+  }),
+  mounted: () => {
+    window.addEventListener("mousemove", onMouseMove);
+  },
+  unmounted: () => {
+    window.removeEventListener("mousemove", onMouseMove);
+  }
+});
 </script>
 
 <style scoped lang="scss">
