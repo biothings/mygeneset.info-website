@@ -60,7 +60,6 @@ export default defineComponent({
   }
 
   &[design="big"] {
-    min-width: 150px;
     height: 40px;
     padding: 10px 20px;
 
@@ -68,6 +67,10 @@ export default defineComponent({
     &:focus {
       background: $accent-light;
     }
+  }
+
+  span {
+    @include truncate;
   }
 }
 </style>

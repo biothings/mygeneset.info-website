@@ -12,37 +12,37 @@
     <Gallery>
       <Portrait
         link="https://vincentrubinetti.com"
-        image="https://greenelab.com/images/team/vince.jpg"
+        image="images/vince.jpg"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="https://greenelab.com/images/team/vince.jpg"
+        image="images/vince.jpg"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="https://greenelab.com/images/team/vince.jpg"
+        image="images/vince.jpg"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="https://greenelab.com/images/team/vince.jpg"
+        image="images/vince.jpg"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="https://greenelab.com/images/team/vince.jpg"
+        image="images/vince.jpg"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="https://greenelab.com/images/team/vince.jpg"
+        image="images/vince.jpg"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />

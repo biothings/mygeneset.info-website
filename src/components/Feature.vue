@@ -1,30 +1,25 @@
 <template>
-  <LinkTo v-bind:to="link" class="portrait">
-    <img v-bind:src="image" />
-    <span>{{ name }}</span>
-    <span>{{ role }}</span>
-  </LinkTo>
+  <div class="feature">
+    <i v-bind:class="icon" />
+    <span>{{ title }}</span>
+    <span>{{ description }}</span>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import LinkTo from "@/components/LinkTo.vue";
 
 export default defineComponent({
   props: {
-    link: String,
-    image: String,
-    name: String,
-    role: String
-  },
-  components: {
-    LinkTo
+    icon: String,
+    title: String,
+    description: String
   }
 });
 </script>
 
 <style scoped lang="scss">
-.portrait {
+.feature {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -32,22 +27,16 @@ export default defineComponent({
   width: 100%;
   text-align: center;
   text-decoration: none;
-  color: $black;
 
-  img {
-    width: 150px;
-    height: 150px;
-    border-radius: 75px;
+  i {
+    color: $accent-dark;
+    font-size: 3rem;
     margin-bottom: 20px;
   }
 
   span:first-of-type {
     font-weight: $medium;
     margin-bottom: 5px;
-  }
-
-  &:hover {
-    color: $accent-dark;
   }
 }
 </style>

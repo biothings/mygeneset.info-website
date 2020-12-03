@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { isExternalLink } from "@/util/string";
+import { isExternalLink } from "@/util/url";
 
 export default defineComponent({
   props: {

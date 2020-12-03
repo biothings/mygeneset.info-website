@@ -8,10 +8,11 @@
 .gallery {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 40px;
+  grid-gap: 20px;
   justify-content: center;
   justify-items: center;
   margin: 40px 0;
+  @include trim-v-margins;
 
   @media (max-width: $tablet) {
     & {
