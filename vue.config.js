@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: "/mygeneset.info-website/",
+  publicPath: process.env.NETLIFY === true ? "" : "/mygeneset.info-website/",
   css: {
     loaderOptions: {
       sass: {
