@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <Main>
+  <Main title="About" icon="fas fa-signature">
     <About />
     <SupportUs />
     <FAQs />

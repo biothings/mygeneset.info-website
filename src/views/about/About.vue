@@ -1,6 +1,5 @@
 <template>
   <Section>
-    <h1 id="about">About</h1>
     <p>
       My Geneset provides a way for users to conveniently collect, save, and
       share genes from 20+ different species. You can use it through this

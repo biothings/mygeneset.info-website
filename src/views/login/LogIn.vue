@@ -1,6 +1,5 @@
 <template>
   <Section>
-    <h1 id="login">Log In</h1>
     <Center class="login" v-bind:vertical="true">
       <Clickable
         v-if="!withEmail"

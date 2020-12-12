@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <h1 id="team">Team</h1>
+    <h2 id="team">Team</h2>
     <p>
       My Geneset was made by the
       <LinkTo to="https://biothings.io/">BioThings collaboration</LinkTo>, a

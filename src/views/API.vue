@@ -1,33 +1,9 @@
 <template>
   <Header />
-  <Main>
-    <Section>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </Section>
-    <Section>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </Section>
-    <Section>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </Section>
+  <Main title="API" icon="fas fa-terminal">
+    <Hero />
+    <Docs />
+    <TryItOut />
   </Main>
   <Footer />
 </template>
@@ -36,15 +12,19 @@
 import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
-import Section from "@/components/Section.vue";
 import Footer from "@/components/Footer.vue";
+import Hero from "./api/Hero.vue";
+import Docs from "./api/Docs.vue";
+import TryItOut from "./api/TryItOut.vue";
 
 export default defineComponent({
   components: {
     Header,
     Main,
-    Section,
-    Footer
+    Footer,
+    Hero,
+    Docs,
+    TryItOut
   }
 });
 </script>

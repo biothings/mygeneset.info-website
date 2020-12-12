@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <h1 id="support">Support Us</h1>
+    <h2 id="support">Support Us</h2>
     <p>
       The tools created by the BioThings collaboration are funded by grants
       [link to biothings-global page that lists grant sources?]. Although the

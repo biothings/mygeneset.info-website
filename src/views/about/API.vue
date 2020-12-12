@@ -1,7 +1,7 @@
 <template>
   <Header />
-  <Main title="Sign Up" icon="far fa-user-circle">
-    <SignUp />
+  <Main>
+    <Hero />
   </Main>
   <Footer />
 </template>
@@ -11,14 +11,14 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import SignUp from "./signup/SignUp.vue";
+import Hero from "./api/Hero.vue";
 
 export default defineComponent({
   components: {
     Header,
     Main,
     Footer,
-    SignUp
+    Hero
   }
 });
 </script>

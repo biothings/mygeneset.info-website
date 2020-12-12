@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <h1 id="contact">Contact</h1>
+    <h2 id="contact">Contact</h2>
     <div class="contact_grid">
       <Clickable
         to="mailto:biothings@googlegroups.com"

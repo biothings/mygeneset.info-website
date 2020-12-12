@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <h1 id="whos-using">Who's using My Geneset</h1>
+    <h2 id="whos-using">Who's using My Geneset</h2>
     <Gallery>
       <LinkTo to="https://greenelab.com/"
         ><img

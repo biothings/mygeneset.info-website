@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <HeaderLink to="/login" text="Log In" icon="fas fa-sign-in-alt" />
+    <HeaderLink to="/login" text="Log In" />
     <HeaderLink to="/signup" text="Sign Up" />
   </div>
 </template>

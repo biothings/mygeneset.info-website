@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <h1 id="cite">How to Cite</h1>
+    <h2 id="cite">How to Cite</h2>
     <p class="citation">
       <b
         >High-performance web services for querying gene and variant annotation </b
@@ -27,6 +27,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .citation {
   padding: 20px;
-  background: $white;
+  border: dashed 2px $light-gray;
 }
 </style>

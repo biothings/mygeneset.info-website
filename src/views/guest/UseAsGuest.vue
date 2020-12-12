@@ -1,6 +1,5 @@
 <template>
   <Section>
-    <h1 id="guest">Use as Guest</h1>
     <p>
       To browse or build genesets as a guest, just go to the browse or build
       pages without logging in. Without an account, you won’t be able to create

@@ -1,20 +1,18 @@
 <template>
   <Section>
-    <h2 id="api">API</h2>
-    <Center>Use My Geneset programatically</Center>
-    <Placeholder>
-      table of popular/recent queries with columns:<br />
-      request type (post/get), response status, parameters, country?
-    </Placeholder>
-    <Center>
-      <Clickable to="/api" icon="fas fa-terminal" text="Try Now" design="big" />
+    <Center class="docs">
       <Clickable
         to="https://docs.mygeneset.info/en/latest/index.html"
         icon="fas fa-book"
         text="API Docs"
         design="big"
       />
+      <span class="version">v1.0</span>
     </Center>
+    <p>
+      Full documentation for using My Geneset programmatically through its API.
+      Detailed info about request parameters, response schemas, and more.
+    </p>
   </Section>
 </template>
 
@@ -23,14 +21,25 @@ import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Clickable from "@/components/Clickable.vue";
 import Center from "@/components/Center.vue";
-import Placeholder from "@/components/Placeholder.vue";
 
 export default defineComponent({
   components: {
     Section,
     Clickable,
-    Center,
-    Placeholder
+    Center
   }
 });
 </script>
+
+<style scoped lang="scss">
+.docs {
+  & > * {
+    width: 200px;
+  }
+  .version {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+}
+</style>

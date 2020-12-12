@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <Main>
+  <Main title="Use as Guest" icon="fas fa-ghost">
     <UseAsGuest />
   </Main>
   <Footer />

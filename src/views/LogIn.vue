@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <Main>
+  <Main title="Log In" icon="fas fa-sign-in-alt">
     <LogIn />
   </Main>
   <Footer />

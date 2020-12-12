@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <h1 id="news">What's New</h1>
+    <h2 id="news">What's New</h2>
     <Placeholder>
       Twitter embed to show tweets, or link to blog posts with summaries
     </Placeholder>

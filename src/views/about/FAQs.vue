@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <h1 id="faqs">FAQ's</h1>
+    <h2 id="faqs">FAQ's</h2>
     <h4>Where can I find the source code?</h4>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

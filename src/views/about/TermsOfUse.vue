@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <h1 id="terms">Terms of Use</h1>
+    <h2 id="terms">Terms of Use</h2>
     <p>
       This resource is intended for purely research purposes. It should not be
       used for emergencies or medical or professional advice.

@@ -8,7 +8,7 @@
 
 <style scoped lang="scss">
 section {
-  &:nth-child(even) {
+  &:nth-child(odd) {
     background: $off-white;
   }
 }

@@ -38,14 +38,14 @@ h2 {
   text-align: center;
   font-weight: $medium;
   font-size: 1.5rem;
-  margin: 40px 0;
+  margin: 30px 0;
   @include trim-v-margins;
 }
 h3 {
   text-align: center;
   font-weight: $medium;
   font-size: 1.5rem;
-  margin: 30px 0;
+  margin: 20px 0;
   @include trim-v-margins;
 }
 h4 {
@@ -102,5 +102,10 @@ hr {
 // font awesome icons
 i + span {
   margin-left: 10px;
+}
+h1 {
+  i + span {
+    margin-left: 15px;
+  }
 }
 </style>
