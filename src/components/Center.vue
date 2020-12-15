@@ -20,6 +20,8 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  margin: 20px 0;
+  @include trim-v-margins;
 
   & > * {
     margin: 10px;

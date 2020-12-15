@@ -54,7 +54,6 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
 import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";

@@ -19,7 +19,8 @@ export default defineComponent({
     placeholder: String,
     name: String,
     type: String,
-    sanitize: Function
+    sanitize: Function,
+    onChange: Function
   },
   data: function() {
     return {
@@ -28,17 +29,18 @@ export default defineComponent({
   },
   methods: {
     onInput: function(event: Event) {
+      const input = event.target as HTMLInputElement;
       if (this.sanitize) {
         const oldValue = this.value;
-        const newValue = this.sanitize(event);
+        const newValue = this.sanitize(input.value);
         this.value = newValue;
         if (newValue === oldValue) {
-          const input = event.target as HTMLInputElement;
           const index = (input.selectionStart || 1) - 1;
           this.$forceUpdate();
           nextTick(() => input.setSelectionRange(index, index));
         }
       }
+      if (this.onChange) this.onChange(event);
     }
   }
 });

@@ -21,7 +21,7 @@
         design="plain"
       />
     </Center>
-    <CodeBlock title="Edit me!" ariaLabel="Request string">
+    <CodeBlock ref="codeBlock" title="Edit me!" v-bind:ariaLabel="code">
       <template v-for="(slug, index) in request" v-bind:key="slug">
         <span v-if="index % 2 === 0">{{ slug }}</span>
         <CodeInput
@@ -29,6 +29,7 @@
           v-bind:defaultValue="slug"
           v-bind:sanitize="sanitize"
           v-bind:aria-label="'Request field ' + (index + 1)"
+          v-bind:onChange="setCode"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -36,16 +37,32 @@
         />
       </template>
     </CodeBlock>
+    <Center>
+      <Clickable
+        v-bind:icon="loading ? 'fas fa-spinner fa-spin' : 'fas fa-play'"
+        v-bind:text="loading ? 'Loading' : 'Run'"
+        design="big"
+        @click="run"
+        v-bind:disabled="loading"
+      />
+    </Center>
+    <CodeBlock>
+      <PrettyJson v-bind:data="response" />
+    </CodeBlock>
   </Section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { nextTick } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 import CodeBlock from "@/components/CodeBlock.vue";
 import CodeInput from "@/components/CodeInput.vue";
+import PrettyJson from "@/components/PrettyJson.vue";
+import { sleep } from "@/util/debug";
+import { dummyJson } from "@/util/debug";
 
 interface Request {
   [index: number]: string;
@@ -72,24 +89,43 @@ export default defineComponent({
     Center,
     Clickable,
     CodeBlock,
-    CodeInput
+    CodeInput,
+    PrettyJson
   },
   data: () => ({
-    selected: "byName"
+    selected: "byName",
+    code: "",
+    loading: false,
+    response: {}
   }),
   methods: {
     select: function(value: string) {
       this.selected = value;
     },
-    sanitize: function(event: Event) {
-      const input = event.target as HTMLInputElement;
-      return input.value.replace(/[^a-zA-Z0-9]+/g, "");
+    sanitize: function(value: string) {
+      return value.replace(/[^a-zA-Z0-9]+/g, "");
+    },
+    setCode: function() {
+      nextTick(() => {
+        const codeBlock = this.$refs.codeBlock as any;
+        this.code = codeBlock.getText();
+      });
+    },
+    run: async function() {
+      console.log(this.code);
+      this.loading = true;
+      await sleep(2000);
+      this.loading = false;
+      this.response = dummyJson();
     }
   },
   computed: {
     request: function(): Request {
       return requests[(this.selected as unknown) as string];
     }
+  },
+  mounted: function() {
+    this.setCode();
   }
 });
 </script>
