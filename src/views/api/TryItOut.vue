@@ -21,13 +21,14 @@
         design="plain"
       />
     </Center>
-    <CodeBlock title="Edit me!">
+    <CodeBlock title="Edit me!" ariaLabel="Request string">
       <template v-for="(slug, index) in request" v-bind:key="slug">
         <span v-if="index % 2 === 0">{{ slug }}</span>
-        <input
+        <CodeInput
           v-else
           v-bind:defaultValue="slug"
-          @input="onInput"
+          v-bind:sanitize="sanitize"
+          v-bind:aria-label="'Request field ' + (index + 1)"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -39,15 +40,12 @@
 </template>
 
 <script lang="ts">
-import { nextTick } from "vue";
-import { ref } from "vue";
 import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 import CodeBlock from "@/components/CodeBlock.vue";
-
-const selected = ref();
+import CodeInput from "@/components/CodeInput.vue";
 
 interface Request {
   [index: number]: string;
@@ -73,60 +71,35 @@ export default defineComponent({
     Section,
     Center,
     Clickable,
-    CodeBlock
+    CodeBlock,
+    CodeInput
   },
   data: () => ({
-    selected
+    selected: "byName"
   }),
   methods: {
     select: function(value: string) {
-      selected.value = value;
-      nextTick(this.fitAll);
+      this.selected = value;
     },
-    onInput: function(event: Event) {
+    sanitize: function(event: Event) {
       const input = event.target as HTMLInputElement;
-      this.sanitize(input);
-    },
-    sanitize: function(input: HTMLInputElement) {
-      const oldValue = input.value;
-      const newValue = oldValue.replace(/[^a-zA-Z0-9]+/g, "");
-      if (oldValue !== newValue) {
-        input.value = newValue;
-      }
-      this.fitWidth(input);
-    },
-    fitWidth: (input: HTMLInputElement) => {
-      input.style.width = input.value.length + "ch";
-    },
-    fitAll: function() {
-      const inputs = document.querySelectorAll("code input");
-      for (const input of inputs) this.fitWidth(input as HTMLInputElement);
+      return input.value.replace(/[^a-zA-Z0-9]+/g, "");
     }
   },
   computed: {
     request: function(): Request {
       return requests[(this.selected as unknown) as string];
     }
-  },
-  mounted: function() {
-    this.select("byName");
   }
 });
 </script>
 
 <style scoped lang="scss">
 button {
+  color: $black !important;
   margin: 5px;
 }
 button[selected="true"] {
   background: $accent-light;
-}
-input {
-  display: inline-block;
-  min-width: 2rem;
-  margin: 0 5px;
-  padding: 0;
-  color: $yellow;
-  border-bottom: solid 2px $yellow;
 }
 </style>

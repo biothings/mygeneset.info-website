@@ -123,13 +123,10 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
 import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
-
-const expanded = ref(false);
 
 export default defineComponent({
   components: {
@@ -138,10 +135,12 @@ export default defineComponent({
     Clickable
   },
   data: () => ({
-    expanded
+    expanded: false
   }),
   methods: {
-    toggleExpanded: () => (expanded.value = !expanded.value)
+    toggleExpanded: function() {
+      this.expanded = !this.expanded;
+    }
   }
 });
 </script>

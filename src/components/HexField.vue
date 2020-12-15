@@ -40,7 +40,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { ref } from "vue";
 
 // hexagonal grid properties
 // distance between grid cells
@@ -51,10 +50,6 @@ const a = (d * Math.sqrt(3)) / 2;
 const cols = Math.min(Math.round(window.innerWidth / 2 / d) + 2, 20);
 // rows of hexagons in each direction
 const rows = Math.min(Math.round(window.innerHeight / 2 / d) + 2, 5);
-
-// view angle
-const xAngle = ref(0);
-const yAngle = ref(0);
 
 // generate hex grid of cells
 const cells: { x: number; y: number; z: number; strength: number }[] = [];
@@ -72,23 +67,27 @@ for (let x = -cols; x <= cols; x++)
       });
   }
 
-// change view angle on mouse move
-const onMouseMove = (event: MouseEvent) => {
-  yAngle.value = -(0.5 - event.clientX / window.innerWidth) * 30;
-  xAngle.value = (0.5 - event.clientY / window.innerHeight) * 30;
-};
-
 export default defineComponent({
   data: () => ({
+    // hex grid objects
     cells,
-    xAngle,
-    yAngle
+    // view angle
+    xAngle: 0,
+    yAngle: 0
   }),
-  mounted: () => {
-    window.addEventListener("mousemove", onMouseMove);
+  methods: {
+    // change view angle on mouse move
+    onMouseMove: function(event: MouseEvent) {
+      this.yAngle = -(0.5 - event.clientX / window.innerWidth) * 30;
+      this.xAngle = (0.5 - event.clientY / window.innerHeight) * 30;
+    }
   },
-  unmounted: () => {
-    window.removeEventListener("mousemove", onMouseMove);
+
+  mounted: function() {
+    window.addEventListener("mousemove", this.onMouseMove);
+  },
+  unmounted: function() {
+    window.removeEventListener("mousemove", this.onMouseMove);
   }
 });
 </script>

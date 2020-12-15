@@ -62,8 +62,6 @@ import Clickable from "@/components/Clickable.vue";
 import TextBox from "@/components/TextBox.vue";
 import LinkTo from "@/components/LinkTo.vue";
 
-const withEmail = ref(false);
-
 export default defineComponent({
   components: {
     Section,
@@ -73,10 +71,12 @@ export default defineComponent({
     LinkTo
   },
   data: () => ({
-    withEmail
+    withEmail: false
   }),
   methods: {
-    toggleWithEmail: () => (withEmail.value = !withEmail.value)
+    toggleWithEmail: function() {
+      this.withEmail = !this.withEmail;
+    }
   }
 });
 </script>

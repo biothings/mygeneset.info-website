@@ -1,6 +1,6 @@
 <template>
   <span v-if="title">{{ title }}</span>
-  <code>
+  <code v-bind:aria-labe="ariaLabel">
     <slot></slot>
   </code>
 </template>
@@ -10,7 +10,8 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    title: String
+    title: String,
+    ariaLabel: String
   }
 });
 </script>

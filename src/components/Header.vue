@@ -15,13 +15,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { ref } from "vue";
 import HexField from "@/components/HexField.vue";
 import Nav from "@/components/Nav.vue";
 import Logo from "@/components/Logo.vue";
 import Account from "@/components/Account.vue";
-
-const expanded = ref(false);
 
 export default defineComponent({
   props: {
@@ -34,10 +31,12 @@ export default defineComponent({
     Account
   },
   data: () => ({
-    expanded
+    expanded: false
   }),
   methods: {
-    toggleExpanded: () => (expanded.value = !expanded.value)
+    toggleExpanded: function() {
+      this.expanded = !this.expanded;
+    }
   }
 });
 </script>

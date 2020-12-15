@@ -1,7 +1,6 @@
 <template>
   <input
     class="text_box"
-    v-model="message"
     v-bind:placeholder="placeholder"
     v-bind:name="name"
     v-bind:type="type || 'text'"
