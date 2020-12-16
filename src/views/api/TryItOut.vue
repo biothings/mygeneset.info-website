@@ -119,7 +119,6 @@ export default defineComponent({
     },
     setCode: function() {
       nextTick(() => {
-        // eslint
         const codeBlock = this.$refs.codeBlock as CodeBlockInterface;
         this.code = codeBlock.getCode();
       });
@@ -140,8 +139,13 @@ export default defineComponent({
       return requests[(this.selected as unknown) as string];
     }
   },
-  mounted: function() {
+  mount: function() {
     this.setCode();
+  },
+  watch: {
+    selected: function() {
+      this.setCode();
+    }
   }
 });
 </script>
