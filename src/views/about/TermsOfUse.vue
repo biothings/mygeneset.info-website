@@ -113,7 +113,7 @@
     </p>
     <Center>
       <Clickable
-        @click="toggleExpanded"
+        @click="expanded = !expanded"
         v-bind:icon="'fas fa-angle-double-' + (expanded ? 'up' : 'down')"
         v-bind:text="'See ' + (expanded ? 'less' : 'more')"
         design="plain"
@@ -136,11 +136,6 @@ export default defineComponent({
   },
   data: () => ({
     expanded: false
-  }),
-  methods: {
-    toggleExpanded: function() {
-      this.expanded = !this.expanded;
-    }
-  }
+  })
 });
 </script>

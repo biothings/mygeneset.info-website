@@ -41,7 +41,7 @@ export default defineComponent({
   text-decoration: none;
   background: $accent;
   color: $black;
-  transition: background $fast;
+  transition: background $fast, opacity $fast, filter $fast;
 
   &:hover,
   &:focus {
@@ -71,6 +71,12 @@ export default defineComponent({
 
   span {
     @include truncate;
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    filter: saturate(0);
+    opacity: 0.5;
   }
 }
 </style>

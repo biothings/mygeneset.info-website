@@ -4,19 +4,19 @@
     <Center>
       <Clickable
         v-bind:selected="selected === 'byId'"
-        @click="select('byId')"
+        @click="selected = 'byId'"
         text="Lookup by id"
         design="plain"
       />
       <Clickable
         v-bind:selected="selected === 'byName'"
-        @click="select('byName')"
+        @click="selected = 'byName'"
         text="Search by name"
         design="plain"
       />
       <Clickable
         v-bind:selected="selected === 'getMeta'"
-        @click="select('getMeta')"
+        @click="selected = 'getMeta'"
         text="Get metadata"
         design="plain"
       />
@@ -49,6 +49,15 @@
     <CodeBlock>
       <PrettyJson v-bind:data="response" />
     </CodeBlock>
+    <Center>
+      <Clickable
+        icon="fas fa-download"
+        text="Download"
+        design="big"
+        @click="download"
+        v-bind:disabled="loading"
+      />
+    </Center>
   </Section>
 </template>
 
@@ -61,6 +70,7 @@ import Clickable from "@/components/Clickable.vue";
 import CodeBlock from "@/components/CodeBlock.vue";
 import CodeInput from "@/components/CodeInput.vue";
 import PrettyJson from "@/components/PrettyJson.vue";
+import { downloadJson } from "@/util/download";
 import { sleep } from "@/util/debug";
 import { dummyJson } from "@/util/debug";
 
@@ -70,6 +80,10 @@ interface Request {
 
 interface Requests {
   [index: string]: Request;
+}
+
+interface CodeBlockInterface {
+  getCode: () => string;
 }
 
 const requests: Requests = {
@@ -98,25 +112,27 @@ export default defineComponent({
     loading: false,
     response: {}
   }),
+
   methods: {
-    select: function(value: string) {
-      this.selected = value;
-    },
     sanitize: function(value: string) {
       return value.replace(/[^a-zA-Z0-9]+/g, "");
     },
     setCode: function() {
       nextTick(() => {
-        const codeBlock = this.$refs.codeBlock as any;
-        this.code = codeBlock.getText();
+        // eslint
+        const codeBlock = this.$refs.codeBlock as CodeBlockInterface;
+        this.code = codeBlock.getCode();
       });
     },
     run: async function() {
       console.log(this.code);
       this.loading = true;
-      await sleep(2000);
+      await sleep(500);
       this.loading = false;
       this.response = dummyJson();
+    },
+    download: function() {
+      downloadJson(this.response, "response");
     }
   },
   computed: {

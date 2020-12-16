@@ -24,7 +24,6 @@ export default defineComponent({
 <style scope lang="scss">
 .pretty_indent {
   white-space: pre;
-  border-left: solid 2px $white;
-  opacity: 0.1;
+  border-left: solid 2px $dark-gray;
 }
 </style>

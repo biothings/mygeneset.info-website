@@ -1,0 +1,26 @@
+{
+  "cat_dog": {
+    "apple_cherry": {
+      "cherry_cherry": 57,
+      "dog_cat": [
+        92,
+        {
+          "cat_dog": {
+            "apple_cherry": {
+              "cherry_cherry": 57,
+              "dog_cat": [92, 65, 51],
+              "mouse_pear": [77, 16, 43]
+            },
+            "dog_cat": "cherry"
+          },
+          "dog_cat": "pear"
+        },
+        51
+      ],
+      "mouse_pear": [77, 16, 43]
+    },
+    "dog_cat": "cherry"
+  },
+  "dog_cat": "pear",
+  "mouse_mouse": [79, 53, 15]
+}

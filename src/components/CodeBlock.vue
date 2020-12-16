@@ -14,7 +14,7 @@ export default defineComponent({
     ariaLabel: String
   },
   methods: {
-    getText: function() {
+    getCode: function() {
       const code = this.$refs.code as HTMLElement;
       let text = "";
       const children = code.children;
@@ -38,8 +38,11 @@ export default defineComponent({
   @include trim-v-margins;
   padding: 10px 20px;
   border-radius: 5px;
-  background: $dark-gray;
+  background: $off-black;
   word-break: break-word;
+  max-height: min(80vh, 300px);
+  overflow-x: auto;
+  overflow-y: auto;
 
   * {
     color: $white;

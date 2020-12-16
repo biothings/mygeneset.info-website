@@ -18,7 +18,7 @@
         icon="far fa-envelope"
         text="With Email"
         design="big"
-        @click="toggleWithEmail"
+        @click="withEmail = !withEmail"
       />
       <hr v-if="!withEmail" />
       <Clickable
@@ -33,7 +33,7 @@
         icon="fas fa-arrow-left"
         text="Sign up a different way"
         design="plain"
-        @click="toggleWithEmail"
+        @click="withEmail = !withEmail"
       />
       <TextBox
         v-if="withEmail"
@@ -84,12 +84,7 @@ export default defineComponent({
   },
   data: () => ({
     withEmail: false
-  }),
-  methods: {
-    toggleWithEmail: function() {
-      this.withEmail = !this.withEmail;
-    }
-  }
+  })
 });
 </script>
 
