@@ -1,16 +1,16 @@
 <html>
   <body>
     <script type="text/javascript">
-      const { origin, pathname } = location;
+      console.log(location);
+      const { origin, pathname, search } = location;
 
-      sessionStorage.redirect = pathname;
+      sessionStorage.redirect = pathname + search;
 
       let redirect = "";
       if (origin.includes("netlify")) redirect = "/";
-      else redirect = "/mygeneset.info-website";
+      else redirect = "/mygeneset.info-website/";
 
-      console.log({ origin, pathname, redirect });
-
+      console.log({ redirect });
       location.replace(redirect);
     </script>
   </body>
