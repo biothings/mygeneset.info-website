@@ -1,14 +1,9 @@
 <html>
   <body>
     <script type="text/javascript">
-      let { origin, pathname, search, href: oldUrl } = window.location;
-
-      const path = encodeURIComponent(pathname + search);
-      const newUrl = "/?path=" + path;
-
-      console.log("404", { oldUrl, newUrl });
-
-      window.location.replace(newUrl);
+      sessionStorage.redirect = location.pathname;
+      if (location.origin.includes("netlify")) window.location.replace("/");
+      else window.location.replace("/mygeneset.info-website");
     </script>
   </body>
 </html>

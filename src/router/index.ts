@@ -14,7 +14,15 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.redirect) {
+        next(sessionStorage.redirect);
+        delete sessionStorage.redirect;
+      } else {
+        next();
+      }
+    }
   },
   {
     path: "/browse",
