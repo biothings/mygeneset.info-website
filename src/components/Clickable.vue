@@ -1,11 +1,6 @@
 <template>
-  <component
-    v-bind:is="component"
-    class="clickable"
-    v-bind:to="to"
-    v-bind:design="design"
-  >
-    <i v-if="icon" v-bind:class="icon" />
+  <component :is="component" class="clickable" :to="to" :design="design">
+    <i v-if="icon" :class="icon" />
     <span v-if="text">{{ text }}</span>
   </component>
 </template>

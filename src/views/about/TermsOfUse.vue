@@ -114,8 +114,8 @@
     <Center>
       <Clickable
         @click="expanded = !expanded"
-        v-bind:icon="'fas fa-angle-double-' + (expanded ? 'up' : 'down')"
-        v-bind:text="'See ' + (expanded ? 'less' : 'more')"
+        :icon="'fas fa-angle-double-' + (expanded ? 'up' : 'down')"
+        :text="'See ' + (expanded ? 'less' : 'more')"
         design="plain"
       />
     </Center>

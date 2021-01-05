@@ -1,6 +1,6 @@
 <template>
   <div class="feature">
-    <div class="feature_icon"><i v-bind:class="icon" /></div>
+    <div class="feature_icon"><i :class="icon" /></div>
     <div class="feature_title">{{ title }}</div>
     <div class="feature_description">{{ description }}</div>
   </div>

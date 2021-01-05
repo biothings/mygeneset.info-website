@@ -1,6 +1,6 @@
 <template>
-  <LinkTo v-bind:to="link" class="portrait">
-    <div class="portrait_image"><img v-bind:src="image" /></div>
+  <LinkTo :to="link" class="portrait">
+    <div class="portrait_image"><img :src="image" /></div>
     <div class="portrait_name">{{ name }}</div>
     <div class="portrait_role">{{ role }}</div>
   </LinkTo>

@@ -1,6 +1,6 @@
 <template>
   <div v-if="title" class="code_title">{{ title }}</div>
-  <code ref="code" class="code_block" v-bind:aria-label="ariaLabel">
+  <code ref="code" class="code_block" :aria-label="ariaLabel">
     <slot></slot>
   </code>
 </template>

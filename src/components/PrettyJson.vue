@@ -1,10 +1,6 @@
 <template>
-  <div
-    class="pretty_row"
-    v-bind:expanded="expanded"
-    @click="expanded = !expanded"
-  >
-    <PrettyJsonIndent v-bind:depth="depth || 0" />
+  <div class="pretty_row" :expanded="expanded" @click="expanded = !expanded">
+    <PrettyJsonIndent :depth="depth || 0" />
     <span class="pretty_key" v-if="rootKey && !parentIsArray"
       >"{{ rootKey }}"</span
     >
@@ -15,25 +11,21 @@
     <span class="pretty_punc" v-if="!expanded && depth && !isLast">,</span>
   </div>
   <template v-if="expanded">
-    <template
-      class="pretty_row"
-      v-for="(value, key, index) in data"
-      v-bind:key="key"
-    >
+    <template class="pretty_row" v-for="(value, key, index) in data" :key="key">
       <PrettyJson
         v-if="typeof value === 'object'"
-        v-bind:data="value"
-        v-bind:rootKey="key"
-        v-bind:depth="(depth || 0) + 1"
-        v-bind:isLast="
+        :data="value"
+        :rootKey="key"
+        :depth="(depth || 0) + 1"
+        :isLast="
           isArray
             ? key === data.length - 1
             : index === Object.keys(data).length - 1
         "
-        v-bind:parentIsArray="isArray"
+        :parentIsArray="isArray"
       />
       <div class="pretty_row" v-else>
-        <PrettyJsonIndent v-bind:depth="(depth || 0) + 1" />
+        <PrettyJsonIndent :depth="(depth || 0) + 1" />
         <span class="pretty_key" v-if="!isArray">"{{ key }}"</span>
         <span class="pretty_punc" v-if="!isArray">: </span>
         <span class="pretty_value">{{
@@ -51,7 +43,7 @@
     </template>
   </template>
   <div class="pretty_row" v-if="expanded">
-    <PrettyJsonIndent v-bind:depth="depth || 0" />
+    <PrettyJsonIndent :depth="depth || 0" />
     <span class="pretty_punc">{{ isArray ? "]" : "}" }}</span>
     <span class="pretty_punc" v-if="depth && !isLast">,</span>
   </div>

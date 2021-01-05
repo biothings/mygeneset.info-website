@@ -1,5 +1,5 @@
 <template>
-  <Header v-bind:big="true" />
+  <Header :big="true" />
   <Main>
     <Hero />
     <GetStarted />

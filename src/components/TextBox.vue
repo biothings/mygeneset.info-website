@@ -1,9 +1,9 @@
 <template>
   <input
     class="text_box"
-    v-bind:placeholder="placeholder"
-    v-bind:name="name"
-    v-bind:type="type || 'text'"
+    :placeholder="placeholder"
+    :name="name"
+    :type="type || 'text'"
   />
 </template>
 

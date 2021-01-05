@@ -2,11 +2,11 @@
   <input
     class="code_input"
     @input="onInput"
-    v-bind:value="value"
-    v-bind:placeholder="placeholder"
-    v-bind:name="name"
-    v-bind:type="type || 'text'"
-    v-bind:style="'width: ' + value.length + 'ch'"
+    :value="value"
+    :placeholder="placeholder"
+    :name="name"
+    :type="type || 'text'"
+    :style="'width: ' + value.length + 'ch'"
   />
 </template>
 

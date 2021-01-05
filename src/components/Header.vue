@@ -1,5 +1,5 @@
 <template>
-  <header v-bind:big="big">
+  <header :big="big">
     <HexField />
     <button @click="expanded = !expanded">
       <i v-if="expanded" class="fas fa-angle-double-up"></i>
@@ -7,9 +7,9 @@
       <span v-if="expanded">Collapse</span>
       <span v-else>Menu</span>
     </button>
-    <Nav v-bind:expanded="expanded" />
-    <Logo v-bind:big="big" />
-    <Account v-bind:expanded="expanded" />
+    <Nav :expanded="expanded" />
+    <Logo :big="big" />
+    <Account :expanded="expanded" />
   </header>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/" class="logo" v-bind:big="big">
+  <router-link to="/" class="logo" :big="big">
     <img src="@/assets/logo.svg" />
     <div class="title">My Geneset</div>
     <div v-if="big" class="slogan">

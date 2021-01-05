@@ -58,11 +58,9 @@ const router = createRouter({
   routes
 });
 
-const title = "My Geneset";
-
 router.afterEach(to =>
   nextTick(() => {
-    document.title = title + " - " + String(to.name);
+    document.title = process.env.VUE_APP_TITLE + " - " + String(to.name);
     scrollToHash(to.hash);
   })
 );

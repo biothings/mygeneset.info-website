@@ -1,9 +1,9 @@
 <template>
   <div class="hero">
     <div class="hero_icons">
-      <div class="hero_icon"><i v-bind:class="icon + ' fa-lg'" /></div>
-      <div class="hero_icon"><i v-bind:class="icon + ' fa-lg'" /></div>
-      <div class="hero_icon"><i v-bind:class="icon + ' fa-lg'" /></div>
+      <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
+      <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
+      <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
     </div>
     <div class="hero_text">
       <div><slot name="ATop"></slot></div>
@@ -14,9 +14,9 @@
       <div><slot name="BBottom"></slot></div>
     </div>
     <div class="hero_icons">
-      <div class="hero_icon"><i v-bind:class="icon + ' fa-lg'" /></div>
-      <div class="hero_icon"><i v-bind:class="icon + ' fa-lg'" /></div>
-      <div class="hero_icon"><i v-bind:class="icon + ' fa-lg'" /></div>
+      <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
+      <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
+      <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
     </div>
   </div>
 </template>

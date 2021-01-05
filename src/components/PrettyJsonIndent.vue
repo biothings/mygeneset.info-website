@@ -1,5 +1,5 @@
 <template id="indent">
-  <span class="pretty_indent" v-for="(value, key) in spaces" v-bind:key="key">{{
+  <span class="pretty_indent" v-for="(value, key) in spaces" :key="key">{{
     value
   }}</span>
 </template>

@@ -2,7 +2,7 @@
   <div class="hex_field">
     <div
       class="hex_view"
-      v-bind:style="
+      :style="
         `
           transform:
             translateZ(0px)
@@ -14,8 +14,8 @@
       <div
         class="hex_cell"
         v-for="(cell, index) in cells"
-        v-bind:key="index"
-        v-bind:style="
+        :key="index"
+        :style="
           `
             transform:
               translateX(${cell.x}px)
@@ -27,7 +27,7 @@
       >
         <img
           src="@/assets/hexagon.svg"
-          v-bind:style="
+          :style="
             `
               animation-delay: ${cell.strength * 3}s;
             `

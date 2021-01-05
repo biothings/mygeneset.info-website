@@ -1,6 +1,6 @@
 <template>
-  <LinkTo class="header_link" v-bind:to="to">
-    <i v-if="icon" v-bind:class="icon" />
+  <LinkTo class="header_link" :to="to">
+    <i v-if="icon" :class="icon" />
     <span>{{ text }}</span>
   </LinkTo>
 </template>

@@ -2,7 +2,7 @@
   <main>
     <Section v-if="title && icon">
       <h1>
-        <i v-bind:class="icon"></i>
+        <i :class="icon"></i>
         <span>{{ title }}</span>
       </h1>
     </Section>

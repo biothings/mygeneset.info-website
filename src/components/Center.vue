@@ -1,5 +1,5 @@
 <template>
-  <div class="center" v-bind:vertical="vertical">
+  <div class="center" :vertical="vertical">
     <slot></slot>
   </div>
 </template>

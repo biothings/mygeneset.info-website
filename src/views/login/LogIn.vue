@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <Center class="login" v-bind:vertical="true">
+    <Center class="login" :vertical="true">
       <Clickable
         v-if="!withEmail"
         icon="fas fa-graduation-cap"
