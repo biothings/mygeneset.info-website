@@ -1,9 +1,17 @@
 <html>
   <body>
     <script type="text/javascript">
-      sessionStorage.redirect = location.pathname;
-      if (location.origin.includes("netlify")) window.location.replace("/");
-      else window.location.replace("/mygeneset.info-website");
+      const { origin, pathname } = location;
+
+      sessionStorage.redirect = pathname;
+
+      let redirect = "";
+      if (origin.includes("netlify")) redirect = "/";
+      else redirect = "/mygeneset.info-website";
+
+      console.log({ origin, pathname, redirect });
+
+      location.replace(redirect);
     </script>
   </body>
 </html>

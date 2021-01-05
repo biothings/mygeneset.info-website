@@ -17,6 +17,8 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
     beforeEnter: (to, from, next) => {
       if (sessionStorage.redirect) {
+        console.log({ redirect: sessionStorage.redirect });
+
         next(sessionStorage.redirect);
         delete sessionStorage.redirect;
       } else {
