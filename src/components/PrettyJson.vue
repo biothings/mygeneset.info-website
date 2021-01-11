@@ -62,7 +62,7 @@ export default defineComponent({
     isLast: Boolean,
     parentIsArray: Boolean
   },
-  data: function() {
+  data() {
     return {
       expanded: true
     };

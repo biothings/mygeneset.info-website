@@ -134,8 +134,10 @@ export default defineComponent({
     Center,
     Clickable
   },
-  data: () => ({
-    expanded: false
-  })
+  data() {
+    return {
+      expanded: false
+    };
+  }
 });
 </script>

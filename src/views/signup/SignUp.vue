@@ -82,9 +82,11 @@ export default defineComponent({
     Clickable,
     TextBox
   },
-  data: () => ({
-    withEmail: false
-  })
+  data() {
+    return {
+      withEmail: false
+    };
+  }
 });
 </script>
 

@@ -48,7 +48,7 @@ export default defineComponent({
     Center,
     Clickable
   },
-  data: function() {
+  data() {
     return {
       expanded: false,
       keywords: "",

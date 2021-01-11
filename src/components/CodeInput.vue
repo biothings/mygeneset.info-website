@@ -22,7 +22,7 @@ export default defineComponent({
     sanitize: Function,
     onChange: Function
   },
-  data: function() {
+  data() {
     return {
       value: this.defaultValue || ""
     };

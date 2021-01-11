@@ -106,13 +106,14 @@ export default defineComponent({
     CodeInput,
     PrettyJson
   },
-  data: () => ({
-    selected: "byName",
-    code: "",
-    loading: false,
-    response: {}
-  }),
-
+  data() {
+    return {
+      selected: "byName",
+      code: "",
+      loading: false,
+      response: {}
+    };
+  },
   methods: {
     sanitize: function(value: string) {
       return value.replace(/[^a-zA-Z0-9]+/g, "");

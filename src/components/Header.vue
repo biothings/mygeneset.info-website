@@ -30,9 +30,11 @@ export default defineComponent({
     Logo,
     Account
   },
-  data: () => ({
-    expanded: false
-  })
+  data() {
+    return {
+      expanded: false
+    };
+  }
 });
 </script>
 

@@ -69,9 +69,11 @@ export default defineComponent({
     TextBox,
     LinkTo
   },
-  data: () => ({
-    withEmail: false
-  })
+  data() {
+    return {
+      withEmail: false
+    };
+  }
 });
 </script>
 

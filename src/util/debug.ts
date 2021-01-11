@@ -38,3 +38,21 @@ export const dummyJson = (depth = 0) => {
 
   return isArray ? dummyArray : dummyObject;
 };
+
+export const dummyTable = (cols: Array<string>, rows: number) => {
+  return Array(rows)
+    .fill(null)
+    .map(() =>
+      cols
+        .map(col => col.replace(/[^a-z]/g, ""))
+        .map(col => {
+          if (col.includes("longstring"))
+            return Array(20)
+              .fill("")
+              .map(() => randStr())
+              .join(" ");
+          else if (col.includes("string")) return randStr();
+          else return randNum();
+        })
+    );
+};

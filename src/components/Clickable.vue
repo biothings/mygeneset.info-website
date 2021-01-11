@@ -19,7 +19,7 @@ export default defineComponent({
   components: {
     LinkTo
   },
-  data: function() {
+  data() {
     return {
       component: this.to ? "LinkTo" : "button"
     };

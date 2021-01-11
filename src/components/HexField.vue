@@ -68,13 +68,15 @@ for (let x = -cols; x <= cols; x++)
   }
 
 export default defineComponent({
-  data: () => ({
-    // hex grid objects
-    cells,
-    // view angle
-    xAngle: 0,
-    yAngle: 0
-  }),
+  data() {
+    return {
+      // hex grid objects
+      cells,
+      // view angle
+      xAngle: 0,
+      yAngle: 0
+    };
+  },
   methods: {
     // change view angle on mouse move
     onMouseMove: function(event: MouseEvent) {
