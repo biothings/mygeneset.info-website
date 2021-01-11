@@ -4,6 +4,8 @@
     :placeholder="placeholder"
     :name="name"
     :type="type || 'text'"
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
   />
 </template>
 
@@ -14,14 +16,15 @@ export default defineComponent({
   props: {
     placeholder: String,
     name: String,
-    type: String
+    type: String,
+    modelValue: String
   }
 });
 </script>
 
 <style scope lang="scss">
 .text_box {
-  height: 30px;
+  height: 40px;
   padding: 0 10px;
   background: $white;
   border: solid $light-gray 2px;

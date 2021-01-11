@@ -90,11 +90,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .signup {
-  text-align: center;
-
-  & > * {
-    width: 250px;
-    max-width: 100%;
-  }
+  width: 250px;
 }
 </style>

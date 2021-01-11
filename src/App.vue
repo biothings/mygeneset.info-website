@@ -90,6 +90,14 @@ input {
   border: none;
   font-size: 1rem;
 }
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
+// label
+label {
+  cursor: pointer;
+}
 
 // horizontal rule
 hr {

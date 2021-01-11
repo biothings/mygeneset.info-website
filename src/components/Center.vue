@@ -20,7 +20,8 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin: 20px 0;
+  margin: 20px auto;
+  text-align: center;
   @include trim-v-margins;
 
   & > * {
@@ -28,6 +29,7 @@ export default defineComponent({
   }
 
   &[vertical="true"] {
+    align-items: stretch;
     flex-direction: column;
     flex-wrap: nowrap;
 
