@@ -7,7 +7,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "fresh": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn install"
+    "fresh": "rm -rf node_modules && yarn cache clean && yarn install"
   },
   "dependencies": {
     "core-js": "^3.6.5",
