@@ -27,6 +27,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .citation {
   padding: 20px;
-  border: dashed 2px $light-gray;
+  border: dashed 2px $gray;
 }
 </style>
