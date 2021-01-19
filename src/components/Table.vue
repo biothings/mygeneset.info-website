@@ -28,10 +28,29 @@
       </tbody>
     </table>
   </div>
+  <Center>
+    <Clickable
+      icon="fas fa-chevron-left"
+      @click="prevPage"
+      design="plain"
+      title="Previous page of table rows"
+    />
+    <span>
+      {{ startRow + 1 }} to {{ startRow + perPage }} of {{ rows.length }}
+    </span>
+    <Clickable
+      icon="fas fa-chevron-right"
+      @click="nextPage"
+      design="plain"
+      title="Next page of table rows"
+    />
+  </Center>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import Center from "@/components/Center.vue";
+import Clickable from "@/components/Clickable.vue";
 
 interface Col {
   name: string;
@@ -49,10 +68,16 @@ export default defineComponent({
     cols: Array,
     rows: Array
   },
+  components: {
+    Center,
+    Clickable
+  },
   data() {
     return {
       sortCol: -1,
-      sortUp: false
+      sortUp: false,
+      startRow: 0,
+      perPage: 10
     };
   },
   methods: {
@@ -68,12 +93,20 @@ export default defineComponent({
         this.sortCol = col;
         this.sortUp = false;
       }
+    },
+    prevPage() {
+      this.startRow -= this.perPage;
+      if (this.startRow < 0) this.startRow = 0;
+    },
+    nextPage() {
+      this.startRow += this.perPage;
+      if (this.startRow >= (this.rows || []).length - 1)
+        this.startRow = (this.rows || []).length - 1;
     }
   },
   computed: {
     _rows: function(): Row[] {
-      const rows = [...((this.rows || []) as Row[])];
-      if (this.sortCol < 0) return rows;
+      let rows = [...((this.rows || []) as Row[])];
 
       const func = (a: Row, b: Row) => {
         const valA = a[this.sortCol] || 0;
@@ -83,7 +116,11 @@ export default defineComponent({
         else return 0;
       };
 
-      return rows.sort(func);
+      if (this.sortCol >= 0) rows.sort(func);
+
+      rows = rows.slice(this.startRow, this.startRow + this.perPage);
+
+      return rows;
     }
   }
 });

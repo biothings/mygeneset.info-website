@@ -19,7 +19,7 @@ const cols = [
 ];
 const rows = dummyTable(
   cols.map(col => col.name),
-  100
+  101
 );
 
 export default defineComponent({

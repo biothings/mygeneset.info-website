@@ -1,5 +1,12 @@
 <template>
-  <component :is="component" class="clickable" :to="to" :design="design">
+  <component
+    :is="component"
+    class="clickable"
+    :to="to"
+    :design="design"
+    :title="title"
+    :aria-label="title"
+  >
     <i v-if="icon" :class="icon" />
     <span v-if="text">{{ text }}</span>
   </component>
@@ -14,7 +21,8 @@ export default defineComponent({
     to: String,
     icon: String,
     text: String,
-    design: String
+    design: String,
+    title: String
   },
   components: {
     LinkTo
