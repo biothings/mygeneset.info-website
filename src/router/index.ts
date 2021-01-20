@@ -8,6 +8,7 @@ import About from "@/views/About.vue";
 import LogIn from "@/views/LogIn.vue";
 import SignUp from "@/views/SignUp.vue";
 import Guest from "@/views/Guest.vue";
+import New from "@/views/New.vue";
 import { scrollToHash } from "@/util/url.ts";
 
 const routes: Array<RouteRecordRaw> = [
@@ -61,6 +62,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/guest",
     name: "Guest",
     component: Guest
+  },
+  {
+    path: "/new",
+    name: "New",
+    component: New
   }
 ];
 

@@ -1,7 +1,7 @@
 <template>
   <div class="geneset_search">
     <Center :vertical="true">
-      <TextBox placeholder="Search genesets by keywords" v-model="keywords" />
+      <TextBox :placeholder="placeholder" v-model="keywords" />
       <div v-if="expanded" class="geneset_species">
         <label v-for="(value, name, index) in species" :key="index">
           <input type="checkbox" v-model="value.selected" />
@@ -47,6 +47,9 @@ export default defineComponent({
     TextBox,
     Center,
     Clickable
+  },
+  props: {
+    placeholder: String
   },
   data() {
     return {

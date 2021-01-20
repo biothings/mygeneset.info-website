@@ -7,7 +7,7 @@
         text="API Docs"
         design="big"
       />
-      <span class="version">v1.0</span>
+      <div>v1.0</div>
     </Center>
     <p>
       Full documentation for using My Geneset programmatically through its API.
@@ -31,15 +31,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-.docs {
-  & > * {
-    width: 200px;
-  }
-  .version {
-    width: 100%;
-    margin: 0;
-    text-align: center;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

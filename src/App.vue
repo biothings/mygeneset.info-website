@@ -37,21 +37,21 @@ h1 {
 h2 {
   text-align: center;
   font-weight: $medium;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin: 30px 0;
   @include trim-v-margins;
 }
 h3 {
   text-align: center;
   font-weight: $medium;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin: 20px 0;
   @include trim-v-margins;
 }
 h4 {
   text-align: left;
   font-weight: $regular;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin: 20px 0;
   @include trim-v-margins;
 }
@@ -86,12 +86,34 @@ button {
 
 // input
 input {
+  box-sizing: border-box;
   background: none;
   border: none;
   font-size: 1rem;
 }
 input[type="checkbox"] {
   cursor: pointer;
+}
+
+// textarea
+textarea {
+  box-sizing: border-box;
+  border: none;
+  font-size: 1rem;
+  background: none;
+  color: $black;
+}
+textarea:not(:focus) {
+  resize: none;
+}
+
+// select
+select {
+  border: none;
+  font-size: 1rem;
+  padding: 0;
+  color: $black;
+  opacity: 1;
 }
 
 // label

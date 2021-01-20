@@ -1,6 +1,7 @@
 <template>
   <Section>
-    <GenesetSearch placeholder="Search all genesets by keywords" />
+    <h2>Your Genesets</h2>
+    <GenesetSearch placeholder="Search your genesets by keyword" />
     <Table :cols="cols" :rows="rows" />
   </Section>
 </template>
@@ -19,7 +20,7 @@ const cols = [
 ];
 const rows = dummyTable(
   cols.map(col => col.name),
-  101
+  8
 );
 
 export default defineComponent({

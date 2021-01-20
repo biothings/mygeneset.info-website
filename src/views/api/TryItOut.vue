@@ -46,10 +46,10 @@
         v-bind:disabled="loading"
       />
     </Center>
-    <CodeBlock>
+    <CodeBlock v-if="!empty">
       <PrettyJson v-bind:data="response" />
     </CodeBlock>
-    <Center>
+    <Center v-if="!empty">
       <Clickable
         icon="fas fa-download"
         text="Download"
@@ -138,6 +138,9 @@ export default defineComponent({
   computed: {
     request: function(): Request {
       return requests[(this.selected as unknown) as string];
+    },
+    empty: function(): boolean {
+      return Object.keys(this.response).length === 0;
     }
   },
   mount: function() {

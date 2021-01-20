@@ -34,15 +34,18 @@
       @click="prevPage"
       design="plain"
       title="Previous page of table rows"
+      :disabled="!canPrev"
     />
     <span>
-      {{ startRow + 1 }} to {{ startRow + perPage }} of {{ rows.length }}
+      {{ startRow + 1 }} to {{ endRow }} of
+      {{ rows.length }}
     </span>
     <Clickable
       icon="fas fa-chevron-right"
       @click="nextPage"
       design="plain"
       title="Next page of table rows"
+      :disabled="!canNext"
     />
   </Center>
 </template>
@@ -95,13 +98,10 @@ export default defineComponent({
       }
     },
     prevPage() {
-      this.startRow -= this.perPage;
-      if (this.startRow < 0) this.startRow = 0;
+      if (this.canPrev) this.startRow -= this.perPage;
     },
     nextPage() {
-      this.startRow += this.perPage;
-      if (this.startRow >= (this.rows || []).length - 1)
-        this.startRow = (this.rows || []).length - 1;
+      if (this.canNext) this.startRow += this.perPage;
     }
   },
   computed: {
@@ -121,6 +121,15 @@ export default defineComponent({
       rows = rows.slice(this.startRow, this.startRow + this.perPage);
 
       return rows;
+    },
+    canPrev: function(): boolean {
+      return this.startRow - this.perPage >= 0;
+    },
+    canNext: function(): boolean {
+      return this.startRow + this.perPage <= (this.rows || []).length;
+    },
+    endRow: function(): number {
+      return Math.min(this.startRow + this.perPage, (this.rows || []).length);
     }
   }
 });
