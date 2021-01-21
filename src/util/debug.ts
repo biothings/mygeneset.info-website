@@ -52,7 +52,8 @@ export const dummyTable = (cols: Array<string>, rows: number) => {
               .map(() => randStr())
               .join(" ");
           else if (col.includes("string")) return randStr();
-          else return randNum();
+          else if (col.includes("number")) return randNum();
+          else return "";
         })
     );
 };

@@ -37,7 +37,8 @@ export default defineComponent({
     options: Array
   },
   mounted: function() {
-    this.fitHeight(this.$refs.textarea as HTMLInputElement);
+    const textarea = this.$refs.textarea as HTMLInputElement;
+    if (textarea) this.fitHeight(textarea);
   },
   methods: {
     fitHeight: function(textarea: HTMLInputElement) {
@@ -49,7 +50,7 @@ export default defineComponent({
       // shrink to fit, but messes with window scroll position
       textarea.style.height = "0";
       // get content height
-      textarea.style.height = textarea.scrollHeight + 1 + "px";
+      textarea.style.height = textarea.scrollHeight + 2 + "px";
       // restore window scroll position
       window.scrollTo(0, prevScroll);
       // restore textarea disabled

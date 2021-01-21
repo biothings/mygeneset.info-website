@@ -20,6 +20,7 @@
       :options="['Public', 'Private']"
       :disabled="!editable"
     />
+    <Table :cols="cols" :rows="rows" @action="removeRow" />
   </Section>
 </template>
 
@@ -27,11 +28,30 @@
 import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Field from "@/components/Field.vue";
+import Table from "@/components/Table.vue";
+import { dummyTable } from "@/util/debug";
+
+const cols = [
+  { name: "string", align: "left" },
+  { name: "number", align: "center" },
+  { name: "long string description", align: "left" },
+  {
+    name: "",
+    align: "center",
+    action: "Remove gene from set",
+    icon: "fas fa-trash"
+  }
+];
+const rows = dummyTable(
+  cols.map(col => col.name),
+  10
+);
 
 export default defineComponent({
   components: {
     Section,
-    Field
+    Field,
+    Table
   },
   props: {
     editable: Boolean
@@ -42,8 +62,15 @@ export default defineComponent({
       creator: "Casey Greene",
       date: new Date().toDateString(),
       description: "",
-      visibility: "Public"
+      visibility: "Public",
+      cols,
+      rows
     };
+  },
+  methods: {
+    removeRow: function({ rowIndex }: { rowIndex: number }) {
+      this.rows.splice(rowIndex, 1);
+    }
   }
 });
 </script>

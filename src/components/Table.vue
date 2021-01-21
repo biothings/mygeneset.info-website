@@ -3,12 +3,16 @@
     <table>
       <thead>
         <tr>
-          <th v-for="(col, index) in cols" :key="index">
-            <button :align="col.align || 'center'" @click="changeSort(index)">
+          <th v-for="(col, colIndex) in cols" :key="colIndex">
+            <button
+              v-if="!col?.action"
+              :align="col.align || 'center'"
+              @click="changeSort(colIndex)"
+            >
               {{ col.name }}
-              <i v-if="index !== sortCol" class="fas fa-sort"></i>
+              <i v-if="colIndex !== sortCol" class="fas fa-sort"></i>
               <i
-                v-if="index === sortCol"
+                v-if="colIndex === sortCol"
                 :class="`fas fa-sort-${sortUp ? 'up' : 'down'}`"
               ></i>
             </button>
@@ -16,13 +20,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, index) in _rows" :key="index">
+        <tr v-for="(row, rowIndex) in _rows" :key="rowIndex">
           <td
-            v-for="(cell, index) in row"
-            :key="index"
-            :align="cols[index]?.align || 'center'"
+            v-for="(cell, colIndex) in row"
+            :key="colIndex"
+            :align="cols[colIndex]?.align || 'center'"
           >
-            {{ cell }}
+            <Clickable
+              v-if="cols[colIndex]?.action"
+              :title="cols[colIndex]?.action"
+              :icon="cols[colIndex]?.icon"
+              @click="$emit('action', { rowIndex, colIndex, cell })"
+              design="plain"
+            />
+            <span v-else>
+              {{ cell }}
+            </span>
           </td>
         </tr>
       </tbody>
@@ -56,8 +69,9 @@ import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 
 interface Col {
-  name: string;
-  align: string;
+  name?: string;
+  align?: string;
+  component?: string;
 }
 
 type Cell = number | string | null | undefined;
@@ -71,6 +85,7 @@ export default defineComponent({
     cols: Array,
     rows: Array
   },
+  emits: ["action"],
   components: {
     Center,
     Clickable
@@ -126,7 +141,7 @@ export default defineComponent({
       return this.startRow - this.perPage >= 0;
     },
     canNext: function(): boolean {
-      return this.startRow + this.perPage <= (this.rows || []).length;
+      return this.startRow + this.perPage <= (this.rows || []).length - 1;
     },
     endRow: function(): number {
       return Math.min(this.startRow + this.perPage, (this.rows || []).length);
