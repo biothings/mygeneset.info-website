@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <Center class="login" :vertical="true">
+    <Center :vertical="true" width="250px">
       <Clickable
         v-if="!withEmail"
         icon="fas fa-graduation-cap"
@@ -76,9 +76,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style scoped lang="scss">
-.login {
-  width: 250px;
-}
-</style>

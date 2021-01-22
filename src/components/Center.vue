@@ -1,5 +1,5 @@
 <template>
-  <div class="center" :vertical="vertical">
+  <div class="center" :vertical="vertical" :style="`--width: ${width}`">
     <slot></slot>
   </div>
 </template>
@@ -9,7 +9,8 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    vertical: Boolean
+    vertical: Boolean,
+    width: String
   }
 });
 </script>
@@ -25,11 +26,12 @@ export default defineComponent({
   @include trim-v-margins;
 
   & > * {
+    width: var(--width);
+    max-width: 100%;
     margin: 10px;
   }
 
   &[vertical="true"] {
-    align-items: stretch;
     flex-direction: column;
     flex-wrap: nowrap;
 

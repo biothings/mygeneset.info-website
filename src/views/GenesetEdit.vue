@@ -20,7 +20,34 @@
       :options="['Public', 'Private']"
       :disabled="!editable"
     />
-    <Table :cols="cols" :rows="rows" @action="removeRow" />
+    <h2>Selected Genes</h2>
+    <Table
+      :cols="selectedGenesCols"
+      :rows="selectedGenes"
+      @action="removeRow"
+    />
+    <Center :vertical="true" width="250px">
+      <Clickable text="Download" icon="fas fa-download" design="big" />
+      <Clickable
+        text="Format Options"
+        icon="fas fa-cog"
+        design="plain"
+        @click="formatExpanded = !formatExpanded"
+      />
+      <select v-if="formatExpanded">
+        <option>Tab-separated (.tsv)</option>
+        <option>Comma-separated (.csv)</option>
+        <option>Plain text (.txt)</option>
+      </select>
+    </Center>
+    <comopnent v-if="editable">
+      <h2>Add Genes</h2>
+      <GenesetSearch placeholder="Search genes by keyword" />
+      <Table :cols="addGenesCols" :rows="addGenes" />
+    </comopnent>
+    <Center width="200px">
+      <Clickable text="Publish" icon="fas fa-upload" design="big" />
+    </Center>
   </Section>
 </template>
 
@@ -29,9 +56,12 @@ import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Field from "@/components/Field.vue";
 import Table from "@/components/Table.vue";
+import Center from "@/components/Center.vue";
+import Clickable from "@/components/Clickable.vue";
+import GenesetSearch from "@/components/GenesetSearch.vue";
 import { dummyTable } from "@/util/debug";
 
-const cols = [
+const selectedGenesCols = [
   { key: "string", name: "String", align: "left" },
   { key: "number", name: "Number", align: "center" },
   { key: "long_string", name: "Long String Description", align: "left" },
@@ -43,13 +73,23 @@ const cols = [
     icon: "fas fa-trash"
   }
 ];
-const rows = dummyTable(cols, 8);
+const selectedGenes = dummyTable(selectedGenesCols, 8);
+
+const addGenesCols = [
+  { key: "string", name: "String", align: "left" },
+  { key: "number", name: "Number", align: "center" },
+  { key: "long_string", name: "Long String Description", align: "left" }
+];
+const addGenes = dummyTable(selectedGenesCols, 80);
 
 export default defineComponent({
   components: {
     Section,
     Field,
-    Table
+    Table,
+    Center,
+    Clickable,
+    GenesetSearch
   },
   props: {
     editable: Boolean
@@ -61,13 +101,16 @@ export default defineComponent({
       date: new Date().toDateString(),
       description: "",
       visibility: "Public",
-      cols,
-      rows
+      selectedGenesCols,
+      selectedGenes,
+      formatExpanded: false,
+      addGenesCols,
+      addGenes
     };
   },
   methods: {
     removeRow: function({ originalIndex }: { originalIndex: number }) {
-      this.rows.splice(originalIndex, 1);
+      this.selectedGenes.splice(originalIndex, 1);
     }
   }
 });

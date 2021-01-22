@@ -1,6 +1,6 @@
 <template>
   <div class="geneset_search">
-    <Center :vertical="true">
+    <Center :vertical="true" width="100%">
       <TextBox :placeholder="placeholder" v-model="keywords" />
       <div v-if="expanded" class="geneset_species">
         <label v-for="(value, name, index) in species" :key="index">
@@ -64,7 +64,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .geneset_search {
   margin: 0 auto;
-  max-width: 600px;
 
   .geneset_species {
     label {
