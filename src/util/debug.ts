@@ -1,3 +1,5 @@
+import { Col } from "@/components/Table.vue";
+
 export const sleep = (ms = 10) =>
   new Promise(resolve => window.setTimeout(resolve, ms));
 
@@ -14,13 +16,13 @@ const randNum = () => Math.round(Math.random() * 100);
 // random value generator
 const randVal = () => (Math.random() < 0.5 ? randStr() : randNum());
 
+type DummyArray = Array<string | number | object>;
+interface DummyObject {
+  [index: string]: string | number | {};
+}
+
 export const dummyJson = (depth = 0) => {
   const isArray = Math.random() < 0.5;
-
-  type DummyArray = Array<string | number | object>;
-  interface DummyObject {
-    [index: string]: string | number | {};
-  }
 
   const dummyArray: DummyArray = [];
   const dummyObject: DummyObject = {};
@@ -39,21 +41,21 @@ export const dummyJson = (depth = 0) => {
   return isArray ? dummyArray : dummyObject;
 };
 
-export const dummyTable = (cols: Array<string>, rows: number) => {
-  return Array(rows)
+export const dummyTable = (cols: Col[], rows: number) =>
+  Array(rows)
     .fill(null)
     .map(() =>
       cols
-        .map(col => col.replace(/[^a-z]/g, ""))
-        .map(col => {
-          if (col.includes("longstring"))
-            return Array(20)
+        .map(col => col.key)
+        .reduce((object, key) => {
+          let randomValue;
+          if (key.includes("long_string"))
+            randomValue = Array(20)
               .fill("")
               .map(() => randStr())
               .join(" ");
-          else if (col.includes("string")) return randStr();
-          else if (col.includes("number")) return randNum();
-          else return "";
-        })
+          else if (key.includes("string")) randomValue = randStr();
+          else if (key.includes("number")) randomValue = randNum();
+          return { ...object, [key]: randomValue };
+        }, {})
     );
-};

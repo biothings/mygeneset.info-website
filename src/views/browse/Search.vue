@@ -13,14 +13,11 @@ import Table from "@/components/Table.vue";
 import { dummyTable } from "@/util/debug";
 
 const cols = [
-  { name: "string", align: "left" },
-  { name: "number", align: "center" },
-  { name: "long string description", align: "left" }
+  { key: "string", name: "String", align: "left" },
+  { key: "number", name: "Number", align: "center" },
+  { key: "long_string", name: "Long String Description", align: "left" }
 ];
-const rows = dummyTable(
-  cols.map(col => col.name),
-  101
-);
+const rows = dummyTable(cols, 101);
 
 export default defineComponent({
   components: {

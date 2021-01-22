@@ -32,20 +32,18 @@ import Table from "@/components/Table.vue";
 import { dummyTable } from "@/util/debug";
 
 const cols = [
-  { name: "string", align: "left" },
-  { name: "number", align: "center" },
-  { name: "long string description", align: "left" },
+  { key: "string", name: "String", align: "left" },
+  { key: "number", name: "Number", align: "center" },
+  { key: "long_string", name: "Long String Description", align: "left" },
   {
+    key: "delete",
     name: "",
     align: "center",
     action: "Remove gene from set",
     icon: "fas fa-trash"
   }
 ];
-const rows = dummyTable(
-  cols.map(col => col.name),
-  10
-);
+const rows = dummyTable(cols, 8);
 
 export default defineComponent({
   components: {
@@ -68,8 +66,8 @@ export default defineComponent({
     };
   },
   methods: {
-    removeRow: function({ rowIndex }: { rowIndex: number }) {
-      this.rows.splice(rowIndex, 1);
+    removeRow: function({ originalIndex }: { originalIndex: number }) {
+      this.rows.splice(originalIndex, 1);
     }
   }
 });
