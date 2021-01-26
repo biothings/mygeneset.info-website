@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <Center class="docs">
+    <Center :vertical="true" width="250px">
       <Clickable
         to="https://docs.mygeneset.info/en/latest/index.html"
         icon="fas fa-book"
@@ -30,5 +30,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style scoped lang="scss"></style>
