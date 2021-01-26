@@ -1,8 +1,8 @@
 <template>
   <Header />
   <Main title="Build" icon="fas fa-cube">
-    <YourGenesets />
     <BuildNew />
+    <YourGenesets />
   </Main>
   <Footer />
 </template>
@@ -12,16 +12,16 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import YourGenesets from "./build/YourGenesets.vue";
 import BuildNew from "./build/BuildNew.vue";
+import YourGenesets from "./build/YourGenesets.vue";
 
 export default defineComponent({
   components: {
     Header,
     Main,
     Footer,
-    YourGenesets,
-    BuildNew
+    BuildNew,
+    YourGenesets
   }
 });
 </script>

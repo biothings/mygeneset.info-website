@@ -34,7 +34,7 @@ export default defineComponent({
   }
 
   .feature_icon {
-    color: $accent-dark;
+    color: $theme;
     font-size: 3rem;
     margin-bottom: 20px;
   }

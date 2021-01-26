@@ -31,7 +31,7 @@ export default defineComponent({
     color: $black;
 
     &:hover {
-      color: $accent-dark;
+      color: $theme;
     }
   }
 }

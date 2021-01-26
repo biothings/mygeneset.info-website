@@ -65,7 +65,7 @@ p {
 
 // links
 a {
-  color: $accent-dark;
+  color: $theme;
   transition: color $fast;
 }
 a:hover {

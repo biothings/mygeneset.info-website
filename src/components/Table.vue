@@ -5,7 +5,7 @@
         <tr>
           <th v-for="(col, colIndex) in cols" :key="colIndex">
             <button
-              v-if="!col.action"
+              v-if="col.sortable !== false && !col.action"
               :align="col.align || 'center'"
               @click="changeSort(col.key)"
             >
@@ -16,6 +16,9 @@
               ></i>
               <i v-else class="fas fa-sort"></i>
             </button>
+            <div v-else :align="col.align || 'center'">
+              {{ col.name }}
+            </div>
           </th>
         </tr>
       </thead>
@@ -49,7 +52,7 @@
       </tbody>
     </table>
   </div>
-  <Center v-if="rows.length">
+  <Center v-if="rows.length" class="pages">
     <Clickable
       icon="fas fa-chevron-left"
       @click="prevPage"
@@ -81,6 +84,7 @@ export interface Col {
   name?: string;
   align?: string;
   component?: string;
+  sortable?: boolean;
 }
 
 type Cell = number | string | null | undefined;
@@ -186,13 +190,11 @@ export default defineComponent({
     }
   }
 
-  th {
-    button {
-      width: 100%;
-      padding: 5px;
-      font-weight: $semi-bold;
-      white-space: nowrap;
-    }
+  th > * {
+    width: 100%;
+    padding: 5px;
+    font-weight: $semi-bold;
+    white-space: nowrap;
   }
 
   td {
@@ -220,6 +222,15 @@ export default defineComponent({
 
   .fa-sort {
     color: $light-gray;
+  }
+}
+
+@media (max-width: $phone) {
+  .pages {
+    span {
+      width: 100%;
+      order: 1;
+    }
   }
 }
 </style>

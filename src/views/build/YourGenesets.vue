@@ -16,7 +16,11 @@ import { dummyTable } from "@/util/debug";
 const cols = [
   { key: "string", name: "String", align: "left" },
   { key: "number", name: "Number", align: "center" },
-  { key: "long_string", name: "Long String Description", align: "left" }
+  {
+    key: "long_string",
+    name: "Long String Description",
+    align: "left"
+  }
 ];
 const rows = dummyTable(cols, 8);
 

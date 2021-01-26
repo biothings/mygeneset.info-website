@@ -89,6 +89,6 @@ export default defineComponent({
   color: $yellow;
 }
 .pretty_value {
-  color: $accent;
+  color: $theme-light;
 }
 </style>

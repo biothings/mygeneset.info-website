@@ -1,7 +1,8 @@
 <template>
   <Header />
-  <Main title="Log In / Sign Up" icon="far fa-user-circle">
+  <Main title="Log In / Sign Up" icon="fas fa-sign-in-alt">
     <LogIn />
+    <UseAsGuest />
   </Main>
   <Footer />
 </template>
@@ -12,13 +13,15 @@ import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
 import LogIn from "./login/LogIn.vue";
+import UseAsGuest from "./login/UseAsGuest.vue";
 
 export default defineComponent({
   components: {
     Header,
     Main,
     Footer,
-    LogIn
+    LogIn,
+    UseAsGuest
   }
 });
 </script>

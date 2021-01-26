@@ -1,5 +1,9 @@
 <template>
   <Section>
+    <h2>
+      <i class="fas fa-feather-alt"></i>
+      <span>Details</span>
+    </h2>
     <Field
       name="Title"
       v-model="title"
@@ -31,7 +35,7 @@
       :rows="selectedGenes"
       @action="removeRow"
     />
-    <Center :vertical="true" width="250px">
+    <Center :vertical="true" width="200px">
       <Clickable text="Download" icon="fas fa-download" design="big" />
       <Clickable
         text="Format Options"
@@ -55,11 +59,11 @@
     <Table :cols="addGenesCols" :rows="addGenes" />
   </Section>
   <Section>
-    <Center v-if="!fresh" :vertical="true" width="250px">
+    <Center v-if="!fresh" :vertical="true" width="200px">
       <Clickable text="Duplicate" icon="fas fa-copy" design="big" />
       <div>Start new geneset from this one</div>
     </Center>
-    <Center v-if="editable" :vertical="true" width="250px">
+    <Center v-if="editable" :vertical="true" width="200px">
       <Clickable
         v-if="fresh"
         text="Publish"

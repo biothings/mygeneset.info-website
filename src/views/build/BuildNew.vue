@@ -1,14 +1,12 @@
 <template>
   <Section>
-    <h2>New Geneset</h2>
-    <Center>
+    <Center width="200px">
       <Clickable
         to="/new"
-        icon="fas fa-tools"
-        text="Start from Scratch"
+        icon="fas fa-magic"
+        text="New Geneset"
         design="big"
       />
-      <div>...or find an existing geneset and click "Duplicate"</div>
     </Center>
   </Section>
 </template>

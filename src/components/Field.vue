@@ -90,7 +90,7 @@ export default defineComponent({
 
   i {
     margin-left: 5px;
-    color: $accent-dark;
+    color: $theme;
   }
 }
 </style>

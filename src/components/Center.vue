@@ -26,7 +26,7 @@ export default defineComponent({
   @include trim-v-margins;
 
   & > * {
-    width: var(--width);
+    min-width: min(100%, var(--width));
     max-width: 100%;
     margin: 10px;
   }

@@ -6,7 +6,7 @@
       title (links to geneset page), species, gene count, creator, truncated
       description
     </Placeholder>
-    <Center>
+    <Center width="200px">
       <Clickable
         to="/browse"
         icon="fas fa-search"

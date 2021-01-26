@@ -46,7 +46,7 @@ header {
   align-items: center;
   flex-wrap: wrap;
   padding: 20px;
-  background: $accent-light;
+  background: $theme-pale;
   overflow: hidden;
 
   & > * {

@@ -1,16 +1,30 @@
 <template>
   <div class="account">
-    <HeaderLink to="/login" text="Log In" />
+    <HeaderLink v-if="loggedIn" text="Log Out" @click="logOut" />
+    <Avatar v-if="loggedIn" />
+    <HeaderLink v-else to="/login" text="Log In" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import HeaderLink from "@/components/HeaderLink.vue";
+import Avatar from "@/components/Avatar.vue";
 
 export default defineComponent({
   components: {
-    HeaderLink
+    HeaderLink,
+    Avatar
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.loggedIn;
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch("logOut");
+    }
   }
 });
 </script>

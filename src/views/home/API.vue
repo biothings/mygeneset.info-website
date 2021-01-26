@@ -6,7 +6,7 @@
       table of popular/recent queries with columns:<br />
       request type (post/get), response status, parameters, country?
     </Placeholder>
-    <Center>
+    <Center width="200px">
       <Clickable to="/api" icon="fas fa-terminal" text="Try Now" design="big" />
       <Clickable
         to="https://docs.mygeneset.info/en/latest/index.html"

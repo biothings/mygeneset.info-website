@@ -1,14 +1,19 @@
 <template>
   <Section>
-    <Center :vertical="true" width="250px">
-      <Clickable icon="fas fa-graduation-cap" text="With ORCID" design="big" />
-      <Clickable icon="fab fa-github" text="With GitHub" design="big" />
-      <hr />
+    <Center :vertical="true" width="200px">
       <Clickable
-        to="/guest"
-        icon="fas fa-ghost"
-        text="Use as Guest"
+        icon="fas fa-graduation-cap"
+        text="With ORCID"
         design="big"
+        @click="logIn"
+        to="/"
+      />
+      <Clickable
+        icon="fab fa-github"
+        text="With GitHub"
+        design="big"
+        @click="logIn"
+        to="/"
       />
     </Center>
   </Section>
@@ -25,6 +30,11 @@ export default defineComponent({
     Section,
     Center,
     Clickable
+  },
+  methods: {
+    logIn() {
+      this.$store.dispatch("logIn");
+    }
   }
 });
 </script>

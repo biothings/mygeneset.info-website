@@ -42,18 +42,18 @@ export default defineComponent({
   align-items: center;
   border-radius: 5px;
   text-decoration: none;
-  background: $accent;
+  background: $theme-light;
   color: $black;
   transition: background $fast, opacity $fast, filter $fast;
 
   &:hover,
   &:focus {
-    background: $accent-light;
+    background: $theme-pale;
   }
 
   &[design="plain"] {
     background: none;
-    color: $accent-dark;
+    color: $theme;
     padding: 5px 10px;
   }
 
@@ -68,7 +68,7 @@ export default defineComponent({
 
     &:hover,
     &:focus {
-      background: $accent-light;
+      background: $theme-pale;
     }
   }
 

@@ -1,13 +1,13 @@
 <template>
   <Section>
-    <Center :vertical="true" width="250px">
+    <Center width="200px">
       <Clickable
         to="https://docs.mygeneset.info/en/latest/index.html"
         icon="fas fa-book"
         text="API Docs"
         design="big"
       />
-      <div>v1.0</div>
+      <div class="version">v1.0</div>
     </Center>
     <p>
       Full documentation for using My Geneset programmatically through its API.
@@ -30,3 +30,10 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scope lang="scss">
+.version {
+  min-width: unset;
+  margin: 0;
+}
+</style>

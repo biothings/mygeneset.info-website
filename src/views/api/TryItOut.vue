@@ -37,7 +37,7 @@
         />
       </template>
     </CodeBlock>
-    <Center>
+    <Center width="200px">
       <Clickable
         v-bind:icon="loading ? 'fas fa-spinner fa-spin' : 'fas fa-play'"
         v-bind:text="loading ? 'Loading' : 'Run'"
@@ -49,7 +49,7 @@
     <CodeBlock v-if="!empty">
       <PrettyJson v-bind:data="response" />
     </CodeBlock>
-    <Center v-if="!empty">
+    <Center v-if="!empty" width="200px">
       <Clickable
         icon="fas fa-download"
         text="Download"
@@ -160,6 +160,6 @@ button {
   margin: 5px;
 }
 button[selected="true"] {
-  background: $accent-light;
+  background: $theme-pale;
 }
 </style>

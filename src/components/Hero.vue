@@ -49,7 +49,7 @@ export default defineComponent({
       position: absolute;
 
       i {
-        color: $accent;
+        color: $theme-light;
       }
     }
   }

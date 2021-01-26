@@ -1,7 +1,7 @@
 <template>
   <Header />
-  <Main title="Use as Guest" icon="fas fa-ghost">
-    <UseAsGuest />
+  <Main title="Your Profile" icon="far fa-user-circle">
+    <Profile />
   </Main>
   <Footer />
 </template>
@@ -11,14 +11,14 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import UseAsGuest from "./guest/UseAsGuest.vue";
+import Profile from "./user/Profile.vue";
 
 export default defineComponent({
   components: {
     Header,
     Main,
     Footer,
-    UseAsGuest
+    Profile
   }
 });
 </script>

@@ -54,7 +54,7 @@ export default defineComponent({
   }
 
   &:hover {
-    color: $accent-dark;
+    color: $theme;
   }
 }
 </style>

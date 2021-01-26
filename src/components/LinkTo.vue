@@ -1,8 +1,8 @@
 <template>
-  <a v-if="isExternalLink(to)" :href="to || ''">
+  <a v-if="isExternalLink(to)" :href="to || '/'">
     <slot></slot>
   </a>
-  <router-link v-else :to="to || ''">
+  <router-link v-else :to="to || '/'">
     <slot></slot>
   </router-link>
 </template>
