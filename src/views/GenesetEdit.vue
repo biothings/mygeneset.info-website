@@ -23,7 +23,7 @@
   </Section>
   <Section>
     <h2>
-      <i class="fas fa-dna"></i>
+      <i class="fas fa-check"></i>
       <span>Selected Genes</span>
     </h2>
     <Table
