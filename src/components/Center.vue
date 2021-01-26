@@ -1,6 +1,5 @@
 <template>
-  <slot v-if="hide"></slot>
-  <div v-else class="center" :vertical="vertical" :style="`--width: ${width}`">
+  <div class="center" :vertical="vertical" :style="`--width: ${width}`">
     <slot></slot>
   </div>
 </template>
@@ -11,8 +10,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     vertical: Boolean,
-    width: String,
-    hide: Boolean
+    width: String
   }
 });
 </script>
