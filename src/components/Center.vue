@@ -19,7 +19,7 @@ export default defineComponent({
 .center {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   margin: 30px auto;
   text-align: center;
@@ -32,7 +32,6 @@ export default defineComponent({
   }
 
   &[vertical="true"] {
-    align-items: center;
     flex-direction: column;
     flex-wrap: nowrap;
 
