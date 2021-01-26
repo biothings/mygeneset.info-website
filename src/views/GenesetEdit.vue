@@ -68,9 +68,10 @@
       />
       <Clickable v-else text="Save Changes" icon="fas fa-upload" design="big" />
       <div>
-        <span class="edit">Edited title, description, visibility</span><br />
-        <span class="add">Added X genes</span>,
-        <span class="remove">Removed X genes</span>
+        <span class="edit">Edited</span>{{ " " }}
+        <span class="diff">title, description, visibility</span><br />
+        <span class="add">Added</span> <span class="diff">X genes</span><br />
+        <span class="remove">Removed</span> <span class="diff">X genes</span>
       </div>
     </Center>
   </Section>
@@ -157,5 +158,8 @@ export default defineComponent({
 }
 .remove {
   color: $red;
+}
+.diff {
+  color: $dark-gray;
 }
 </style>
