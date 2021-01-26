@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <Main title="Log In" icon="fas fa-sign-in-alt">
+  <Main title="Log In / Sign Up" icon="far fa-user-circle">
     <LogIn />
   </Main>
   <Footer />

@@ -20,9 +20,14 @@
       :options="['Public', 'Private']"
       :disabled="!editable"
     />
-    <h2>Selected Genes</h2>
+  </Section>
+  <Section>
+    <h2>
+      <i class="fas fa-dna"></i>
+      <span>Selected Genes</span>
+    </h2>
     <Table
-      :cols="selectedGenesCols"
+      :cols="_selectedGenesCols"
       :rows="selectedGenes"
       @action="removeRow"
     />
@@ -40,13 +45,33 @@
         <option>Plain text (.txt)</option>
       </select>
     </Center>
-    <comopnent v-if="editable">
-      <h2>Add Genes</h2>
-      <GenesetSearch placeholder="Search genes by keyword" />
-      <Table :cols="addGenesCols" :rows="addGenes" />
-    </comopnent>
-    <Center width="200px">
-      <Clickable text="Publish" icon="fas fa-upload" design="big" />
+  </Section>
+  <Section v-if="editable">
+    <h2>
+      <i class="fas fa-plus"></i>
+      <span>Add Genes</span>
+    </h2>
+    <GenesetSearch placeholder="Search genes by keyword" />
+    <Table :cols="addGenesCols" :rows="addGenes" />
+  </Section>
+  <Section>
+    <Center v-if="!fresh" :vertical="true" width="250px">
+      <Clickable text="Duplicate" icon="fas fa-copy" design="big" />
+      <div>Start new geneset from this one</div>
+    </Center>
+    <Center v-if="editable" :vertical="true" width="250px">
+      <Clickable
+        v-if="fresh"
+        text="Publish"
+        icon="fas fa-upload"
+        design="big"
+      />
+      <Clickable v-else text="Save Changes" icon="fas fa-upload" design="big" />
+      <div>
+        <span class="edit">Edited title, description, visibility</span><br />
+        <span class="add">Added X genes</span>,
+        <span class="remove">Removed X genes</span>
+      </div>
     </Center>
   </Section>
 </template>
@@ -92,7 +117,8 @@ export default defineComponent({
     GenesetSearch
   },
   props: {
-    editable: Boolean
+    editable: Boolean,
+    fresh: Boolean
   },
   data() {
     return {
@@ -109,9 +135,27 @@ export default defineComponent({
     };
   },
   methods: {
-    removeRow: function({ originalIndex }: { originalIndex: number }) {
+    removeRow({ originalIndex }: { originalIndex: number }) {
       this.selectedGenes.splice(originalIndex, 1);
+    }
+  },
+  computed: {
+    _selectedGenesCols() {
+      if (this.$props.editable) return selectedGenesCols;
+      else return selectedGenesCols.slice(0, -1);
     }
   }
 });
 </script>
+
+<style scope lang="scss">
+.edit {
+  color: $blue;
+}
+.add {
+  color: $green;
+}
+.remove {
+  color: $red;
+}
+</style>

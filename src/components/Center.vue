@@ -1,5 +1,6 @@
 <template>
-  <div class="center" :vertical="vertical" :style="`--width: ${width}`">
+  <slot v-if="hide"></slot>
+  <div v-else class="center" :vertical="vertical" :style="`--width: ${width}`">
     <slot></slot>
   </div>
 </template>
@@ -10,7 +11,8 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     vertical: Boolean,
-    width: String
+    width: String,
+    hide: Boolean
   }
 });
 </script>
@@ -19,9 +21,9 @@ export default defineComponent({
 .center {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
-  margin: 20px auto;
+  margin: 30px auto;
   text-align: center;
   @include trim-v-margins;
 
@@ -32,6 +34,7 @@ export default defineComponent({
   }
 
   &[vertical="true"] {
+    align-items: center;
     flex-direction: column;
     flex-wrap: nowrap;
 

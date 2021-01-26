@@ -115,10 +115,10 @@ export default defineComponent({
     };
   },
   methods: {
-    sanitize: function(value: string) {
+    sanitize(value: string) {
       return value.replace(/[^a-zA-Z0-9]+/g, "");
     },
-    setCode: function() {
+    setCode() {
       nextTick(() => {
         const codeBlock = this.$refs.codeBlock as CodeBlockInterface;
         this.code = codeBlock.getCode();
@@ -131,23 +131,23 @@ export default defineComponent({
       this.loading = false;
       this.response = dummyJson();
     },
-    download: function() {
+    download() {
       downloadJson(this.response, "response");
     }
   },
   computed: {
-    request: function(): Request {
+    request(): Request {
       return requests[(this.selected as unknown) as string];
     },
-    empty: function(): boolean {
+    empty(): boolean {
       return Object.keys(this.response).length === 0;
     }
   },
-  mount: function() {
+  mount() {
     this.setCode();
   },
   watch: {
-    selected: function() {
+    selected() {
       this.setCode();
     }
   }

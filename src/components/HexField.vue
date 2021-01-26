@@ -79,16 +79,16 @@ export default defineComponent({
   },
   methods: {
     // change view angle on mouse move
-    onMouseMove: function(event: MouseEvent) {
+    onMouseMove(event: MouseEvent) {
       this.yAngle = -(0.5 - event.clientX / window.innerWidth) * 30;
       this.xAngle = (0.5 - event.clientY / window.innerHeight) * 30;
     }
   },
 
-  mounted: function() {
+  mounted() {
     window.addEventListener("mousemove", this.onMouseMove);
   },
-  unmounted: function() {
+  unmounted() {
     window.removeEventListener("mousemove", this.onMouseMove);
   }
 });

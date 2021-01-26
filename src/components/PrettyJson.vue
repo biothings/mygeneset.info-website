@@ -68,7 +68,7 @@ export default defineComponent({
     };
   },
   computed: {
-    isArray: function(): boolean {
+    isArray(): boolean {
       return Array.isArray(this.data);
     }
   },

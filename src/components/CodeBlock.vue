@@ -14,7 +14,7 @@ export default defineComponent({
     ariaLabel: String
   },
   methods: {
-    getCode: function() {
+    getCode() {
       const code = this.$refs.code as HTMLElement;
       let text = "";
       const children = code.children;

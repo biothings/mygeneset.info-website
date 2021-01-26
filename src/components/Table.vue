@@ -129,7 +129,7 @@ export default defineComponent({
     }
   },
   computed: {
-    _rows: function(): Row[] {
+    _rows(): Row[] {
       let rows = [...((this.rows || []) as Row[])];
       rows = rows.map((row, index) => ({ ...row, originalIndex: index }));
 
@@ -147,13 +147,13 @@ export default defineComponent({
 
       return rows;
     },
-    canPrev: function(): boolean {
+    canPrev(): boolean {
       return this.startRow - this.perPage >= 0;
     },
-    canNext: function(): boolean {
+    canNext(): boolean {
       return this.startRow + this.perPage <= (this.rows || []).length - 1;
     },
-    endRow: function(): number {
+    endRow(): number {
       return Math.min(this.startRow + this.perPage, (this.rows || []).length);
     }
   },

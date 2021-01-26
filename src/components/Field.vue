@@ -36,12 +36,12 @@ export default defineComponent({
     disabled: Boolean,
     options: Array
   },
-  mounted: function() {
+  mounted() {
     const textarea = this.$refs.textarea as HTMLInputElement;
     if (textarea) this.fitHeight(textarea);
   },
   methods: {
-    fitHeight: function(textarea: HTMLInputElement) {
+    fitHeight(textarea: HTMLInputElement) {
       // remember window scroll position
       const prevScroll = window.scrollY;
       // temporarily enable textarea so we can get content height
@@ -56,7 +56,7 @@ export default defineComponent({
       // restore textarea disabled
       if (prevDisabled) textarea.setAttribute("disabled", "true");
     },
-    onInput: function(event: Event) {
+    onInput(event: Event) {
       const input = event.target as HTMLInputElement;
       this.$emit("update:modelValue", input.value);
       if (input.tagName.toLowerCase() === "textarea") this.fitHeight(input);

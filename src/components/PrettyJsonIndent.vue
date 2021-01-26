@@ -12,7 +12,7 @@ export default defineComponent({
     depth: Number
   },
   computed: {
-    spaces: function(): string[] {
+    spaces(): string[] {
       return Array(this.depth || 0)
         .fill("")
         .map(() => "  ");

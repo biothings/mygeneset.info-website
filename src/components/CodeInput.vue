@@ -28,7 +28,7 @@ export default defineComponent({
     };
   },
   methods: {
-    onInput: function(event: Event) {
+    onInput(event: Event) {
       const input = event.target as HTMLInputElement;
       if (this.sanitize) {
         const oldValue = this.value;
