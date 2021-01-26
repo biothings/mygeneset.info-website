@@ -27,7 +27,7 @@ import Clickable from "@/components/Clickable.vue";
 
 // dummy species. to be replaced by api call
 const species = [
-  { name: "Humans", species: "Homo sapiens", selected: true },
+  { name: "Human", species: "Homo sapiens", selected: true },
   {
     name: "Brewer's Yeast",
     species: "Saccharomyces cerevisiae",
