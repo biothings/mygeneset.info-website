@@ -1,7 +1,7 @@
 <template>
   <Header :big="true" />
   <Main>
-    <Hero />
+    <Details />
     <GetStarted />
     <API />
     <Features />
@@ -16,7 +16,7 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import Hero from "./home/Hero.vue";
+import Details from "./home/Details.vue";
 import GetStarted from "./home/GetStarted.vue";
 import API from "./home/API.vue";
 import Features from "./home/Features.vue";
@@ -28,7 +28,7 @@ export default defineComponent({
     Header,
     Main,
     Footer,
-    Hero,
+    Details,
     GetStarted,
     API,
     Features,

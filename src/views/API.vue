@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Main title="API" icon="fas fa-terminal">
-    <Hero />
+    <Details />
     <Docs />
     <TryItOut />
   </Main>
@@ -13,7 +13,7 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import Hero from "./api/Hero.vue";
+import Details from "./api/Details.vue";
 import Docs from "./api/Docs.vue";
 import TryItOut from "./api/TryItOut.vue";
 
@@ -22,7 +22,7 @@ export default defineComponent({
     Header,
     Main,
     Footer,
-    Hero,
+    Details,
     Docs,
     TryItOut
   }

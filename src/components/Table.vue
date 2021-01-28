@@ -83,8 +83,9 @@ export interface Col {
   key: string;
   name?: string;
   align?: string;
-  component?: string;
   sortable?: boolean;
+  action?: string;
+  icon?: string;
 }
 
 type Cell = number | string | null | undefined;

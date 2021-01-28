@@ -94,17 +94,11 @@ export default defineComponent({
     }
   }
 
-  $spin: 3s ease-in-out forwards infinite;
+  $spin: 10s linear forwards infinite;
 
   @keyframes cw {
     0% {
       transform: rotate(0deg);
-    }
-    33% {
-      transform: rotate(120deg);
-    }
-    66% {
-      transform: rotate(240deg);
     }
     100% {
       transform: rotate(360deg);
@@ -115,30 +109,22 @@ export default defineComponent({
     0% {
       transform: rotate(-0deg);
     }
-    33% {
-      transform: rotate(-120deg);
-    }
-    66% {
-      transform: rotate(-240deg);
-    }
     100% {
       transform: rotate(-360deg);
     }
   }
 
-  &:hover {
-    .hero_icons:first-child {
-      animation: ccw $spin;
-      i {
-        animation: cw $spin;
-      }
-    }
-
-    .hero_icons:last-child {
+  .hero_icons:first-child {
+    animation: ccw $spin;
+    i {
       animation: cw $spin;
-      i {
-        animation: ccw $spin;
-      }
+    }
+  }
+
+  .hero_icons:last-child {
+    animation: cw $spin;
+    i {
+      animation: ccw $spin;
     }
   }
 }

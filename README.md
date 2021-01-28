@@ -1,4 +1,4 @@
-# mygeneset.info
+# new-project
 
 ## Project setup
 ```

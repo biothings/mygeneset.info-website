@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Main title="About" icon="fas fa-signature">
-    <About />
+    <Overview />
     <SupportUs />
     <FAQs />
     <HowToCite />
@@ -17,7 +17,7 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import About from "./about/About.vue";
+import Overview from "./about/Overview.vue";
 import SupportUs from "./about/SupportUs.vue";
 import FAQs from "./about/FAQs.vue";
 import HowToCite from "./about/HowToCite.vue";
@@ -30,7 +30,7 @@ export default defineComponent({
     Header,
     Main,
     Footer,
-    About,
+    Overview,
     SupportUs,
     FAQs,
     HowToCite,
