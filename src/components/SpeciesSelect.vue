@@ -107,6 +107,12 @@ export default defineComponent({
   width: 100%;
   @include height;
 
+  &.is-open {
+    .multiselect-input {
+      border-radius: 5px 5px 0 0;
+    }
+  }
+
   .multiselect-input {
     position: relative;
     display: flex;
@@ -178,8 +184,8 @@ export default defineComponent({
     left: 0;
     right: 0;
     border: solid $light-gray 2px;
-    border-radius: 5px;
-    margin-top: -2px;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
     max-height: 200px;
     overflow-x: auto;
     overflow-y: auto;
