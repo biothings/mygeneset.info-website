@@ -1,6 +1,6 @@
 <template>
   <Section>
-    <GenesetSearch placeholder="Search all genesets by keywords" />
+    <GenesetSearch subject="all genesets" />
     <Table :cols="cols" :rows="rows" />
   </Section>
 </template>

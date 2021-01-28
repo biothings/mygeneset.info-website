@@ -55,7 +55,7 @@
       <i class="fas fa-plus"></i>
       <span>Add Genes</span>
     </h2>
-    <GenesetSearch placeholder="Search genes by keyword" />
+    <GenesetSearch subject="genes" />
     <Table :cols="addGenesCols" :rows="addGenes" />
   </Section>
   <Section>

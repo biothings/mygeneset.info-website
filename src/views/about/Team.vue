@@ -12,37 +12,37 @@
     <Gallery>
       <Portrait
         link="https://vincentrubinetti.com"
-        image="images/vince.jpg"
+        :image="vince"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="images/vince.jpg"
+        :image="vince"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="images/vince.jpg"
+        :image="vince"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="images/vince.jpg"
+        :image="vince"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="images/vince.jpg"
+        :image="vince"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
       <Portrait
         link="https://vincentrubinetti.com"
-        image="images/vince.jpg"
+        :image="vince"
         name="Vincent Rubinetti"
         role="Frontend Developer"
       />
@@ -57,12 +57,19 @@ import LinkTo from "@/components/LinkTo.vue";
 import Gallery from "@/components/Gallery.vue";
 import Portrait from "@/components/Portrait.vue";
 
+import vince from "@/assets/team/vince.jpg";
+
 export default defineComponent({
   components: {
     Section,
     LinkTo,
     Gallery,
     Portrait
+  },
+  data() {
+    return {
+      vince
+    };
   }
 });
 </script>

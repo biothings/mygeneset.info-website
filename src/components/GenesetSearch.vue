@@ -1,14 +1,11 @@
 <template>
   <div class="geneset_search">
     <Center :vertical="true" width="100%">
-      <TextBox :placeholder="placeholder" v-model="keywords" />
-      <div class="geneset_species">
-        <label v-for="(value, name, index) in species" :key="index">
-          <input type="checkbox" v-model="value.selected" />
-          <span>{{ value.name }}</span>
-          <span>({{ value.species }})</span>
-        </label>
-      </div>
+      <TextBox
+        :placeholder="`Search ${subject} by keyword`"
+        v-model="keywords"
+      />
+      <SpeciesSelect :placeholder="`Search ${subject} by species`" />
     </Center>
   </div>
 </template>
@@ -17,36 +14,20 @@
 import { defineComponent } from "vue";
 import TextBox from "@/components/TextBox.vue";
 import Center from "@/components/Center.vue";
-
-// dummy species. to be replaced by api call
-const species = [
-  { name: "Human", species: "Homo sapiens", selected: true },
-  {
-    name: "Brewer's Yeast",
-    species: "Saccharomyces cerevisiae",
-    selected: true
-  },
-  { name: "House Mouse", species: "Mus musculus", selected: true },
-  { name: "Brown Rat", species: "Rattus norvegicus", selected: true },
-  { name: "Roundworm", species: "Caenorhabditis elegans", selected: true },
-  { name: "Thale Cress", species: "Arabidopsis thaliana", selected: true },
-  { name: "Fruit Fly", species: "Drosophila melanogaster", selected: true },
-  { name: "Zebrafish", species: "Danio rerio", selected: true },
-  { name: "Pseudomonas", species: "Pseudomonas aeruginosa", selected: true }
-];
+import SpeciesSelect from "@/components/SpeciesSelect.vue";
 
 export default defineComponent({
   components: {
     TextBox,
-    Center
+    Center,
+    SpeciesSelect
   },
   props: {
-    placeholder: String
+    subject: String
   },
   data() {
     return {
-      keywords: "",
-      species
+      keywords: ""
     };
   }
 });
@@ -55,24 +36,5 @@ export default defineComponent({
 <style scoped lang="scss">
 .geneset_search {
   margin: 0 auto;
-
-  .geneset_species {
-    label {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2px 10px;
-
-      input {
-        margin-right: 10px;
-      }
-
-      span:last-child {
-        margin-left: 5px;
-        font-size: 0.8rem;
-        color: $gray;
-      }
-    }
-  }
 }
 </style>

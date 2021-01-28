@@ -1,7 +1,7 @@
 <template>
   <Section>
     <h2>Your Genesets</h2>
-    <GenesetSearch placeholder="Search your genesets by keyword" />
+    <GenesetSearch subject="your genesets" />
     <Table :cols="cols" :rows="rows" />
   </Section>
 </template>

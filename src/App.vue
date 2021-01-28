@@ -107,6 +107,12 @@ textarea:not(:focus) {
   resize: none;
 }
 
+// placeholder for inputs/textareas/etc
+::placeholder {
+  opacity: 1;
+  color: $gray;
+}
+
 // select
 select {
   border: none;
