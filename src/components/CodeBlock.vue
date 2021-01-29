@@ -1,5 +1,4 @@
 <template>
-  <div v-if="title" class="code_title">{{ title }}</div>
   <code ref="code" class="code_block" :aria-label="ariaLabel">
     <slot></slot>
   </code>
@@ -10,7 +9,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    title: String,
     ariaLabel: String
   },
   methods: {
@@ -29,9 +27,6 @@ export default defineComponent({
 </script>
 
 <style scope lang="scss">
-.code_title {
-  margin-bottom: -20px;
-}
 .code_block {
   display: block;
   margin: 20px 0;

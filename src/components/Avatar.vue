@@ -1,5 +1,5 @@
 <template>
-  <LinkTo to="/user" class="avatar">
+  <LinkTo to="/user" class="avatar" v-tooltip="'Your user profile'">
     <div>
       {{ userInitials }}
     </div>
@@ -33,8 +33,8 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 40px !important;
+  height: 40px !important;
   margin-left: 10px;
   border-radius: 100%;
   background: $theme;

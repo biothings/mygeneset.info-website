@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Main title="Log In / Sign Up" icon="fas fa-sign-in-alt">
-    <LogIn />
+    <Accounts />
     <UseAsGuest />
   </Main>
   <Footer />
@@ -12,7 +12,7 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import LogIn from "./login/LogIn.vue";
+import Accounts from "./login/Accounts.vue";
 import UseAsGuest from "./login/UseAsGuest.vue";
 
 export default defineComponent({
@@ -20,7 +20,7 @@ export default defineComponent({
     Header,
     Main,
     Footer,
-    LogIn,
+    Accounts,
     UseAsGuest
   }
 });

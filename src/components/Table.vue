@@ -57,16 +57,16 @@
       icon="fas fa-chevron-left"
       @click="prevPage"
       design="plain"
-      title="Previous page of table rows"
       :disabled="!canPrev"
+      v-tooltip="'Previous page of table rows'"
     />
     <span>{{ startRow + 1 }} to {{ endRow }} of {{ rows.length }}</span>
     <Clickable
       icon="fas fa-chevron-right"
       @click="nextPage"
       design="plain"
-      title="Next page of table rows"
       :disabled="!canNext"
+      v-tooltip="'Next page of table rows'"
     />
   </Center>
   <Center v-else>

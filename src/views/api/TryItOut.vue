@@ -3,33 +3,33 @@
     <h2>Try it Out</h2>
     <Center>
       <Clickable
-        v-bind:selected="selected === 'byId'"
+        :selected="selected === 'byId'"
         @click="selected = 'byId'"
         text="Lookup by id"
         design="plain"
       />
       <Clickable
-        v-bind:selected="selected === 'byName'"
+        :selected="selected === 'byName'"
         @click="selected = 'byName'"
         text="Search by name"
         design="plain"
       />
       <Clickable
-        v-bind:selected="selected === 'getMeta'"
+        :selected="selected === 'getMeta'"
         @click="selected = 'getMeta'"
         text="Get metadata"
         design="plain"
       />
     </Center>
-    <CodeBlock ref="codeBlock" title="Edit me!" v-bind:ariaLabel="code">
-      <template v-for="(slug, index) in request" v-bind:key="slug">
+    <CodeBlock ref="codeBlock" :ariaLabel="code">
+      <template v-for="(slug, index) in request" :key="slug">
         <span v-if="index % 2 === 0">{{ slug }}</span>
         <CodeInput
           v-else
-          v-bind:defaultValue="slug"
-          v-bind:sanitize="sanitize"
-          v-bind:aria-label="'Request field ' + (index + 1)"
-          v-bind:onChange="setCode"
+          :defaultValue="slug"
+          :sanitize="sanitize"
+          :aria-label="'Request field ' + (index + 1)"
+          :onChange="setCode"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -37,17 +37,25 @@
         />
       </template>
     </CodeBlock>
-    <Center width="200px">
+    <Center width="150px">
       <Clickable
-        v-bind:icon="loading ? 'fas fa-spinner fa-spin' : 'fas fa-play'"
-        v-bind:text="loading ? 'Loading' : 'Run'"
+        :icon="copied ? 'fas fa-check' : 'fas fa-copy'"
+        :text="copied ? 'Copied!' : 'Copy'"
+        design="big"
+        @click="copy"
+        v-tooltip="'Copy request code to clipboard'"
+      />
+      <Clickable
+        :icon="loading ? 'fas fa-spinner fa-spin' : 'fas fa-play'"
+        :text="loading ? 'Loading' : 'Run'"
         design="big"
         @click="run"
-        v-bind:disabled="loading"
+        :disabled="loading"
+        v-tooltip="'Run request and get response'"
       />
     </Center>
     <CodeBlock v-if="!empty">
-      <PrettyJson v-bind:data="response" />
+      <PrettyJson :data="response" />
     </CodeBlock>
     <Center v-if="!empty" width="200px">
       <Clickable
@@ -55,7 +63,8 @@
         text="Download"
         design="big"
         @click="download"
-        v-bind:disabled="loading"
+        :disabled="loading"
+        v-tooltip="'Download the response as JSON'"
       />
     </Center>
   </Section>
@@ -110,6 +119,7 @@ export default defineComponent({
     return {
       selected: "byName",
       code: "",
+      copied: false,
       loading: false,
       response: {}
     };
@@ -123,6 +133,12 @@ export default defineComponent({
         const codeBlock = this.$refs.codeBlock as CodeBlockInterface;
         this.code = codeBlock.getCode();
       });
+    },
+    async copy() {
+      console.log(this.code);
+      await window.navigator.clipboard.writeText(this.code);
+      this.copied = true;
+      window.setTimeout(() => (this.copied = false), 1000);
     },
     run: async function() {
       console.log(this.code);
@@ -143,7 +159,7 @@ export default defineComponent({
       return Object.keys(this.response).length === 0;
     }
   },
-  mount() {
+  mounted() {
     this.setCode();
   },
   watch: {

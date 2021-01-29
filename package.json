@@ -11,6 +11,7 @@
     "fresh": "rm -rf node_modules && yarn cache clean && yarn install"
   },
   "dependencies": {
+    "@popperjs/core": "^2.6.0",
     "@vueform/multiselect": "^1.2.5",
     "core-js": "^3.6.5",
     "vue": "^3.0.0",
