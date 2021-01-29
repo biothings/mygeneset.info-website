@@ -37,8 +37,13 @@ describe("Table.vue", () => {
     { firstCol: "banana", secondCol: 10, thirdCol: "big long string z" }
   ];
 
-  const props = { cols, rows };
-  const wrapper = mount(Table, { props, global });
+  const wrapper = mount(Table, {
+    props: {
+      cols: cols,
+      rows: rows
+    },
+    global
+  });
 
   const getCell = (col: number, row: number, query?: string) =>
     wrapper.find(
@@ -92,5 +97,31 @@ describe("Table.vue", () => {
     expect(action).to.have.property("originalIndex");
     expect(action).to.have.property("row");
     expect(action).to.have.property("cell");
+  });
+
+  const rows2 = Array(30)
+    .fill(null)
+    .map(() => ({ firstCol: "apple" }));
+  const wrapper2 = mount(Table, {
+    props: {
+      cols: cols,
+      rows: rows2
+    },
+    global
+  });
+
+  it("paginates properly", async () => {
+    const prev = wrapper2.find(".pages > button:first-child");
+    const next = wrapper2.find(".pages > button:last-child");
+    const count = wrapper2.find(".pages > span");
+    await prev.trigger("click");
+    expect(count.text()).to.include("1 to 10 of 30");
+    await next.trigger("click");
+    await next.trigger("click");
+    await next.trigger("click");
+    await next.trigger("click");
+    expect(count.text()).to.include("21 to 30 of 30");
+    await prev.trigger("click");
+    expect(count.text()).to.include("11 to 20 of 30");
   });
 });
