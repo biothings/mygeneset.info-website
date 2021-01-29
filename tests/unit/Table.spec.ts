@@ -1,6 +1,13 @@
 import { expect } from "chai";
 import { mount } from "@vue/test-utils";
 import Table from "@/components/Table.vue";
+import { directive } from "@/util/tooltip";
+
+const global = {
+  directives: {
+    tooltip: directive
+  }
+};
 
 describe("Table.vue", () => {
   const cols = [
@@ -31,7 +38,7 @@ describe("Table.vue", () => {
   ];
 
   const props = { cols, rows };
-  const wrapper = mount(Table, { props });
+  const wrapper = mount(Table, { props, global });
 
   const getCell = (col: number, row: number, query?: string) =>
     wrapper.find(
