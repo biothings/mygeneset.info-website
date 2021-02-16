@@ -3,7 +3,7 @@
     <img src="@/assets/logo.svg" />
     <div class="title">My Geneset</div>
     <div v-if="big" class="slogan">
-      Collect, save, and share genes from 20+ species
+      Collect, save, and share genes
     </div>
   </router-link>
 </template>

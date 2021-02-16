@@ -6,10 +6,7 @@
 
       sessionStorage.redirect = pathname + search;
 
-      let redirect = "";
-      if (origin.includes("netlify")) redirect = "/";
-      else redirect = "/mygeneset.info-website/";
-
+      let redirect = "/";
       console.log({ redirect });
       location.replace(redirect);
     </script>

@@ -15,6 +15,7 @@
     "@vueform/multiselect": "^1.2.5",
     "core-js": "^3.6.5",
     "vue": "^3.0.0",
+    "vue-debounce": "^2.6.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
     "vuex-persist": "^3.1.3"

@@ -1,37 +1,86 @@
 <template>
   <Section>
-    <GenesetSearch subject="all genesets" />
-    <Table :cols="cols" :rows="rows" />
+    <Center :vertical="true" width="100%">
+      <TextBox
+        :placeholder="`Search genesets by keyword`"
+        v-model="keywords"
+        v-debounce="search"
+      />
+      <SpeciesSelect
+        :placeholder="`Search genesets by species`"
+        v-model="species"
+      />
+    </Center>
+    <Table :cols="cols" :rows="results" />
   </Section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
-import GenesetSearch from "@/components/GenesetSearch.vue";
+import Center from "@/components/Center.vue";
 import Table from "@/components/Table.vue";
-import { dummyTable } from "@/util/debug";
+import TextBox from "@/components/TextBox.vue";
+import SpeciesSelect from "@/components/SpeciesSelect.vue";
+import { search } from "@/api/mygenset";
+import { Json } from "@/api/index";
 
 const cols = [
-  { key: "string", name: "String", align: "left" },
-  { key: "number", name: "Number", align: "center" },
-  { key: "long_string", name: "Long String Description", align: "left" }
+  {
+    key: "_id",
+    name: "Name",
+    align: "left",
+    format: (cell: Json) => cell.replace(/_/g, " ")
+  },
+  {
+    key: "genes",
+    name: "# of Genes",
+    align: "center",
+    format: (cell: Json) => cell?.length
+  },
+  {
+    key: "genes",
+    name: "Genes",
+    align: "left",
+    format: (cell: Json) => {
+      let list = cell.map((gene: Json) => gene.name).join(", ");
+      if (list.length > 100) list = list.slice(0, 100) + "...";
+      return list;
+    }
+  }
 ];
-const rows = dummyTable(cols, 101);
 
 export default defineComponent({
   components: {
     Section,
-    GenesetSearch,
-    Table
+    Center,
+    Table,
+    TextBox,
+    SpeciesSelect
+  },
+  props: {
+    subject: String
   },
   data() {
     return {
+      keywords: "",
+      species: [],
       cols,
-      rows
+      results: []
     };
+  },
+  methods: {
+    async search() {
+      this.results = (await search(this.keywords, this.species)) as [];
+    }
+  },
+  watch: {
+    species() {
+      this.search();
+    }
+  },
+  mounted() {
+    this.search();
   }
 });
 </script>
-
-<style scoped lang="scss"></style>

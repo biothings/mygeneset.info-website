@@ -4,8 +4,12 @@
       <TextBox
         :placeholder="`Search ${subject} by keyword`"
         v-model="keywords"
+        v-debounce="search"
       />
-      <SpeciesSelect :placeholder="`Search ${subject} by species`" />
+      <SpeciesSelect
+        :placeholder="`Search ${subject} by species`"
+        v-model="species"
+      />
     </Center>
   </div>
 </template>
@@ -15,6 +19,7 @@ import { defineComponent } from "vue";
 import TextBox from "@/components/TextBox.vue";
 import Center from "@/components/Center.vue";
 import SpeciesSelect from "@/components/SpeciesSelect.vue";
+import { search } from "@/api/mygenset";
 
 export default defineComponent({
   components: {
@@ -25,10 +30,21 @@ export default defineComponent({
   props: {
     subject: String
   },
+  emits: ["results"],
   data() {
     return {
-      keywords: ""
+      keywords: "",
+      species: []
     };
+  },
+  methods: {
+    async search() {
+      const results = await search(this.keywords, this.species);
+      this.$emit("results", { results });
+    }
+  },
+  mounted() {
+    this.search();
   }
 });
 </script>

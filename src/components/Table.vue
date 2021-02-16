@@ -7,11 +7,11 @@
             <button
               v-if="col.sortable !== false && !col.action"
               :align="col.align || 'center'"
-              @click="changeSort(col.key)"
+              @click="changeSort(col.name)"
             >
               {{ col.name }}
               <i
-                v-if="col.key === sortKey"
+                v-if="col.name === sortCol"
                 :class="`fas fa-sort-${sortUp ? 'up' : 'down'}`"
               ></i>
               <i v-else class="fas fa-sort"></i>
@@ -44,6 +44,9 @@
               "
               design="plain"
             />
+            <span v-else-if="col.format">
+              {{ col.format(row[col.key]) }}
+            </span>
             <span v-else>
               {{ row[col.key] }}
             </span>
@@ -70,7 +73,7 @@
     />
   </Center>
   <Center v-else>
-    No Data
+    No Results
   </Center>
 </template>
 
@@ -80,12 +83,13 @@ import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 
 export interface Col {
-  key: string;
-  name?: string;
-  align?: string;
-  sortable?: boolean;
-  action?: string;
-  icon?: string;
+  key: string; // key to access in each row object for col
+  name?: string; // header text and unique id for col
+  align?: string; // alignment for col, left | center | right
+  sortable?: boolean; // is col sortable
+  action?: string; // action to emit when clicking on cell in col
+  icon?: string; // icon to show in button for action
+  format?: Function; // how to format cell
 }
 
 type Cell = number | string | null | undefined;
@@ -106,23 +110,23 @@ export default defineComponent({
   },
   data() {
     return {
-      sortKey: "",
+      sortCol: "",
       sortUp: false,
       startRow: 0,
       perPage: 10
     };
   },
   methods: {
-    changeSort(key: string) {
-      if (this.sortKey === key) {
+    changeSort(name: string) {
+      if (this.sortCol === name) {
         if (this.sortUp) {
           this.sortUp = false;
-          this.sortKey = "";
+          this.sortCol = "";
         } else {
           this.sortUp = true;
         }
       } else {
-        this.sortKey = key;
+        this.sortCol = name;
         this.sortUp = false;
       }
     },
@@ -135,18 +139,22 @@ export default defineComponent({
   },
   computed: {
     _rows(): Row[] {
+      const sortCol: string =
+        (((this.cols as []).find((col: Col) => col.name === this.sortCol) ||
+          {}) as Col)?.key || "";
+
       let rows = [...((this.rows || []) as Row[])];
       rows = rows.map((row, index) => ({ ...row, originalIndex: index }));
 
       const func = (a: Row, b: Row) => {
-        const valA = a[this.sortKey] || 0;
-        const valB = b[this.sortKey] || 0;
+        const valA = a[sortCol] || 0;
+        const valB = b[sortCol] || 0;
         if (valA < valB === this.sortUp) return 1;
         else if (valA > valB === this.sortUp) return -1;
         else return 0;
       };
 
-      if (this.sortKey) rows.sort(func);
+      if (sortCol) rows.sort(func);
 
       rows = rows.slice(this.startRow, this.startRow + this.perPage);
 
@@ -214,7 +222,7 @@ export default defineComponent({
 
   [align="center"] {
     text-align: center;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .fas {

@@ -5,8 +5,8 @@
     mode="tags"
     :placeholder="placeholder"
     :searchable="true"
-    valueProp="search"
-    trackBy="search"
+    valueProp="key"
+    trackBy="label"
   >
     <template v-slot:tag="{ option, remove, disabled }">
       <button
@@ -16,13 +16,13 @@
         :disabled="disabled"
       >
         <img :src="option.icon" class="species_icon" />
-        <span>{{ option.species }} ({{ option.name }})</span>
+        <span>{{ option.label }}</span>
         <i class="fas fa-times"></i>
       </button>
     </template>
     <template v-slot:option="{ option }">
       <img :src="option.icon" class="species_icon" />
-      <span>{{ option.name }} ({{ option.species }})</span>
+      <span>{{ option.label }}</span>
     </template>
   </Multiselect>
 </template>
@@ -42,38 +42,58 @@ import zebrafish from "@/assets/species/zebrafish.svg";
 import pseudomonas from "@/assets/species/pseudomonas.svg";
 
 // dummy species. to be replaced by api call
-const species = [
-  { name: "Human", species: "Homo sapiens", icon: human },
+let species = [
+  { name: "Human", key: "human", scientific: "Homo sapiens", icon: human },
   {
     name: "Brewer's Yeast",
-    species: "Saccharomyces cerevisiae",
+    key: "brewers-yeast",
+    scientific: "Saccharomyces cerevisiae",
     icon: brewersYeast
   },
-  { name: "House Mouse", species: "Mus musculus", icon: houseMouse },
-  { name: "Brown Rat", species: "Rattus norvegicus", icon: brownRat },
+  {
+    name: "House Mouse",
+    key: "mouse",
+    scientific: "Mus musculus",
+    icon: houseMouse
+  },
+  {
+    name: "Brown Rat",
+    key: "rat",
+    scientific: "Rattus norvegicus",
+    icon: brownRat
+  },
   {
     name: "Roundworm",
-    species: "Caenorhabditis elegans",
+    key: "worm",
+    scientific: "Caenorhabditis elegans",
     icon: roundworm
   },
   {
     name: "Thale Cress",
-    species: "Arabidopsis thaliana",
+    key: "thale-cress",
+    scientific: "Arabidopsis thaliana",
     icon: thaleCress
   },
   {
     name: "Fruit Fly",
-    species: "Drosophila melanogaster",
+    key: "fruitfly",
+    scientific: "Drosophila melanogaster",
     icon: fruitFly
   },
-  { name: "Zebrafish", species: "Danio rerio", icon: zebrafish },
+  {
+    name: "Zebrafish",
+    key: "zebrafish",
+    scientific: "Danio rerio",
+    icon: zebrafish
+  },
   {
     name: "Pseudomonas",
-    species: "Pseudomonas aeruginosa",
+    key: "pseudomonas-aeruginosa",
+    scientific: "Pseudomonas aeruginosa",
     icon: pseudomonas
   }
 ];
-species.forEach(s => (s.search = s.name + " " + s.species));
+species = species.map(s => ({ ...s, label: `${s.name} (${s.scientific})` }));
 
 export default defineComponent({
   props: {
