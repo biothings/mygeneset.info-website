@@ -44,8 +44,7 @@
               "
               design="plain"
             />
-            <span v-else-if="col.format">
-              {{ col.format(row[col.key]) }}
+            <span v-else-if="col.format" v-html="col.format(row[col.key])">
             </span>
             <span v-else>
               {{ row[col.key] }}
@@ -208,6 +207,7 @@ export default defineComponent({
 
   td {
     padding: 5px;
+    overflow-wrap: break-word;
   }
 
   [align="left"] {

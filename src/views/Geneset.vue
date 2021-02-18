@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Main title="Geneset" icon="fas fa-dna">
-    <GenesetEdit :editable="true" :fresh="true" />
+    <GenesetEdit :editable="true" :fresh="false" />
   </Main>
   <Footer />
 </template>

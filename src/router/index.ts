@@ -7,10 +7,11 @@ import API from "@/views/API.vue";
 import About from "@/views/About.vue";
 import LogIn from "@/views/LogIn.vue";
 import New from "@/views/New.vue";
+import Geneset from "@/views/Geneset.vue";
 import User from "@/views/User.vue";
 import { scrollToHash } from "@/util/url.ts";
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
@@ -56,6 +57,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/new",
     name: "New",
     component: New
+  },
+  {
+    path: "/geneset/:id",
+    name: "Geneset",
+    component: Geneset
   },
   {
     path: "/user",

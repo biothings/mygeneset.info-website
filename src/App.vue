@@ -166,4 +166,12 @@ h1 {
     opacity: 1;
   }
 }
+
+// util colors
+.loading {
+  color: $gray;
+}
+.error {
+  color: $red;
+}
 </style>

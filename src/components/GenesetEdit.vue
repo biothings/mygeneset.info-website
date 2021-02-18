@@ -1,40 +1,52 @@
 <template>
-  <Section>
+  <Section v-if="loading">
+    <Center>
+      <span class="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>Loading geneset details</span>
+      </span>
+    </Center>
+  </Section>
+  <Section v-if="error">
+    <Center>
+      <span class="error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Couldn't find geneset</span>
+      </span>
+    </Center>
+  </Section>
+  <Section v-if="!loading && !error">
     <h2>
       <i class="fas fa-feather-alt"></i>
       <span>Details</span>
     </h2>
     <Field
       name="Title"
-      v-model="title"
+      v-model="geneset.title"
       placeholder="Descriptive title of the geneset"
       :disabled="!editable"
     />
-    <Field name="Creator" v-model="creator" :disabled="true" />
-    <Field name="Date" v-model="date" :disabled="true" />
+    <Field name="Creator" v-model="geneset.creator" :disabled="true" />
+    <Field name="Date" v-model="geneset.date" :disabled="true" />
     <Field
       name="Description"
-      v-model="description"
+      v-model="geneset.description"
       placeholder="Detailed description of the geneset"
       :disabled="!editable"
     />
     <Field
       name="Visibility"
-      v-model="visibility"
+      v-model="geneset.visibility"
       :options="['Public', 'Private']"
       :disabled="!editable"
     />
   </Section>
-  <Section>
+  <Section v-if="!loading && !error">
     <h2>
       <i class="fas fa-check"></i>
       <span>Selected Genes</span>
     </h2>
-    <Table
-      :cols="_selectedGenesCols"
-      :rows="selectedGenes"
-      @action="removeRow"
-    />
+    <Table :cols="_genesCols" :rows="geneset.genes" @action="removeRow" />
     <Center :vertical="true" width="200px">
       <Clickable text="Download" icon="fas fa-download" design="big" />
       <Clickable
@@ -50,15 +62,16 @@
       </select>
     </Center>
   </Section>
-  <Section v-if="editable">
+  <Section v-if="editable && !loading && !error">
     <h2>
       <i class="fas fa-plus"></i>
       <span>Add Genes</span>
     </h2>
-    <GenesetSearch subject="genes" />
-    <Table :cols="addGenesCols" :rows="addGenes" />
+    <Placeholder>
+      Gene search and add
+    </Placeholder>
   </Section>
-  <Section>
+  <Section v-if="!loading && !error">
     <Center v-if="!fresh" :vertical="true" width="200px">
       <Clickable text="Duplicate" icon="fas fa-copy" design="big" />
       <div>Start new geneset from this one</div>
@@ -88,13 +101,39 @@ import Field from "@/components/Field.vue";
 import Table from "@/components/Table.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
-import GenesetSearch from "@/components/GenesetSearch.vue";
-import { dummyTable } from "@/util/debug";
+import Placeholder from "@/components/Placeholder.vue";
+import { lookup } from "@/api/mygenset";
 
-const selectedGenesCols = [
-  { key: "string", name: "String", align: "left" },
-  { key: "number", name: "Number", align: "center" },
-  { key: "long_string", name: "Long String Description", align: "left" },
+interface Gene {
+  mygene_id: string;
+  name: string;
+  ensemblgene: string;
+  ncbigene: string;
+  uniprot: string;
+}
+
+interface Geneset {
+  title: string;
+  creator: string;
+  date: string;
+  description: string;
+  visibility: "Public" | "Private";
+  genes: Gene[];
+}
+
+const blankGeneset: Geneset = {
+  title: "",
+  creator: "Casey S. Greene",
+  date: new Date().toLocaleString(),
+  description: "",
+  visibility: "Public",
+  genes: []
+};
+
+const genesCols = [
+  { key: "name", name: "Name", align: "left" },
+  { key: "ensemblgene", name: "Ensembl ID", align: "center" },
+  { key: "uniprot", name: "Uniprot ID", align: "center" },
   {
     key: "delete",
     name: "",
@@ -103,14 +142,6 @@ const selectedGenesCols = [
     icon: "fas fa-trash"
   }
 ];
-const selectedGenes = dummyTable(selectedGenesCols, 8);
-
-const addGenesCols = [
-  { key: "string", name: "String", align: "left" },
-  { key: "number", name: "Number", align: "center" },
-  { key: "long_string", name: "Long String Description", align: "left" }
-];
-const addGenes = dummyTable(selectedGenesCols, 80);
 
 export default defineComponent({
   components: {
@@ -119,7 +150,7 @@ export default defineComponent({
     Table,
     Center,
     Clickable,
-    GenesetSearch
+    Placeholder
   },
   props: {
     editable: Boolean,
@@ -127,28 +158,42 @@ export default defineComponent({
   },
   data() {
     return {
-      title: "",
-      creator: "Casey Greene",
-      date: new Date().toDateString(),
-      description: "",
-      visibility: "Public",
-      selectedGenesCols,
-      selectedGenes,
-      formatExpanded: false,
-      addGenesCols,
-      addGenes
+      loading: false,
+      error: false,
+      geneset: blankGeneset,
+      formatExpanded: false
     };
   },
   methods: {
     removeRow({ originalIndex }: { originalIndex: number }) {
-      this.selectedGenes.splice(originalIndex, 1);
+      console.log(originalIndex);
+    },
+    async loadGeneset(id: string) {
+      this.loading = true;
+      try {
+        const geneset = await lookup(id);
+        this.geneset.title = geneset._id;
+        // this.geneset.creator = geneset.author;
+        // this.geneset.date = geneset.date;
+        // this.geneset.description = geneset.description;
+        this.geneset.visibility = geneset.is_public ? "Public" : "Private";
+        this.geneset.genes = geneset.genes;
+      } catch (error) {
+        this.error = true;
+      } finally {
+        this.loading = false;
+      }
     }
   },
   computed: {
-    _selectedGenesCols() {
-      if (this.$props.editable) return selectedGenesCols;
-      else return selectedGenesCols.slice(0, -1);
+    _genesCols() {
+      if (this.$props.editable) return genesCols;
+      else return genesCols.slice(0, -1);
     }
+  },
+  async mounted() {
+    if (!this.fresh && this.$route.params.id)
+      this.loadGeneset(this.$route.params.id as string);
   }
 });
 </script>

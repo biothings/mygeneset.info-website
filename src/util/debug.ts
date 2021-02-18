@@ -1,6 +1,6 @@
 import { Col } from "@/components/Table.vue";
 
-export const sleep = (ms = 10) =>
+export const sleep = (ms = 1000) =>
   new Promise(resolve => window.setTimeout(resolve, ms));
 
 const n = 3; // number of random entries to make per level
@@ -16,7 +16,7 @@ const randNum = () => Math.round(Math.random() * 100);
 // random value generator
 const randVal = () => (Math.random() < 0.5 ? randStr() : randNum());
 
-type DummyArray = Array<string | number | object>;
+type DummyArray = (string | number | object)[];
 interface DummyObject {
   [index: string]: string | number | {};
 }

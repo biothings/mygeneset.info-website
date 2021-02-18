@@ -81,5 +81,9 @@ export default defineComponent({
     filter: saturate(0);
     opacity: 0.5;
   }
+
+  &[selected="false"] {
+    color: $black;
+  }
 }
 </style>

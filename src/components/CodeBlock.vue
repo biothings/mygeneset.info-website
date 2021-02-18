@@ -35,7 +35,7 @@ export default defineComponent({
   border-radius: 5px;
   background: $off-black;
   word-break: break-word;
-  max-height: min(80vh, 300px);
+  max-height: min(80vh, 600px);
   overflow-x: auto;
   overflow-y: auto;
 

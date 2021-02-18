@@ -12,7 +12,7 @@ function addStyleResource(rule) {
 }
 
 module.exports = {
-  publicPath: process.env.NETLIFY ? "" : "/mygeneset.info-website/",
+  publicPath: "/",
   chainWebpack: config => {
     const types = ["vue-modules", "vue", "normal-modules", "normal"];
     types.forEach(type =>

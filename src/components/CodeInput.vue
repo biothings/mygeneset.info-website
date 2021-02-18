@@ -49,7 +49,8 @@ export default defineComponent({
 <style scope lang="scss">
 .code_input {
   display: inline-block;
-  min-width: 2rem;
+  min-width: 1rem;
+  text-align: center;
   margin: 0 2px;
   padding: 0;
   color: $yellow;

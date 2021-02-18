@@ -30,7 +30,7 @@ const cols = [
     key: "_id",
     name: "Name",
     align: "left",
-    format: (cell: Json) => cell.replace(/_/g, " ")
+    format: (cell: Json) => `<a href="/geneset/${cell}">${cell}</a>`
   },
   {
     key: "genes",
@@ -71,7 +71,11 @@ export default defineComponent({
   },
   methods: {
     async search() {
-      this.results = (await search(this.keywords, this.species)) as [];
+      try {
+        this.results = (await search(this.keywords, this.species)) as [];
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
   watch: {
