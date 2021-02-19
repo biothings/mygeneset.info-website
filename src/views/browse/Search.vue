@@ -43,7 +43,7 @@ const cols = [
     name: "Genes",
     align: "left",
     format: (cell: Json) => {
-      let list = cell.map((gene: Json) => gene.name).join(", ");
+      let list = cell.map((gene: Json) => gene.name || gene).join(", ");
       if (list.length > 100) list = list.slice(0, 100) + "...";
       return list;
     }

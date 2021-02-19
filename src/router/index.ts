@@ -17,10 +17,9 @@ const routes: RouteRecordRaw[] = [
     name: "Home",
     component: Home,
     beforeEnter: (to, from, next) => {
-      let redirect = sessionStorage.redirect;
+      const redirect = sessionStorage.redirect;
       if (redirect) {
         console.log({ redirect });
-        redirect = redirect.replace(process.env.BASE_URL, "");
         next(redirect);
         delete sessionStorage.redirect;
       } else {
@@ -71,7 +70,6 @@ const routes: RouteRecordRaw[] = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
   routes
 });
 

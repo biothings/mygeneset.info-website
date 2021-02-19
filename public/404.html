@@ -3,12 +3,8 @@
     <script type="text/javascript">
       console.log(location);
       const { origin, pathname, search } = location;
-
       sessionStorage.redirect = pathname + search;
-
-      let redirect = "/";
-      console.log({ redirect });
-      location.replace(redirect);
+      location.replace("/");
     </script>
   </body>
 </html>
