@@ -3,15 +3,8 @@
     <script type="text/javascript">
       console.log(location);
       const { origin, pathname, search } = location;
-
       sessionStorage.redirect = pathname + search;
-
-      let redirect = "";
-      if (origin.includes("netlify")) redirect = "/";
-      else redirect = "/mygeneset.info-website/";
-
-      console.log({ redirect });
-      location.replace(redirect);
+      location.replace("/");
     </script>
   </body>
 </html>
