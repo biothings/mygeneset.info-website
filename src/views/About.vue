@@ -17,13 +17,13 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import Overview from "./about/Overview.vue";
-import SupportUs from "./about/SupportUs.vue";
-import FAQs from "./about/FAQs.vue";
-import HowToCite from "./about/HowToCite.vue";
-import TermsOfUse from "./about/TermsOfUse.vue";
-import Team from "./about/Team.vue";
-import Contact from "./about/Contact.vue";
+import Overview from "@/views/about/Overview.vue";
+import SupportUs from "@/views/about/SupportUs.vue";
+import FAQs from "@/views/about/FAQs.vue";
+import HowToCite from "@/views/about/HowToCite.vue";
+import TermsOfUse from "@/views/about/TermsOfUse.vue";
+import Team from "@/views/about/Team.vue";
+import Contact from "@/views/about/Contact.vue";
 
 export default defineComponent({
   components: {

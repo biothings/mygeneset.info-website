@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import PrettyJsonIndent from "./PrettyJsonIndent.vue";
+import PrettyJsonIndent from "@/components/PrettyJsonIndent.vue";
 
 export default defineComponent({
   name: "PrettyJson",

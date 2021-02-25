@@ -11,7 +11,7 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import Profile from "./user/Profile.vue";
+import Profile from "@/views/user/Profile.vue";
 
 export default defineComponent({
   components: {

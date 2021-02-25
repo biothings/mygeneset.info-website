@@ -16,12 +16,12 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import Details from "./home/Details.vue";
-import GetStarted from "./home/GetStarted.vue";
-import API from "./home/API.vue";
-import Features from "./home/Features.vue";
-import WhosUsing from "./home/WhosUsing.vue";
-import WhatsNew from "./home/WhatsNew.vue";
+import Details from "@/views/home/Details.vue";
+import GetStarted from "@/views/home/GetStarted.vue";
+import API from "@/views/home/API.vue";
+import Features from "@/views/home/Features.vue";
+import WhosUsing from "@/views/home/WhosUsing.vue";
+import WhatsNew from "@/views/home/WhatsNew.vue";
 
 export default defineComponent({
   components: {

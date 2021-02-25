@@ -1,15 +1,14 @@
 import { request } from ".";
 import { Response } from ".";
-
-const base = "https://mygeneset.info/v1/";
+import { mygeneset } from ".";
 
 export const lookup = async (id: string): Response => {
-  const url = base + "geneset/" + id;
+  const url = mygeneset + "geneset/" + id;
   return await request(url);
 };
 
 export const metadata = async (): Response => {
-  const url = base + "metadata";
+  const url = mygeneset + "metadata";
   return await request(url);
 };
 
@@ -19,6 +18,6 @@ export const search = async (query?: string, species?: string[]): Response => {
   if (species?.length) params.set("q", species.join(","));
   params.set("fields", "*");
   params.set("size", "100");
-  const url = base + "query?" + params.toString();
+  const url = mygeneset + "query?" + params.toString();
   return (await request(url)).hits;
 };

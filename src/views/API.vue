@@ -13,9 +13,9 @@ import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
 import Main from "@/components/Main.vue";
 import Footer from "@/components/Footer.vue";
-import Details from "./api/Details.vue";
-import Docs from "./api/Docs.vue";
-import TryItOut from "./api/TryItOut.vue";
+import Details from "@/views/api/Details.vue";
+import Docs from "@/views/api/Docs.vue";
+import TryItOut from "@/views/api/TryItOut.vue";
 
 export default defineComponent({
   components: {

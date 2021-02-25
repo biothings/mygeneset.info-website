@@ -3,37 +3,46 @@
     v-model="value"
     :options="search"
     mode="tags"
-    :placeholder="placeholder"
     :searchable="true"
+    :placeholder="placeholder"
     valueProp="key"
-    trackBy="label"
     :caret="false"
     :limit="100"
     :delay="300"
+    noOptionsText="No results"
+    noResultsText="No results"
   >
-    <template v-slot:tag="{ option, remove, disabled }">
+    <template v-slot:tag="{ option, handleTagRemove, disabled }">
       <button
         class="multiselect-tag is-user"
         @click.prevent
-        @mousedown.prevent.stop="remove(option)"
+        @mousedown.prevent.stop="handleTagRemove(option, $event)"
         :disabled="disabled"
       >
         <img v-if="option.icon" :src="option.icon" class="species_icon" />
-        <span>{{ option.label }}</span>
+        <span class="species_name">
+          <span class="species_scientific">{{ option.scientific }}</span>
+          <span class="species_common">{{ option.common.join(", ") }}</span>
+        </span>
         <i class="fas fa-times"></i>
       </button>
     </template>
     <template v-slot:option="{ option }">
       <img v-if="option.icon" :src="option.icon" class="species_icon" />
-      <span>{{ option.label }}</span>
+      <span class="species_name">
+        <span class="species_scientific">{{ option.scientific }}</span>
+        <span class="species_common">{{ option.common.join(", ") }}</span>
+      </span>
     </template>
   </Multiselect>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { ref } from "vue";
 import Multiselect from "@vueform/multiselect";
 import { search } from "@/api/species";
+import { top } from "@/api/species";
 import { Json } from "@/api";
 
 const context = require.context("@/assets/species", false, /\.svg$/);
@@ -42,6 +51,12 @@ const findIcon = (name: string) => {
   const pattern = new RegExp(`${name}\\.[A-Za-z0-9]*\\.svg`);
   return icons.find((icon: string) => icon.match(pattern));
 };
+
+const topSpecies: Json = ref([]);
+const getTop = async () => {
+  topSpecies.value = await top();
+};
+getTop();
 
 export default defineComponent({
   props: {
@@ -57,24 +72,32 @@ export default defineComponent({
   },
   methods: {
     async search(query: string) {
-      return (await search(query)).map((species: Json) => {
+      let results;
+      if (query) results = await search(query);
+      else results = topSpecies.value || [];
+
+      const formatResult = (species: Json) => {
         const key: string = species._id;
         const scientific: string = species.scientific_name;
-        let common: string | string[] = species.common_name;
-        if (Array.isArray(common)) common = common[0];
-        const label = scientific + (common ? ` (${common})` : "");
+        const common: string[] = [
+          species.genbank_common_name,
+          species.common_name,
+          species.other_names
+        ]
+          .flat()
+          .filter(name => name);
         const icon = findIcon(scientific);
-        return { key, label, icon };
-      });
+        return { key, scientific, common, icon };
+      };
+
+      return results.map(formatResult);
     }
   }
 });
 </script>
 
 <style lang="scss">
-@mixin height {
-  min-height: 40px - 2px - 2px;
-}
+$height: 40px - 2px - 2px;
 
 .species_icon {
   width: 15px;
@@ -82,10 +105,26 @@ export default defineComponent({
   margin-right: 8px;
 }
 
+.species_name {
+  flex-grow: 1;
+  @include truncate;
+
+  .species_scientific {
+    font-weight: $medium;
+  }
+
+  .species_common {
+    margin-left: 8px;
+    color: $gray;
+    font-size: 0.8em;
+    font-style: italic;
+  }
+}
+
 .multiselect {
   position: relative;
   width: 100%;
-  @include height;
+  min-height: $height;
 
   &.is-open {
     .multiselect-input {
@@ -99,7 +138,7 @@ export default defineComponent({
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    @include height;
+    min-height: $height;
     background: $white;
     border: solid $light-gray 2px;
     border-radius: 5px;
@@ -113,12 +152,13 @@ export default defineComponent({
     .multiselect-placeholder {
       position: absolute;
       width: 100%;
-      @include height;
+      min-height: $height;
       display: flex;
       justify-content: flex-start;
       align-items: center;
       padding: 0 10px;
       color: $gray;
+      @include truncate;
     }
 
     .multiselect-tags {
@@ -127,12 +167,13 @@ export default defineComponent({
       align-items: center;
       flex-wrap: wrap;
       width: 100%;
-      @include height;
+      min-height: $height;
       z-index: 1;
 
       .multiselect-tag {
         display: flex;
         align-items: center;
+        max-width: 200px;
         margin: 5px;
         padding: 3px 8px;
         border-radius: 5px;
@@ -147,11 +188,11 @@ export default defineComponent({
       .multiselect-search {
         flex-grow: 1;
         min-width: 40px;
-        @include height;
+        min-height: $height;
 
         input {
           width: 100% !important;
-          @include height;
+          min-height: $height;
           padding: 0 10px;
           outline: none;
         }
@@ -163,11 +204,12 @@ export default defineComponent({
     position: absolute;
     left: 0;
     right: 0;
+    width: 100%;
+    max-width: 100%;
     border: solid $light-gray 2px;
     border-top: none;
     border-radius: 0 0 5px 5px;
-    max-height: 200px;
-    overflow-x: auto;
+    max-height: 200px !important;
     overflow-y: auto;
     z-index: 100;
     background: $white;
@@ -176,11 +218,13 @@ export default defineComponent({
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      @include height;
+      width: 100%;
+      min-height: $height;
       padding: 0 10px;
       color: $black;
+      font-size: 1rem;
       text-decoration: none;
-      white-space: nowrap;
+      text-align: left;
 
       &.is-pointed {
         background: $theme-pale;
@@ -192,7 +236,7 @@ export default defineComponent({
       display: flex;
       justify-content: center;
       align-items: center;
-      @include height;
+      min-height: $height;
     }
   }
 }
