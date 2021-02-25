@@ -1,5 +1,5 @@
-import { request } from "./";
-import { Response } from "./";
+import { request } from ".";
+import { Response } from ".";
 
 const base = "https://mygeneset.info/v1/";
 

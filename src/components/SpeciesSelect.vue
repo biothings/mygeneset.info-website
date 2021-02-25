@@ -1,12 +1,15 @@
 <template>
   <Multiselect
     v-model="value"
-    :options="options"
+    :options="search"
     mode="tags"
     :placeholder="placeholder"
     :searchable="true"
     valueProp="key"
     trackBy="label"
+    :caret="false"
+    :limit="100"
+    :delay="300"
   >
     <template v-slot:tag="{ option, remove, disabled }">
       <button
@@ -15,85 +18,30 @@
         @mousedown.prevent.stop="remove(option)"
         :disabled="disabled"
       >
-        <img :src="option.icon" class="species_icon" />
+        <img v-if="option.icon" :src="option.icon" class="species_icon" />
         <span>{{ option.label }}</span>
         <i class="fas fa-times"></i>
       </button>
     </template>
     <template v-slot:option="{ option }">
-      <img :src="option.icon" class="species_icon" />
+      <img v-if="option.icon" :src="option.icon" class="species_icon" />
       <span>{{ option.label }}</span>
     </template>
   </Multiselect>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import Multiselect from "@vueform/multiselect";
+import { search } from "@/api/species";
+import { Json } from "@/api";
 
-import human from "@/assets/species/human.svg";
-import brewersYeast from "@/assets/species/brewers-yeast.svg";
-import houseMouse from "@/assets/species/house-mouse.svg";
-import brownRat from "@/assets/species/brown-rat.svg";
-import roundworm from "@/assets/species/roundworm.svg";
-import thaleCress from "@/assets/species/thale-cress.svg";
-import fruitFly from "@/assets/species/fruit-fly.svg";
-import zebrafish from "@/assets/species/zebrafish.svg";
-import pseudomonas from "@/assets/species/pseudomonas.svg";
-
-// dummy species. to be replaced by api call
-let species = [
-  { name: "Human", key: "human", scientific: "Homo sapiens", icon: human },
-  {
-    name: "Brewer's Yeast",
-    key: "brewers-yeast",
-    scientific: "Saccharomyces cerevisiae",
-    icon: brewersYeast
-  },
-  {
-    name: "House Mouse",
-    key: "mouse",
-    scientific: "Mus musculus",
-    icon: houseMouse
-  },
-  {
-    name: "Brown Rat",
-    key: "rat",
-    scientific: "Rattus norvegicus",
-    icon: brownRat
-  },
-  {
-    name: "Roundworm",
-    key: "worm",
-    scientific: "Caenorhabditis elegans",
-    icon: roundworm
-  },
-  {
-    name: "Thale Cress",
-    key: "thale-cress",
-    scientific: "Arabidopsis thaliana",
-    icon: thaleCress
-  },
-  {
-    name: "Fruit Fly",
-    key: "fruitfly",
-    scientific: "Drosophila melanogaster",
-    icon: fruitFly
-  },
-  {
-    name: "Zebrafish",
-    key: "zebrafish",
-    scientific: "Danio rerio",
-    icon: zebrafish
-  },
-  {
-    name: "Pseudomonas",
-    key: "pseudomonas-aeruginosa",
-    scientific: "Pseudomonas aeruginosa",
-    icon: pseudomonas
-  }
-];
-species = species.map(s => ({ ...s, label: `${s.name} (${s.scientific})` }));
+const context = require.context("@/assets/species", false, /\.svg$/);
+const icons = context.keys().map(context) as string[];
+const findIcon = (name: string) => {
+  const pattern = new RegExp(`${name}\\.[A-Za-z0-9]*\\.svg`);
+  return icons.find((icon: string) => icon.match(pattern));
+};
 
 export default defineComponent({
   props: {
@@ -104,9 +52,21 @@ export default defineComponent({
   },
   data() {
     return {
-      value: null,
-      options: species
+      value: null
     };
+  },
+  methods: {
+    async search(query: string) {
+      return (await search(query)).map((species: Json) => {
+        const key: string = species._id;
+        const scientific: string = species.scientific_name;
+        let common: string | string[] = species.common_name;
+        if (Array.isArray(common)) common = common[0];
+        const label = scientific + (common ? ` (${common})` : "");
+        const icon = findIcon(scientific);
+        return { key, label, icon };
+      });
+    }
   }
 });
 </script>

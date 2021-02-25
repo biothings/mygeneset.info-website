@@ -102,7 +102,7 @@ import Table from "@/components/Table.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 import Placeholder from "@/components/Placeholder.vue";
-import { lookup } from "@/api/mygenset";
+import { lookup } from "@/api/genesets";
 
 interface Gene {
   mygene_id: string;
