@@ -42,13 +42,10 @@ const cols = [
     key: "genes",
     name: "Genes",
     align: "left",
-    format: (cell: Json) => {
-      let list = cell
+    format: (cell: Json) =>
+      cell
         .map((gene: Json) => gene.name || gene.uniprot || gene.ensemblgeme)
-        .join(", ");
-      if (list.length > 100) list = list.slice(0, 100) + "...";
-      return list;
-    }
+        .join(", ")
   }
 ];
 
@@ -90,3 +87,10 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scope lang="scss">
+td {
+  max-width: 1000px;
+  @include truncate;
+}
+</style>

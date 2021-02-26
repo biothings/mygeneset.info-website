@@ -24,32 +24,32 @@
       </thead>
       <tbody>
         <tr v-for="(row, rowIndex) in _rows" :key="rowIndex">
-          <td
-            v-for="(col, colIndex) in cols"
-            :key="colIndex"
-            :align="col.align || 'center'"
-          >
-            <Clickable
-              v-if="col.action"
-              :title="col.action"
-              :icon="col.icon"
-              @click="
-                $emit('action', {
-                  rowIndex,
-                  colIndex,
-                  originalIndex: row.originalIndex,
-                  row,
-                  cell: row[col.key]
-                })
-              "
-              design="plain"
-            />
-            <span v-else-if="col.format" v-html="col.format(row[col.key])">
-            </span>
-            <span v-else>
+          <template v-for="(col, colIndex) in cols" :key="colIndex">
+            <td v-if="col.action" :align="col.align || 'center'">
+              <Clickable
+                :title="col.action"
+                :icon="col.icon"
+                @click="
+                  $emit('action', {
+                    rowIndex,
+                    colIndex,
+                    originalIndex: row.originalIndex,
+                    row,
+                    cell: row[col.key]
+                  })
+                "
+                design="plain"
+              />
+            </td>
+            <td
+              v-else-if="col.format"
+              :align="col.align || 'center'"
+              v-html="col.format(row[col.key])"
+            ></td>
+            <td v-else :align="col.align || 'center'">
               {{ row[col.key] }}
-            </span>
-          </td>
+            </td>
+          </template>
         </tr>
       </tbody>
     </table>

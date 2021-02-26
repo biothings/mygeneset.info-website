@@ -6,14 +6,20 @@ export const biothings = "http://t.biothings.io/v1/";
 export type Json = Record<string, any>;
 export type Response = Promise<Json>;
 
-export const request = async (url: string): Response => {
+export const request = async (url: string, method = "GET"): Response => {
+  console.log(method + " " + url);
+  let response;
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error();
-    const json = await response.json();
-    if (typeof json === "object" && !Array.isArray(json)) return json;
-    else throw new Error();
+    response = await fetch(url, { method });
   } catch (error) {
-    throw new Error(`Couldn't complete request\n${url}`);
+    throw new Error(`Fetch failed`);
   }
+  if (!response?.ok) throw new Error(`Response not ok`);
+  let results;
+  try {
+    results = response.json();
+  } catch (error) {
+    throw new Error("JSON failed");
+  }
+  return results;
 };

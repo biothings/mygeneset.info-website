@@ -4,6 +4,7 @@
     :options="search"
     mode="tags"
     :searchable="true"
+    trackBy="search"
     :placeholder="placeholder"
     valueProp="key"
     :caret="false"
@@ -76,21 +77,22 @@ export default defineComponent({
       if (query) results = await search(query);
       else results = topSpecies.value || [];
 
-      const formatResult = (species: Json) => {
-        const key: string = species._id;
-        const scientific: string = species.scientific_name;
+      const formatResult = (results: Json) => {
+        const key: string = results._id;
+        const scientific: string = results.scientific_name;
         const common: string[] = [
-          species.genbank_common_name,
-          species.common_name,
-          species.other_names
+          results.genbank_common_name,
+          results.common_name,
+          results.other_names
         ]
           .flat()
           .filter(name => name);
+        const search = scientific + common.join(" ");
         const icon = findIcon(scientific);
-        return { key, scientific, common, icon };
+        return { key, scientific, common, search, icon };
       };
 
-      return results.map(formatResult);
+      return await results.map(formatResult);
     }
   }
 });
