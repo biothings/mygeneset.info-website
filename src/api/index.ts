@@ -1,6 +1,6 @@
 // api endpoint base urls
 export const mygeneset = "https://mygeneset.info/v1/";
-export const biothings = "http://t.biothings.io/v1/";
+export const biothings = "https://t.biothings.io/v1/";
 
 // eslint-disable-next-line
 export type Json = Record<string, any>;
