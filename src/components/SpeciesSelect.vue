@@ -4,7 +4,7 @@
     :options="search"
     mode="tags"
     :searchable="true"
-    trackBy="search"
+    trackBy="full"
     :placeholder="placeholder"
     valueProp="key"
     :caret="false"
@@ -21,6 +21,7 @@
         @click.prevent
         @mousedown.prevent.stop="handleTagRemove(option, $event)"
         :disabled="disabled"
+        v-tooltip.slow="option.full"
       >
         <img v-if="option.icon" :src="option.icon" class="icon" />
         <span v-if="option.scientific || option.common" class="name">
@@ -33,15 +34,15 @@
       </button>
     </template>
     <template v-slot:option="{ option }">
-      <span v-if="option.message" class="message">{{ option.message }}</span>
       <img v-if="option.icon" :src="option.icon" class="icon" />
-      <span v-if="option.scientific || option.common" class="name">
-        <span
-          v-if="option.scientific"
-          class="scientific"
-          v-tooltip.slow="`Tax ID: ${option.key}`"
-          >{{ option.scientific }}</span
-        >
+      <span
+        v-if="option.scientific || option.common"
+        class="name"
+        v-tooltip.slow="option.full"
+      >
+        <span v-if="option.scientific" class="scientific">{{
+          option.scientific
+        }}</span>
         <span v-if="option.common" class="common">{{ option.common }}</span>
       </span>
     </template>
@@ -99,9 +100,9 @@ export default defineComponent({
           .flat()
           .filter(name => name)
           .join(", ");
-        const search = key + scientific + common;
+        const full = [key, scientific, common].join(" - ");
         const icon = findIcon(scientific);
-        return { key, scientific, common, search, icon };
+        return { key, scientific, common, full, icon };
       };
       results = results.map(formatResult);
       return results;

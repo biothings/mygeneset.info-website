@@ -20,7 +20,7 @@ export const search = async (query?: string, species?: string[]): Response => {
   }
   if (species?.length) params.set("species", species.join(","));
   params.set("fields", "*");
-  params.set("size", "1000");
+  params.set("size", "100");
   const url = mygeneset + "query?" + params.toString();
   return (await request(url)).hits;
 };
