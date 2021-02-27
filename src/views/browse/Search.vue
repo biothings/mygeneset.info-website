@@ -41,13 +41,7 @@ const cols = [
   {
     key: "genes",
     name: "Genes",
-    align: "left",
-    format: (cell: Json) =>
-      cell
-        .map((gene: Json) => gene.name || gene.uniprot || gene.ensemblgeme)
-        .map((gene: string) => gene.trim())
-        .filter((gene: string) => gene)
-        .join(", ")
+    align: "left"
   }
 ];
 
