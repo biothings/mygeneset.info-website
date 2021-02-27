@@ -158,7 +158,7 @@ h1 {
   border-radius: 5px;
   font-size: 0.9rem;
   opacity: 0;
-  z-index: 10;
+  z-index: 999;
   pointer-events: none;
   transition: opacity $fast;
 

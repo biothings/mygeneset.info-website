@@ -16,9 +16,9 @@ const options: Options = {
   ]
 };
 
-const delay = 200;
 let timer: ReturnType<typeof setTimeout>;
-const open = (element: HTMLElement, value: string) => {
+const open = (element: HTMLElement, value: string, slow?: boolean) => {
+  const delay = slow ? 750 : 250;
   window.clearTimeout(timer);
   timer = window.setTimeout(() => {
     if (popper) popper.destroy();
@@ -34,9 +34,13 @@ const close = () => {
 };
 
 const directive = {
-  mounted(element: HTMLElement, { value }: { value: string }) {
-    element.addEventListener("mouseenter", () => open(element, value));
-    element.addEventListener("focus", () => open(element, value));
+  mounted(
+    element: HTMLElement,
+    { value, modifiers }: { value: string; modifiers: { slow?: boolean } }
+  ) {
+    const { slow } = modifiers;
+    element.addEventListener("mouseenter", () => open(element, value, slow));
+    element.addEventListener("focus", () => open(element, value, slow));
     element.addEventListener("mouseleave", close);
     element.addEventListener("blur", close);
     element.setAttribute("aria-label", value);

@@ -12,6 +12,8 @@
     :delay="300"
     noOptionsText="No results"
     noResultsText="No results"
+    @open="refresh"
+    ref="multiselect"
   >
     <template v-slot:tag="{ option, handleTagRemove, disabled }">
       <button
@@ -20,19 +22,27 @@
         @mousedown.prevent.stop="handleTagRemove(option, $event)"
         :disabled="disabled"
       >
-        <img v-if="option.icon" :src="option.icon" class="species_icon" />
-        <span class="species_name">
-          <span class="species_scientific">{{ option.scientific }}</span>
-          <span class="species_common">{{ option.common.join(", ") }}</span>
+        <img v-if="option.icon" :src="option.icon" class="icon" />
+        <span v-if="option.scientific || option.common" class="name">
+          <span v-if="option.scientific" class="scientific">{{
+            option.scientific
+          }}</span>
+          <span v-if="option.common" class="common">{{ option.common }}</span>
         </span>
         <i class="fas fa-times"></i>
       </button>
     </template>
     <template v-slot:option="{ option }">
-      <img v-if="option.icon" :src="option.icon" class="species_icon" />
-      <span class="species_name">
-        <span class="species_scientific">{{ option.scientific }}</span>
-        <span class="species_common">{{ option.common.join(", ") }}</span>
+      <span v-if="option.message" class="message">{{ option.message }}</span>
+      <img v-if="option.icon" :src="option.icon" class="icon" />
+      <span v-if="option.scientific || option.common" class="name">
+        <span
+          v-if="option.scientific"
+          class="scientific"
+          v-tooltip.slow="`Tax ID: ${option.key}`"
+          >{{ option.scientific }}</span
+        >
+        <span v-if="option.common" class="common">{{ option.common }}</span>
       </span>
     </template>
   </Multiselect>
@@ -40,11 +50,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { ref } from "vue";
 import Multiselect from "@vueform/multiselect";
 import { search } from "@/api/species";
-import { top } from "@/api/species";
+import { top as getTop } from "@/api/species";
 import { Json } from "@/api";
+
+interface MultiselectType {
+  refreshOptions: Function;
+}
 
 const context = require.context("@/assets/species", false, /\.svg$/);
 const icons = context.keys().map(context) as string[];
@@ -53,11 +66,9 @@ const findIcon = (name: string) => {
   return icons.find((icon: string) => icon.match(pattern));
 };
 
-const topSpecies: Json = ref([]);
-const getTop = async () => {
-  topSpecies.value = await top();
-};
-getTop();
+let top: Json = [];
+const setTop = async () => (top = await getTop());
+setTop();
 
 export default defineComponent({
   props: {
@@ -75,48 +86,50 @@ export default defineComponent({
     async search(query: string) {
       let results;
       if (query) results = await search(query);
-      else results = topSpecies.value || [];
+      else results = top || [];
 
       const formatResult = (results: Json) => {
         const key: string = results._id;
         const scientific: string = results.scientific_name;
-        const common: string[] = [
+        const common: string = [
           results.genbank_common_name,
           results.common_name,
           results.other_names
         ]
           .flat()
-          .filter(name => name);
-        const search = scientific + common.join(" ");
+          .filter(name => name)
+          .join(", ");
+        const search = key + scientific + common;
         const icon = findIcon(scientific);
         return { key, scientific, common, search, icon };
       };
-
-      return await results.map(formatResult);
+      results = results.map(formatResult);
+      return results;
+    },
+    refresh() {
+      (this.$refs.multiselect as MultiselectType)?.refreshOptions();
     }
   }
 });
 </script>
 
-<style lang="scss">
+<style scope lang="scss">
 $height: 40px - 2px - 2px;
 
-.species_icon {
+.icon {
   width: 15px;
   height: 15px;
-  margin-right: 8px;
 }
 
-.species_name {
+.name {
   flex-grow: 1;
   @include truncate;
 
-  .species_scientific {
+  .scientific {
     font-weight: $medium;
   }
 
-  .species_common {
-    margin-left: 8px;
+  .common {
     color: $gray;
     font-size: 0.8em;
     font-style: italic;
@@ -182,6 +195,14 @@ $height: 40px - 2px - 2px;
         font-size: 0.9rem;
         background: $theme-pale;
 
+        .icon {
+          margin-right: 5px;
+        }
+
+        .common {
+          margin-left: 5px;
+        }
+
         .fa-times {
           margin-left: 10px;
         }
@@ -227,6 +248,14 @@ $height: 40px - 2px - 2px;
       font-size: 1rem;
       text-decoration: none;
       text-align: left;
+
+      .icon {
+        margin-right: 10px;
+      }
+
+      .common {
+        margin-left: 10px;
+      }
 
       &.is-pointed {
         background: $theme-pale;
