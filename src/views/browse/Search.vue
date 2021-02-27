@@ -45,6 +45,8 @@ const cols = [
     format: (cell: Json) =>
       cell
         .map((gene: Json) => gene.name || gene.uniprot || gene.ensemblgeme)
+        .map((gene: string) => gene.trim())
+        .filter((gene: string) => gene)
         .join(", ")
   }
 ];
