@@ -165,9 +165,6 @@ export default defineComponent({
     };
   },
   methods: {
-    removeRow({ originalIndex }: { originalIndex: number }) {
-      console.log(originalIndex);
-    },
     async loadGeneset(id: string) {
       this.loading = true;
       try {

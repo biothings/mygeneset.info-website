@@ -46,6 +46,12 @@
         <span v-if="option.common" class="common">{{ option.common }}</span>
       </span>
     </template>
+    <template v-slot:afterlist>
+      <div class="count">
+        <i class="fas fa-seedling"></i>
+        <span>Top {{ top }} of {{ total }} total results</span>
+      </div>
+    </template>
   </Multiselect>
 </template>
 
@@ -80,7 +86,9 @@ export default defineComponent({
   },
   data() {
     return {
-      value: null
+      value: null,
+      top: "",
+      total: ""
     };
   },
   methods: {
@@ -88,6 +96,10 @@ export default defineComponent({
       let results;
       if (query) results = await search(query);
       else results = top || [];
+
+      // get result counts
+      this.top = Math.min(100, results[0]?.total || 0).toLocaleString();
+      this.total = (results[0]?.total || 0).toLocaleString();
 
       const formatResult = (results: Json) => {
         const key: string = results._id;
@@ -104,7 +116,9 @@ export default defineComponent({
         const icon = findIcon(scientific);
         return { key, scientific, common, full, icon };
       };
+
       results = results.map(formatResult);
+
       return results;
     },
     refresh() {
@@ -135,6 +149,13 @@ $height: 40px - 2px - 2px;
     font-size: 0.8em;
     font-style: italic;
   }
+}
+
+.count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: $height;
 }
 
 .multiselect {

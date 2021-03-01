@@ -1,79 +1,82 @@
 <template>
   <div class="table">
-    <table>
-      <thead>
-        <tr>
-          <th v-for="(col, colIndex) in cols" :key="colIndex">
-            <button
-              v-if="col.sortable !== false && !col.action"
-              :align="col.align || 'center'"
-              @click="changeSort(col.name)"
-            >
-              {{ col.name }}
-              <i
-                v-if="col.name === sortCol"
-                :class="`fas fa-sort-${sortUp ? 'up' : 'down'}`"
-              ></i>
-              <i v-else class="fas fa-sort"></i>
-            </button>
-            <div v-else :align="col.align || 'center'">
-              {{ col.name }}
-            </div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, rowIndex) in _rows" :key="rowIndex">
-          <template v-for="(col, colIndex) in cols" :key="colIndex">
-            <td v-if="col.action" :align="col.align || 'center'">
-              <Clickable
-                :title="col.action"
-                :icon="col.icon"
-                @click="
-                  $emit('action', {
-                    rowIndex,
-                    colIndex,
-                    originalIndex: row.originalIndex,
-                    row,
-                    cell: row[col.key]
-                  })
-                "
-                design="plain"
-              />
-            </td>
-            <td
-              v-else-if="col.format"
-              :align="col.align || 'center'"
-              v-html="col.format(row[col.key])"
-            ></td>
-            <td v-else :align="col.align || 'center'">
-              {{ row[col.key] }}
-            </td>
-          </template>
-        </tr>
-      </tbody>
-    </table>
+    <div class="heading"><slot></slot></div>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th v-for="(col, colIndex) in cols" :key="colIndex">
+              <button
+                v-if="col.sortable !== false && !col.action"
+                :align="col.align || 'center'"
+                @click="changeSort(col.name)"
+              >
+                {{ col.name }}
+                <i
+                  v-if="col.name === sortCol"
+                  :class="`fas fa-sort-${sortUp ? 'up' : 'down'}`"
+                ></i>
+                <i v-else class="fas fa-sort"></i>
+              </button>
+              <div v-else :align="col.align || 'center'">
+                {{ col.name }}
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(row, rowIndex) in _rows" :key="rowIndex">
+            <template v-for="(col, colIndex) in cols" :key="colIndex">
+              <td v-if="col.action" :align="col.align || 'center'">
+                <Clickable
+                  :title="col.action"
+                  :icon="col.icon"
+                  @click="
+                    $emit('action', {
+                      rowIndex,
+                      colIndex,
+                      originalIndex: row.originalIndex,
+                      row,
+                      cell: row[col.key]
+                    })
+                  "
+                  design="plain"
+                />
+              </td>
+              <td
+                v-else-if="col.format"
+                :align="col.align || 'center'"
+                v-html="col.format(row[col.key])"
+              ></td>
+              <td v-else :align="col.align || 'center'">
+                {{ row[col.key] }}
+              </td>
+            </template>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <Center v-if="rows.length" class="pages">
+      <Clickable
+        icon="fas fa-chevron-left"
+        @click="prevPage"
+        design="plain"
+        :disabled="!canPrev"
+        v-tooltip="'Previous page of table rows'"
+      />
+      <span>{{ startRow + 1 }} to {{ endRow }} of {{ rows.length }}</span>
+      <Clickable
+        icon="fas fa-chevron-right"
+        @click="nextPage"
+        design="plain"
+        :disabled="!canNext"
+        v-tooltip="'Next page of table rows'"
+      />
+    </Center>
+    <Center v-else>
+      No Results
+    </Center>
   </div>
-  <Center v-if="rows.length" class="pages">
-    <Clickable
-      icon="fas fa-chevron-left"
-      @click="prevPage"
-      design="plain"
-      :disabled="!canPrev"
-      v-tooltip="'Previous page of table rows'"
-    />
-    <span>{{ startRow + 1 }} to {{ endRow }} of {{ rows.length }}</span>
-    <Clickable
-      icon="fas fa-chevron-right"
-      @click="nextPage"
-      design="plain"
-      :disabled="!canNext"
-      v-tooltip="'Next page of table rows'"
-    />
-  </Center>
-  <Center v-else>
-    No Results
-  </Center>
 </template>
 
 <script lang="ts">
@@ -183,62 +186,75 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .table {
-  width: 100%;
   margin: 20px 0;
-  overflow-x: auto;
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
+  .heading {
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: $medium;
   }
 
-  thead {
-    tr {
-      border-bottom: solid 2px $light-gray;
+  .scroll {
+    width: 100%;
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      tr {
+        border-bottom: solid 2px $light-gray;
+      }
+    }
+
+    th > * {
+      width: 100%;
+      padding: 5px;
+      font-weight: $semi-bold;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 5px;
+      overflow-wrap: break-word;
+    }
+
+    [align="left"] {
+      text-align: left;
+      justify-content: flex-start;
+    }
+
+    [align="right"] {
+      text-align: right;
+      justify-content: flex-end;
+    }
+
+    [align="center"] {
+      text-align: center;
+      justify-content: center;
+    }
+
+    .fas {
+      margin-left: 5px;
+    }
+
+    .fa-sort {
+      color: $light-gray;
     }
   }
 
-  th > * {
-    width: 100%;
-    padding: 5px;
-    font-weight: $semi-bold;
-    white-space: nowrap;
-  }
-
-  td {
-    padding: 5px;
-    overflow-wrap: break-word;
-  }
-
-  [align="left"] {
-    text-align: left;
-    justify-content: flex-start;
-  }
-
-  [align="right"] {
-    text-align: right;
-    justify-content: flex-end;
-  }
-
-  [align="center"] {
-    text-align: center;
-    justify-content: center;
-  }
-
-  .fas {
-    margin-left: 5px;
-  }
-
-  .fa-sort {
-    color: $light-gray;
-  }
-}
-
-@media (max-width: $phone) {
   .pages {
-    span {
-      width: 100%;
-      order: 1;
+    margin-top: 10px;
+  }
+
+  @media (max-width: $phone) {
+    .pages {
+      span {
+        width: 100%;
+        order: 1;
+      }
     }
   }
 }

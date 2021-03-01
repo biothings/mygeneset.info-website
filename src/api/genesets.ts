@@ -22,5 +22,7 @@ export const search = async (query?: string, species?: string[]): Response => {
   params.set("fields", "*");
   params.set("size", "100");
   const url = mygeneset + "query?" + params.toString();
-  return (await request(url)).hits;
+  const { total = 0, hits = [] } = await request(url);
+  if (total && hits.length) hits[0].total = total;
+  return hits;
 };

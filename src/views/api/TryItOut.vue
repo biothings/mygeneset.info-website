@@ -9,14 +9,17 @@
         :text="key"
         :selected="selected === key"
         design="plain"
+        v-tooltip="request.tooltip"
       />
     </Center>
     <CodeBlock ref="codeBlock" :ariaLabel="code">
+      <span>{{ method }}</span>
+      <span>&nbsp;</span>
       <span>{{ base }}</span>
       <span>{{ path }}</span>
       <template
         v-for="({ name, example, tooltip }, index) in fields"
-        :key="name"
+        :key="selected + index"
       >
         <span v-if="name" v-tooltip="tooltip">{{ name }}</span>
         <span v-if="name">=</span>
@@ -85,8 +88,10 @@ interface Field {
 }
 
 interface Request {
+  method: string;
   path: string;
   fields?: Field[];
+  tooltip: string;
 }
 
 interface Requests {
@@ -100,23 +105,34 @@ interface CodeBlockInterface {
 const base = "https://mygeneset.info/v1/";
 
 const requests: Requests = {
+  "Get fields": {
+    method: "GET",
+    path: "metadata/fields",
+    tooltip: "A list of all available fields in mygeneset.info"
+  },
   "Get metadata": {
-    path: "metadata/"
+    method: "GET",
+    path: "metadata/",
+    tooltip: "Various info about the mygeneset.info database itself"
   },
   "Lookup by id": {
+    method: "GET",
     path: "geneset/",
     fields: [
       { name: "", example: "WP661", tooltip: "mygenset.info id of geneset" }
-    ]
+    ],
+    tooltip:
+      "How to lookup the info of a geneset when you know its mygenset.info id"
   },
   "Search by keyword": {
+    method: "GET",
     path: "query/?",
     fields: [
       {
         name: "q",
         example: "glucose",
         tooltip:
-          "Search term to exact-match. Accepts any Elasticsearch query syntax, e.g. * for wildcard."
+          "Search terms. Accepts any Elasticsearch query syntax, e.g. * for wildcard."
       },
       {
         name: "fields",
@@ -129,7 +145,31 @@ const requests: Requests = {
         example: "10",
         tooltip: "How many results to return"
       }
-    ]
+    ],
+    tooltip: "How to search for gensets by keywords"
+  },
+  "Batch lookup": {
+    method: "POST",
+    path: "query/?",
+    fields: [
+      {
+        name: "q",
+        example: "WP661,WP4875,WP4918",
+        tooltip: "Comma or plus separated list of genesets to lookup"
+      },
+      {
+        name: "fields",
+        example: "genes.ensemblgene",
+        tooltip:
+          "Fields to return from each geneset. Accepts any Elasticsearch query syntax, e.g. * for wildcard."
+      },
+      {
+        name: "size",
+        example: "10",
+        tooltip: "How many results to return"
+      }
+    ],
+    tooltip: "How to lookup a list of genesets by their mygeneset.info ids"
   }
 };
 
@@ -165,11 +205,15 @@ export default defineComponent({
     },
     run: async function() {
       this.loading = true;
+
+      const code = this.code.replace(this.method, "").trim();
+
       try {
-        this.response = (await request(this.code)) as {};
+        this.response = (await request(code, this.method)) as {};
       } catch (error) {
         console.error(error);
       }
+
       this.loading = false;
     },
     download() {
@@ -177,6 +221,9 @@ export default defineComponent({
     }
   },
   computed: {
+    method(): string {
+      return this.requests[this.selected].method;
+    },
     empty(): boolean {
       return Object.keys(this.response).length === 0;
     },

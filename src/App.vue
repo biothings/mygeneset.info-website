@@ -137,12 +137,7 @@ hr {
 
 // font awesome icons
 i + span {
-  margin-left: 10px;
-}
-h1 {
-  i + span {
-    margin-left: 15px;
-  }
+  margin-left: 0.75em;
 }
 
 // tooltip

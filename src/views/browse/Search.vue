@@ -11,7 +11,10 @@
         v-model="species"
       />
     </Center>
-    <Table :cols="cols" :rows="results" />
+    <Table :cols="cols" :rows="results">
+      <i class="fas fa-briefcase"></i>
+      <span>Top {{ top }} of {{ total }} total results</span>
+    </Table>
   </Section>
 </template>
 
@@ -41,7 +44,19 @@ const cols = [
   {
     key: "genes",
     name: "Genes",
-    align: "left"
+    align: "left",
+    format: (cell: Json) =>
+      [cell]
+        .flat()
+        .map(
+          gene =>
+            gene.name ||
+            [gene.ensemblgene].flat()[0] ||
+            [gene.mygene_id].flat()[0] ||
+            ""
+        )
+        .filter(gene => gene)
+        .join(", ")
   }
 ];
 
@@ -63,6 +78,17 @@ export default defineComponent({
       cols,
       results: []
     };
+  },
+  computed: {
+    top(): string {
+      return Math.min(
+        100,
+        (this.results[0] as Json)?.total || 0
+      ).toLocaleString();
+    },
+    total(): string {
+      return ((this.results[0] as Json)?.total || 0).toLocaleString();
+    }
   },
   methods: {
     async search() {

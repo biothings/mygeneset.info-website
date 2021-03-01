@@ -9,7 +9,9 @@ export const search = async (query?: string): Response => {
   params.set("fields", "*");
   params.set("size", "100");
   const url = biothings + "query?" + params.toString();
-  return (await request(url)).hits;
+  const { total = 0, hits = [] } = await request(url);
+  if (total && hits.length) hits[0].total = total;
+  return hits;
 };
 
 export const top = async (): Response => {
@@ -25,5 +27,7 @@ export const top = async (): Response => {
   params = new URLSearchParams();
   params.set("q", ids);
   url = biothings + "query?" + params.toString();
-  return await request(url, "POST");
+  const results = await request(url, "POST");
+  if (results.length) results[0].total = results.length;
+  return results;
 };
