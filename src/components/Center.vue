@@ -1,5 +1,10 @@
 <template>
-  <div class="center" :vertical="vertical" :style="`--width: ${width}`">
+  <div
+    class="center"
+    :vertical="vertical"
+    :compact="compact"
+    :style="`--width: ${width}`"
+  >
     <slot></slot>
   </div>
 </template>
@@ -10,7 +15,8 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     vertical: Boolean,
-    width: String
+    width: String,
+    compact: Boolean
   }
 });
 </script>
@@ -21,7 +27,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin: 30px auto;
+  margin: 20px auto;
   text-align: center;
   @include trim-v-margins;
 

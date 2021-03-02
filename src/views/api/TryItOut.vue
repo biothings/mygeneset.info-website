@@ -37,6 +37,15 @@
         <span v-if="index < fields.length - 1">&</span>
       </template>
     </CodeBlock>
+    <Center>
+      <i>
+        All fields support
+        <a
+          href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html"
+          >standard Elasticsearch query syntax</a
+        >, like <code>*</code> for wildcards
+      </i>
+    </Center>
     <Center width="150px">
       <CopyButton :text="this.code" subject="request" />
       <Clickable
@@ -131,14 +140,12 @@ const requests: Requests = {
       {
         name: "q",
         example: "glucose",
-        tooltip:
-          "Search terms. Accepts any Elasticsearch query syntax, e.g. * for wildcard."
+        tooltip: "A list of search terms"
       },
       {
         name: "fields",
-        example: "genes.name",
-        tooltip:
-          "Fields to return from each geneset. Accepts any Elasticsearch query syntax, e.g. * for wildcard."
+        example: "taxid,genes.name",
+        tooltip: "A list of fields to return from each geneset"
       },
       {
         name: "size",
@@ -148,28 +155,32 @@ const requests: Requests = {
     ],
     tooltip: "How to search for gensets by keywords"
   },
-  "Batch lookup": {
+  "Batch search": {
     method: "POST",
     path: "query/?",
     fields: [
       {
         name: "q",
-        example: "WP661,WP4875,WP4918",
-        tooltip: "Comma or plus separated list of genesets to lookup"
+        example: "P13671,P00813,Q01740",
+        tooltip: "A list of search terms"
+      },
+      {
+        name: "scopes",
+        example: "taxid,genes.uniprot",
+        tooltip: "A list of fields to search"
       },
       {
         name: "fields",
-        example: "genes.ensemblgene",
-        tooltip:
-          "Fields to return from each geneset. Accepts any Elasticsearch query syntax, e.g. * for wildcard."
+        example: "taxid,genes.name",
+        tooltip: "A list of fields to return from each geneset"
       },
       {
         name: "size",
-        example: "10",
+        example: "3",
         tooltip: "How many results to return"
       }
     ],
-    tooltip: "How to lookup a list of genesets by their mygeneset.info ids"
+    tooltip: "How to search for a list of genesets"
   }
 };
 

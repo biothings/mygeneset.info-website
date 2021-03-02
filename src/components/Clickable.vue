@@ -83,6 +83,12 @@ export default defineComponent({
   }
 
   &[selected="false"] {
+    background: $theme-pale;
+    color: $black;
+  }
+
+  &[selected="true"] {
+    background: $theme-light;
     color: $black;
   }
 }

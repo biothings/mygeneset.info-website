@@ -72,6 +72,20 @@ a:hover {
   color: $black;
 }
 
+// code block
+code {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: $off-black;
+
+  &,
+  * {
+    color: $white;
+    font-family: $mono;
+    font-style: normal;
+  }
+}
+
 // buttons
 button {
   display: inline-flex;
