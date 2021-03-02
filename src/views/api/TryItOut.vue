@@ -39,7 +39,7 @@
     </CodeBlock>
     <Center>
       <i>
-        All fields support
+        Most fields support
         <a
           href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html"
           >standard Elasticsearch query syntax</a
@@ -176,8 +176,8 @@ const requests: Requests = {
       },
       {
         name: "size",
-        example: "3",
-        tooltip: "How many results to return"
+        example: "1",
+        tooltip: "How many results to return (in this case, per search term)"
       }
     ],
     tooltip: "How to search for a list of genesets"
