@@ -140,7 +140,7 @@ const requests: Requests = {
       {
         name: "q",
         example: "glucose",
-        tooltip: "Search terms"
+        tooltip: "What to search for"
       },
       {
         name: "fields",
@@ -162,7 +162,7 @@ const requests: Requests = {
       {
         name: "q",
         example: "P13671,P00813,Q01740",
-        tooltip: "A list of search terms"
+        tooltip: "A list of separate searches"
       },
       {
         name: "scopes",
