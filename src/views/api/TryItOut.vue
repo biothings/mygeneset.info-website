@@ -177,7 +177,7 @@ const requests: Requests = {
       {
         name: "size",
         example: "1",
-        tooltip: "How many results to return (in this case, per search term)"
+        tooltip: "How many results to return (in this case, per search)"
       }
     ],
     tooltip: "How to search for a list of genesets"
