@@ -140,7 +140,7 @@ const requests: Requests = {
       {
         name: "q",
         example: "glucose",
-        tooltip: "A list of search terms"
+        tooltip: "Search terms"
       },
       {
         name: "fields",
