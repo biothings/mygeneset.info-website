@@ -23,6 +23,6 @@ export const search = async (query?: string, species?: string[]): Response => {
   params.set("size", "100");
   const url = mygeneset + "query?" + params.toString();
   const { total = 0, hits = [] } = await request(url);
-  if (total && hits.length) hits[0].total = total;
+  if (hits.length) hits[0].total = total;
   return hits;
 };

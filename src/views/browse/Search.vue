@@ -81,10 +81,7 @@ export default defineComponent({
   },
   computed: {
     top(): string {
-      return Math.min(
-        100,
-        (this.results[0] as Json)?.total || 0
-      ).toLocaleString();
+      return Math.min(100, this.results.length || 0).toLocaleString();
     },
     total(): string {
       return ((this.results[0] as Json)?.total || 0).toLocaleString();

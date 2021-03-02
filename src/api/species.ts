@@ -10,7 +10,7 @@ export const search = async (query?: string): Response => {
   params.set("size", "100");
   const url = biothings + "query?" + params.toString();
   const { total = 0, hits = [] } = await request(url);
-  if (total && hits.length) hits[0].total = total;
+  if (hits.length) hits[0].total = total;
   return hits;
 };
 
@@ -21,13 +21,14 @@ export const top = async (): Response => {
   params.set("facet_size", "100");
   params.set("fields", "*");
   let url = mygeneset + "query?" + params.toString();
-  const ids = (await request(url)).facets.taxid.terms
+  const { facets = {}, total = 0 } = await request(url);
+  const ids = facets.taxid.terms
     .map(({ term }: { term: number }) => term)
     .join(",");
   params = new URLSearchParams();
   params.set("q", ids);
   url = biothings + "query?" + params.toString();
   const results = await request(url, "POST");
-  if (results.length) results[0].total = results.length;
+  if (results.length) results[0].total = total;
   return results;
 };

@@ -98,7 +98,7 @@ export default defineComponent({
       else results = top || [];
 
       // get result counts
-      this.top = Math.min(100, results[0]?.total || 0).toLocaleString();
+      this.top = Math.min(100, results.length).toLocaleString();
       this.total = (results[0]?.total || 0).toLocaleString();
 
       const formatResult = (results: Json) => {
