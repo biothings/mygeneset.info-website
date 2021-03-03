@@ -174,9 +174,8 @@ export default defineComponent({
   },
   watch: {
     rows: {
-      handler(oldRows, newRows) {
-        if (this.startRow >= newRows.length) this.startRow -= this.perPage;
-        if (this.startRow < 0) this.startRow = 0;
+      handler() {
+        this.startRow = 0;
       },
       deep: true
     }

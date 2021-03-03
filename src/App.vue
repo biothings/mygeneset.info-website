@@ -50,7 +50,7 @@ h3 {
 }
 h4 {
   text-align: left;
-  font-weight: $regular;
+  font-weight: $medium;
   font-size: 1.1rem;
   margin: 20px 0;
   @include trim-v-margins;

@@ -11,40 +11,35 @@
     </p>
     <Gallery>
       <Portrait
-        link="https://vincentrubinetti.com"
-        :image="vince"
-        name="Vincent Rubinetti"
-        role="Frontend Developer"
+        name="Chunlei Wu"
+        role="Principal Investigator"
+        link="https://wulab.io/the-team-chunlei-wu"
+        :image="chunlei"
+      />
+
+      <Portrait
+        name="Ricardo Avila"
+        role="Research Programmer"
+        link="https://wulab.io/the-team-ricardo-avila"
+        :image="ricardo"
       />
       <Portrait
-        link="https://vincentrubinetti.com"
-        :image="vince"
-        name="Vincent Rubinetti"
-        role="Frontend Developer"
+        name="Dongbo Hu"
+        role="Backend Developer"
+        link="https://github.com/dongbohu"
+        :image="dongbo"
       />
       <Portrait
-        link="https://vincentrubinetti.com"
-        :image="vince"
-        name="Vincent Rubinetti"
-        role="Frontend Developer"
+        name="Xinghua (Jerry) Zhou"
+        role="Research Programmer"
+        link="https://wulab.io/the-team-jerry-zhou"
+        :image="jerry"
       />
       <Portrait
-        link="https://vincentrubinetti.com"
-        :image="vince"
         name="Vincent Rubinetti"
         role="Frontend Developer"
-      />
-      <Portrait
-        link="https://vincentrubinetti.com"
+        link="https://greenelab.com/members/vincent-rubinetti.html"
         :image="vince"
-        name="Vincent Rubinetti"
-        role="Frontend Developer"
-      />
-      <Portrait
-        link="https://vincentrubinetti.com"
-        :image="vince"
-        name="Vincent Rubinetti"
-        role="Frontend Developer"
       />
     </Gallery>
   </Section>
@@ -57,6 +52,10 @@ import LinkTo from "@/components/LinkTo.vue";
 import Gallery from "@/components/Gallery.vue";
 import Portrait from "@/components/Portrait.vue";
 
+import chunlei from "@/assets/team/chunlei.jpg";
+import ricardo from "@/assets/team/ricardo.jpg";
+import dongbo from "@/assets/team/dongbo.jpg";
+import jerry from "@/assets/team/jerry.jpg";
 import vince from "@/assets/team/vince.jpg";
 
 export default defineComponent({
@@ -68,6 +67,10 @@ export default defineComponent({
   },
   data() {
     return {
+      chunlei,
+      ricardo,
+      dongbo,
+      jerry,
       vince
     };
   }
