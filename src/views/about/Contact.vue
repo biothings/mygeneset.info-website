@@ -39,7 +39,7 @@
       <Clickable
         to="https://biostars.org/"
         icon="far fa-comment"
-        text="Tweet Us"
+        text="Ask Us"
         design="slim"
       />
       <span

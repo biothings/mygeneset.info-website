@@ -5,7 +5,8 @@
     <GetStarted />
     <API />
     <Features />
-    <WhosUsing />
+    <!-- ADD BACK IN WHEN WE HAVE MORE USERS -->
+    <!-- <WhosUsing /> -->
     <WhatsNew />
   </Main>
   <Footer />
@@ -20,7 +21,7 @@ import Details from "@/views/home/Details.vue";
 import GetStarted from "@/views/home/GetStarted.vue";
 import API from "@/views/home/API.vue";
 import Features from "@/views/home/Features.vue";
-import WhosUsing from "@/views/home/WhosUsing.vue";
+// import WhosUsing from "@/views/home/WhosUsing.vue";
 import WhatsNew from "@/views/home/WhatsNew.vue";
 
 export default defineComponent({
@@ -32,7 +33,7 @@ export default defineComponent({
     GetStarted,
     API,
     Features,
-    WhosUsing,
+    // WhosUsing,
     WhatsNew
   }
 });

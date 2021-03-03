@@ -141,6 +141,18 @@ label {
   cursor: pointer;
 }
 
+// list
+ul {
+  margin: 20px 0;
+  line-height: 1.7;
+  text-align: justify;
+  padding-left: 30px;
+  list-style-type: square;
+}
+li {
+  padding-left: 10px;
+}
+
 // horizontal rule
 hr {
   margin: 20px 0;

@@ -9,7 +9,7 @@
       <Feature
         icon="fas fa-running"
         title="Ready to go"
-        description="20+ species and 20+ sets pre-integrated from curated sources"
+        description="Thousands of supported species and built-in sets from curated sources"
       />
       <Feature
         icon="far fa-clock"

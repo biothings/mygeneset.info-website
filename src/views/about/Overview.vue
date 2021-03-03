@@ -1,20 +1,29 @@
 <template>
   <Section>
+    <!-- high-level description of app and api -->
     <p>
-      My Geneset provides a way for users to conveniently collect, save, and
-      share genes from 20+ different species. You can use it through this
-      website or programmatically through the
+      MyGeneset allows scientists to conveniently collect, save, and share genes
+      from thousands of different species. You can use it through this website
+      or programmatically through the
       <router-link to="API">API</router-link>.
     </p>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      Use MyGeneset to:
     </p>
+    <!-- key, distilled, succinct use-cases of app and api -->
+    <ul>
+      <li>analyze large genomic data without programming experience</li>
+      <li>
+        collect genes of interest once and easily access/export as multiple
+        formats
+      </li>
+      <li>store and discuss genesets in a central location</li>
+      <li>
+        develop your own gene-centric applications and offload the search and
+        write capabilities
+      </li>
+      <li>...and much more!</li>
+    </ul>
   </Section>
 </template>
 
