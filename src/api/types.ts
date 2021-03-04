@@ -1,8 +1,3 @@
-// request types
-// eslint-disable-next-line
-export type Json = Record<string, any>;
-export type Response = Promise<Json>;
-
 // expected type for genes
 export interface Gene {
   // from api
@@ -11,6 +6,9 @@ export interface Gene {
   ensemblgene: string;
   ncbigene: string;
   uniprot: string;
+
+  // from app
+  total?: number;
 }
 
 // expected type for geneset
@@ -22,6 +20,9 @@ export interface Geneset {
   description?: string;
   is_public?: boolean;
   genes?: Gene | Gene[];
+
+  // from app
+  total?: number;
 }
 
 // expected type of species
@@ -33,7 +34,8 @@ export interface Species {
   common_name?: string | string[];
   other_names?: string | string[];
 
-  // app-specific
+  // from app
+  total?: number;
   common?: string;
   full?: string;
   icon?: string;

@@ -1,4 +1,5 @@
 <template>
+  <!-- /browse page -->
   <Header />
   <Main title="Browse" icon="fas fa-search">
     <Search />

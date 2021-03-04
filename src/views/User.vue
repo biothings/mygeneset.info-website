@@ -1,4 +1,5 @@
 <template>
+  <!-- /user page -->
   <Header />
   <Main title="Your Profile" icon="far fa-user-circle">
     <Profile />

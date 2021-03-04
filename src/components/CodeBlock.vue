@@ -11,7 +11,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   methods: {
     // get code content of block, including code input components
-    getCode() {
+    getCode(): string {
       const code = this.$refs.code as HTMLElement;
       let text = "";
       const children = code.children;

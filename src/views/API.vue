@@ -1,4 +1,5 @@
 <template>
+  <!-- /api page -->
   <Header />
   <Main title="API" icon="fas fa-terminal">
     <Details />

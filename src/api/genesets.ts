@@ -1,21 +1,23 @@
 import { request } from ".";
-import { Response } from "@/types";
 import { mygeneset } from ".";
-
-// get metadata about my geneset
-export const metadata = async (): Response => {
-  const url = mygeneset + "metadata";
-  return await request(url);
-};
+import { Geneset } from "@/api/types";
 
 // look up geneset from id
-export const lookup = async (id: string): Response => {
+export const lookup = async (id: string): Promise<Geneset> => {
   const url = mygeneset + "geneset/" + id;
-  return await request(url);
+  try {
+    return await request(url);
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
 };
 
 // search genesets by keyword
-export const search = async (query?: string, species?: string[]): Response => {
+export const search = async (
+  query?: string,
+  species?: string[]
+): Promise<Geneset[]> => {
   // params
   const params = new URLSearchParams();
   if (query) {
@@ -28,7 +30,12 @@ export const search = async (query?: string, species?: string[]): Response => {
 
   // request and parse results
   const url = mygeneset + "query?" + params.toString();
-  const { total = 0, hits = [] } = await request(url);
-  if (hits.length) hits[0].total = total;
-  return hits;
+  try {
+    const { total = 0, hits = [] } = await request(url);
+    if (hits.length) hits[0].total = total;
+    return hits;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };

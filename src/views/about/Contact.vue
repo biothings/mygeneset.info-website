@@ -1,7 +1,7 @@
 <template>
   <Section>
     <h2 id="contact">Contact</h2>
-    <div class="contact_grid">
+    <div class="contact">
       <Clickable
         to="mailto:biothings@googlegroups.com"
         icon="far fa-envelope"
@@ -67,7 +67,7 @@ export default defineComponent({
 </script>
 
 <style scope lang="scss">
-.contact_grid {
+.contact {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-gap: 20px;

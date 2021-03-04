@@ -26,33 +26,34 @@ import Table from "@/components/Table.vue";
 import TextBox from "@/components/TextBox.vue";
 import SpeciesSelect from "@/components/SpeciesSelect.vue";
 import { search } from "@/api/genesets";
-import { Json } from "@/types";
+import { Geneset } from "@/api/types";
 
+// results table columns
 const cols = [
   {
     key: "_id",
     name: "Name",
     align: "left",
-    format: (cell: Json) => `<a href="/geneset/${cell}">${cell}</a>`
+    format: (cell: Geneset["_id"]) => `<a href="/geneset/${cell}">${cell}</a>`
   },
   {
     key: "genes",
     name: "# of Genes",
     align: "center",
-    format: (cell: Json) => cell?.length
+    format: (cell: Geneset["genes"]) => (Array.isArray(cell) ? cell.length : 1)
   },
   {
     key: "genes",
     name: "Genes",
     align: "left",
-    format: (cell: Json) =>
+    format: (cell: Geneset["genes"]) =>
       [cell]
         .flat()
         .map(
           gene =>
-            gene.name ||
-            [gene.ensemblgene].flat()[0] ||
-            [gene.mygene_id].flat()[0] ||
+            gene?.name ||
+            [gene?.ensemblgene].flat()[0] ||
+            [gene?.mygene_id].flat()[0] ||
             ""
         )
         .filter(gene => gene)
@@ -73,21 +74,28 @@ export default defineComponent({
   },
   data() {
     return {
+      // search keywords
       keywords: "",
+      // selected species
       species: [],
+      // results table columns
       cols,
+      // results table row data
       results: []
     };
   },
   computed: {
+    // top X of...
     top(): string {
       return Math.min(100, this.results.length || 0).toLocaleString();
     },
+    // ...N total reults
     total(): string {
-      return ((this.results[0] as Json)?.total || 0).toLocaleString();
+      return ((this.results[0] as Geneset)?.total || 0).toLocaleString();
     }
   },
   methods: {
+    // search genesets
     async search() {
       try {
         this.results = (await search(this.keywords, this.species)) as [];
@@ -97,11 +105,13 @@ export default defineComponent({
     }
   },
   watch: {
+    // update search when selected species change
     species() {
       this.search();
     }
   },
   mounted() {
+    // update search on load
     this.search();
   }
 });

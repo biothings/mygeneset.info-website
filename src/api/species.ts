@@ -1,10 +1,10 @@
 import { request } from ".";
-import { Response } from "@/types";
 import { mygeneset } from ".";
 import { biothings } from ".";
+import { Species } from "@/api/types";
 
 // search species by keyword
-export const search = async (query?: string): Response => {
+export const search = async (query?: string): Promise<Species[]> => {
   // params
   const params = new URLSearchParams();
   if (query) params.set("q", query);
@@ -13,13 +13,18 @@ export const search = async (query?: string): Response => {
 
   // request and parse results
   const url = biothings + "query?" + params.toString();
-  const { total = 0, hits = [] } = await request(url);
-  if (hits.length) hits[0].total = total;
-  return hits;
+  try {
+    const { total = 0, hits = [] } = await request(url);
+    if (hits.length) hits[0].total = total;
+    return hits;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 // get species in order of included in most genesets
-export const popular = async (): Response => {
+export const popular = async (): Promise<Species[]> => {
   // params
   let params = new URLSearchParams();
   params.set("q", "*");
@@ -40,7 +45,12 @@ export const popular = async (): Response => {
 
   // request and parse results
   url = biothings + "query?" + params.toString();
-  const results = await request(url, "POST");
-  if (results.length) results[0].total = total;
-  return results;
+  try {
+    const results = await request(url, "POST");
+    if (results.length) results[0].total = total;
+    return results;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };

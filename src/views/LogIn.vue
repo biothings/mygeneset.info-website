@@ -1,4 +1,5 @@
 <template>
+  <!-- /login page -->
   <Header />
   <Main title="Log In / Sign Up" icon="fas fa-sign-in-alt">
     <Accounts />

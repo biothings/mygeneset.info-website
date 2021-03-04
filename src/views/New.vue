@@ -1,4 +1,5 @@
 <template>
+  <!-- /new geneset page -->
   <Header />
   <Main title="Geneset" icon="fas fa-dna">
     <GenesetEdit :editable="true" :fresh="true" />

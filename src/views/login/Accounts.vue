@@ -32,6 +32,7 @@ export default defineComponent({
     Clickable
   },
   methods: {
+    // dummy log in
     logIn() {
       this.$store.dispatch("logIn");
     }

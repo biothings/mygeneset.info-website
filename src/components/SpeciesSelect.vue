@@ -65,7 +65,7 @@ import { defineComponent } from "vue";
 import Multiselect from "@vueform/multiselect";
 import { search } from "@/api/species";
 import { popular as getPopular } from "@/api/species";
-import { Json } from "@/types";
+import { Species } from "@/api/types";
 
 // type shim for multiselect library
 interface MultiselectType {
@@ -83,7 +83,7 @@ const findIcon = (name: string) => {
 };
 
 // popular species (ones included in most genesets)
-let popular: Json = [];
+let popular: Species[] = [];
 const setPopular = async () => (popular = await getPopular());
 setPopular();
 
@@ -114,9 +114,9 @@ export default defineComponent({
       this.total = (results[0]?.total || 0).toLocaleString();
 
       // compute and rename props
-      const formatResult = (result: Json) => {
-        const key: string = result._id;
-        const scientific: string = result.scientific_name;
+      const formatResult = (result: Species) => {
+        const key: string = result._id || "";
+        const scientific: string = result.scientific_name || "";
         const common: string = [
           result.genbank_common_name,
           result.common_name,

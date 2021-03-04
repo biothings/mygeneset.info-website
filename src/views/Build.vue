@@ -1,4 +1,5 @@
 <template>
+  <!-- /build page -->
   <Header />
   <Main title="Build" icon="fas fa-cube">
     <BuildNew />

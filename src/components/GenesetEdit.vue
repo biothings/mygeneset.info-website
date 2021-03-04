@@ -116,7 +116,7 @@ import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 import Placeholder from "@/components/Placeholder.vue";
 import { lookup } from "@/api/genesets";
-import { Geneset } from "@/types";
+import { Geneset } from "@/api/types";
 
 const blank: Geneset = {
   _id: "",

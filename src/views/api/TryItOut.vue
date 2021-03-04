@@ -1,6 +1,8 @@
 <template>
   <Section>
     <h2>Try it Out</h2>
+
+    <!-- request options -->
     <Center>
       <Clickable
         v-for="(request, key, index) in requests"
@@ -12,6 +14,8 @@
         v-tooltip="request.tooltip"
       />
     </Center>
+
+    <!-- request code -->
     <CodeBlock ref="codeBlock">
       <span>{{ method }}</span>
       <span>&nbsp;</span>
@@ -36,6 +40,8 @@
         <span v-if="index < fields.length - 1">&</span>
       </template>
     </CodeBlock>
+
+    <!-- note -->
     <Center>
       <i>
         Most fields support
@@ -45,6 +51,8 @@
         >, like <code>*</code> for wildcards
       </i>
     </Center>
+
+    <!-- request buttons -->
     <Center width="150px">
       <CopyButton :text="this.code" subject="request" />
       <Clickable
@@ -56,9 +64,13 @@
         v-tooltip="'Run request and get response'"
       />
     </Center>
+
+    <!-- response code -->
     <CodeBlock v-if="!empty">
       <PrettyJson :data="response" />
     </CodeBlock>
+
+    <!-- response buttons -->
     <Center v-if="!empty" width="150px">
       <CopyButton
         :text="JSON.stringify(this.response, null, 2)"
@@ -110,8 +122,10 @@ interface CodeBlockInterface {
   getCode: () => string;
 }
 
+// base request url
 const base = "https://mygeneset.info/v1/";
 
+// request types, fields, and descriptions
 const requests: Requests = {
   "Get fields": {
     method: "GET",
@@ -195,26 +209,33 @@ export default defineComponent({
   },
   data() {
     return {
+      // base request url
       base,
+      // request types
       requests,
+      // selected request
       selected: "Search by keyword",
+      // request code
       code: "",
+      // loading state
       loading: false,
+      // response JSON
       response: {}
     };
   },
   methods: {
+    // read request code from codeblock
     setCode() {
       nextTick(() => {
         const codeBlock = this.$refs.codeBlock as CodeBlockInterface;
         this.code = codeBlock.getCode();
       });
     },
+    // run request
     run: async function() {
       this.loading = true;
 
       const code = this.code.replace(this.method, "").trim();
-
       try {
         this.response = (await request(code, this.method)) as {};
       } catch (error) {
@@ -223,28 +244,35 @@ export default defineComponent({
 
       this.loading = false;
     },
+    // download response
     download() {
       downloadJson(this.response, "response");
     }
   },
   computed: {
+    // method of request, GET or POST
     method(): string {
       return this.requests[this.selected].method;
     },
+    // is response empty
     empty(): boolean {
       return Object.keys(this.response).length === 0;
     },
+    // request path, after base url
     path(): string {
       return this.requests[this.selected].path;
     },
+    // list of selected request
     fields(): Field[] {
       return this.requests[this.selected].fields || [];
     }
   },
   mounted() {
+    // update request code on load
     this.setCode();
   },
   watch: {
+    // update request code when selected request changes
     selected() {
       this.setCode();
     }

@@ -1,4 +1,5 @@
 <template>
+  <!-- home page -->
   <Header :big="true" />
   <Main>
     <Details />

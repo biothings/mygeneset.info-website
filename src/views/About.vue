@@ -1,4 +1,5 @@
 <template>
+  <!-- /about page -->
   <Header />
   <Main title="About" icon="fas fa-signature">
     <Overview />

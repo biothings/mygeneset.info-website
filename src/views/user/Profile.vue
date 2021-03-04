@@ -1,4 +1,5 @@
 <template>
+  <!-- user details -->
   <Section v-if="loggedIn">
     <h2>{{ userName }}</h2>
     <div class="details">
@@ -22,6 +23,8 @@
       <div>{{ apiToken }}</div>
     </div>
   </Section>
+
+  <!-- link to log in page -->
   <Section v-else>
     <Center width="250px">
       <Clickable
@@ -49,24 +52,31 @@ export default defineComponent({
     Clickable
   },
   computed: {
+    // is user logged in
     loggedIn() {
       return this.$store.state.loggedIn;
     },
+    // user's full name
     userName() {
       return this.$store.state.userName;
     },
+    // user's email
     email() {
       return this.$store.state.email;
     },
+    // linked user account
     account() {
       return this.$store.state.account;
     },
+    // user's api token
     apiToken() {
       return this.$store.state.apiToken;
     },
+    // dummy user's geneset count
     genesets() {
       return 45;
     },
+    // dummy user's gene count
     genes() {
       return 10283;
     }
