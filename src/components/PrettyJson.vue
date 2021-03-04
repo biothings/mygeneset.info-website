@@ -1,17 +1,21 @@
 <template>
-  <div class="pretty_row" :expanded="expanded" @click="expanded = !expanded">
+  <!-- recursive, indented, collapsible JSON display -->
+
+  <!-- root level -->
+  <div class="row" :expanded="expanded" @click="expanded = !expanded">
     <PrettyJsonIndent :depth="depth || 0" />
-    <span class="pretty_key" v-if="rootKey && !parentIsArray"
-      >"{{ rootKey }}"</span
-    >
+    <span class="key" v-if="rootKey && !parentIsArray">"{{ rootKey }}"</span>
     <span class="pretty_punc" v-if="rootKey && !parentIsArray">: </span>
     <span class="pretty_punc">{{ isArray ? "[" : "{" }}</span>
     <span class="pretty_punc" v-if="!expanded">...</span>
     <span class="pretty_punc" v-if="!expanded">{{ isArray ? "]" : "}" }}</span>
     <span class="pretty_punc" v-if="!expanded && depth && !isLast">,</span>
   </div>
+
+  <!-- child levels -->
   <template v-if="expanded">
-    <template class="pretty_row" v-for="(value, key, index) in data" :key="key">
+    <template class="row" v-for="(value, key, index) in data" :key="key">
+      <!-- child is another object-->
       <PrettyJson
         v-if="typeof value === 'object'"
         :data="value"
@@ -24,11 +28,13 @@
         "
         :parentIsArray="isArray"
       />
-      <div class="pretty_row" v-else>
+
+      <!-- child is a primitive -->
+      <div v-else class="row">
         <PrettyJsonIndent :depth="(depth || 0) + 1" />
-        <span class="pretty_key" v-if="!isArray">"{{ key }}"</span>
+        <span class="key" v-if="!isArray">"{{ key }}"</span>
         <span class="pretty_punc" v-if="!isArray">: </span>
-        <span class="pretty_value">{{
+        <span class="value">{{
           typeof value === "string" ? '"' + value + '"' : value
         }}</span>
         <span
@@ -42,7 +48,9 @@
       </div>
     </template>
   </template>
-  <div class="pretty_row" v-if="expanded">
+
+  <!-- root close if expanded -->
+  <div class="row" v-if="expanded">
     <PrettyJsonIndent :depth="depth || 0" />
     <span class="pretty_punc">{{ isArray ? "]" : "}" }}</span>
     <span class="pretty_punc" v-if="depth && !isLast">,</span>
@@ -56,28 +64,37 @@ import PrettyJsonIndent from "@/components/PrettyJsonIndent.vue";
 export default defineComponent({
   name: "PrettyJson",
   props: {
+    // JSON data
     data: Object,
+    // key name at root level
     rootKey: [String, Number],
+    // current depth/level
     depth: Number,
+    // is last in iterable
     isLast: Boolean,
+    // is parent an array
     parentIsArray: Boolean
   },
   data() {
     return {
+      // expanded state of current level
       expanded: true
     };
   },
   computed: {
+    // is current level an array
     isArray(): boolean {
       return Array.isArray(this.data);
     }
   },
-  components: { PrettyJsonIndent }
+  components: {
+    PrettyJsonIndent
+  }
 });
 </script>
 
 <style scope lang="scss">
-.pretty_row {
+.row {
   white-space: nowrap;
 
   &[expanded]:hover {
@@ -85,10 +102,10 @@ export default defineComponent({
     background: $dark-gray;
   }
 }
-.pretty_key {
+.key {
   color: $yellow;
 }
-.pretty_value {
+.value {
   color: $theme-light;
 }
 </style>

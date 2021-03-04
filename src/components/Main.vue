@@ -1,5 +1,7 @@
 <template>
+  <!-- main page content container -->
   <main>
+    <!-- page title and icon -->
     <Section v-if="title && icon">
       <h1>
         <i :class="icon"></i>
@@ -19,7 +21,9 @@ export default defineComponent({
     Section
   },
   props: {
+    // page title
     title: String,
+    // font awesome icon code
     icon: String
   }
 });

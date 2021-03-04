@@ -1,11 +1,11 @@
 <template>
+  <!-- species multi-select search box -->
   <Multiselect
     v-model="value"
     :options="search"
     mode="tags"
     :searchable="true"
     trackBy="full"
-    :placeholder="placeholder"
     valueProp="key"
     :caret="false"
     :limit="100"
@@ -15,6 +15,7 @@
     @open="refresh"
     ref="multiselect"
   >
+    <!-- selected species -->
     <template v-slot:tag="{ option, handleTagRemove, disabled }">
       <button
         class="multiselect-tag is-user"
@@ -33,6 +34,8 @@
         <i class="fas fa-times"></i>
       </button>
     </template>
+
+    <!-- species results/options -->
     <template v-slot:option="{ option }">
       <img v-if="option.icon" :src="option.icon" class="icon" />
       <span
@@ -46,6 +49,8 @@
         <span v-if="option.common" class="common">{{ option.common }}</span>
       </span>
     </template>
+
+    <!-- results count -->
     <template v-slot:afterlist>
       <div class="count">
         <i class="fas fa-seedling"></i>
@@ -59,55 +64,63 @@
 import { defineComponent } from "vue";
 import Multiselect from "@vueform/multiselect";
 import { search } from "@/api/species";
-import { top as getTop } from "@/api/species";
-import { Json } from "@/api";
+import { popular as getPopular } from "@/api/species";
+import { Json } from "@/types";
 
+// type shim for multiselect library
 interface MultiselectType {
   refreshOptions: Function;
 }
 
+// https://stackoverflow.com/questions/42118296/dynamically-import-images-from-a-directory-using-webpack
+// have webpack load all svg icons in species assets folder...
 const context = require.context("@/assets/species", false, /\.svg$/);
 const icons = context.keys().map(context) as string[];
+// ...and provide func to access them
 const findIcon = (name: string) => {
   const pattern = new RegExp(`${name}\\.[A-Za-z0-9]*\\.svg`);
   return icons.find((icon: string) => icon.match(pattern));
 };
 
-let top: Json = [];
-const setTop = async () => (top = await getTop());
-setTop();
+// popular species (ones included in most genesets)
+let popular: Json = [];
+const setPopular = async () => (popular = await getPopular());
+setPopular();
 
 export default defineComponent({
-  props: {
-    placeholder: String
-  },
   components: {
     Multiselect
   },
   data() {
     return {
+      // current selected species
       value: null,
+      // top X of...
       top: "",
+      // ...N total results
       total: ""
     };
   },
   methods: {
     async search(query: string) {
+      // get results
       let results;
+      // use popular if nothing typed in. otherwise, search based on what's typed.
       if (query) results = await search(query);
-      else results = top || [];
+      else results = popular || [];
 
       // get result counts
       this.top = Math.min(100, results.length).toLocaleString();
       this.total = (results[0]?.total || 0).toLocaleString();
 
-      const formatResult = (results: Json) => {
-        const key: string = results._id;
-        const scientific: string = results.scientific_name;
+      // compute and rename props
+      const formatResult = (result: Json) => {
+        const key: string = result._id;
+        const scientific: string = result.scientific_name;
         const common: string = [
-          results.genbank_common_name,
-          results.common_name,
-          results.other_names
+          result.genbank_common_name,
+          result.common_name,
+          result.other_names
         ]
           .flat()
           .filter(name => name)
@@ -121,6 +134,7 @@ export default defineComponent({
 
       return results;
     },
+    // refresh option list
     refresh() {
       (this.$refs.multiselect as MultiselectType)?.refreshOptions();
     }

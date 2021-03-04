@@ -1,4 +1,5 @@
 <template>
+  <!-- log in/out  and avatar in header -->
   <div class="account">
     <HeaderLink v-if="loggedIn" text="Log Out" @click="logOut" />
     <Avatar v-if="loggedIn" />
@@ -17,11 +18,13 @@ export default defineComponent({
     Avatar
   },
   computed: {
+    // is user logged in
     loggedIn() {
       return this.$store.state.loggedIn;
     }
   },
   methods: {
+    // action to log user out
     logOut() {
       this.$store.dispatch("logOut");
     }

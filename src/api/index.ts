@@ -1,11 +1,10 @@
+import { Response } from "@/types";
+
 // api endpoint base urls
 export const mygeneset = "https://mygeneset.info/v1/";
 export const biothings = "https://t.biothings.io/v1/";
 
-// eslint-disable-next-line
-export type Json = Record<string, any>;
-export type Response = Promise<Json>;
-
+// make request and get json results
 export const request = async (url: string, method = "GET"): Response => {
   console.log(method + " " + url);
   let response;

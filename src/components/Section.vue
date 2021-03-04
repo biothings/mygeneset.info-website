@@ -1,4 +1,5 @@
 <template>
+  <!-- page section, with alternating bg colors -->
   <section>
     <div class="section">
       <slot></slot>

@@ -1,4 +1,5 @@
 <template>
+  <!-- copyright in footer -->
   <div class="Copyright">&copy; {{ new Date().getFullYear() }} BioThings</div>
 </template>
 

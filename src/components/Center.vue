@@ -1,10 +1,6 @@
 <template>
-  <div
-    class="center"
-    :vertical="vertical"
-    :compact="compact"
-    :style="`--width: ${width}`"
-  >
+  <!-- horizontally or vertically centered group of items -->
+  <div class="center" :vertical="vertical" :style="`--width: ${width}`">
     <slot></slot>
   </div>
 </template>
@@ -14,9 +10,10 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
+    // layout items vertically or horizontally
     vertical: Boolean,
-    width: String,
-    compact: Boolean
+    // width of each item
+    width: String
   }
 });
 </script>

@@ -1,4 +1,5 @@
 <template>
+  <!-- text links in footer -->
   <div class="info_links">
     <LinkTo to="about#terms">Terms of Use</LinkTo> |
     <LinkTo to="about#cite">How to Cite</LinkTo>
@@ -9,9 +10,11 @@
 import { defineComponent } from "vue";
 import LinkTo from "@/components/LinkTo.vue";
 
-const components = { LinkTo };
-
-export default defineComponent({ components });
+export default defineComponent({
+  components: {
+    LinkTo
+  }
+});
 </script>
 
 <style scoped lang="scss">

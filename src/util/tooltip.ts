@@ -1,10 +1,15 @@
+// tooltip directive
+// e.g. v-tooltip="Tooltip text" or v-tooltip.slow="Tooltip text"
+
 import { createPopper } from "@popperjs/core";
 import { Options } from "@popperjs/core";
 
+// tooltip DOM element
 const tooltip = document.createElement("div");
 tooltip.classList.add("tooltip");
 document.body.append(tooltip);
 
+// popper.js instance and options
 let popper: ReturnType<typeof createPopper>;
 const options: Options = {
   strategy: "absolute",
@@ -16,6 +21,7 @@ const options: Options = {
   ]
 };
 
+// open tooltip
 let timer: ReturnType<typeof setTimeout>;
 const open = (element: HTMLElement, value: string, slow?: boolean) => {
   const delay = slow ? 750 : 250;
@@ -28,11 +34,13 @@ const open = (element: HTMLElement, value: string, slow?: boolean) => {
   }, delay);
 };
 
+// close tooltip
 const close = () => {
   window.clearTimeout(timer);
   tooltip.dataset.show = "false";
 };
 
+// create directive
 const directive = {
   mounted(
     element: HTMLElement,

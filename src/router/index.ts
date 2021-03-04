@@ -1,5 +1,10 @@
 import { nextTick } from "vue";
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  RouteRecordRaw,
+  NavigationGuard
+} from "vue-router";
 import Home from "@/views/Home.vue";
 import Browse from "@/views/Browse.vue";
 import Build from "@/views/Build.vue";
@@ -11,21 +16,29 @@ import Geneset from "@/views/Geneset.vue";
 import User from "@/views/User.vue";
 import { scrollToHash } from "@/util/url.ts";
 
+// handle redirect from 404
+const handleRedirect: NavigationGuard = (to, from, next) => {
+  // check for redirect storage flag
+  const redirect = sessionStorage.redirect;
+  if (redirect) {
+    console.log({ redirect });
+    // route to redirect location instead
+    next(redirect);
+    // remove redirect storage flag
+    delete sessionStorage.redirect;
+  } else {
+    // otherwise, proceed as normal
+    next();
+  }
+};
+
+// routes
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
     component: Home,
-    beforeEnter: (to, from, next) => {
-      const redirect = sessionStorage.redirect;
-      if (redirect) {
-        console.log({ redirect });
-        next(redirect);
-        delete sessionStorage.redirect;
-      } else {
-        next();
-      }
-    }
+    beforeEnter: handleRedirect
   },
   {
     path: "/browse",
@@ -69,11 +82,13 @@ const routes: RouteRecordRaw[] = [
   }
 ];
 
+// create router object for vue router
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 });
 
+// update tab title after each navigation
 router.afterEach(to =>
   nextTick(() => {
     document.title = process.env.VUE_APP_TITLE + " - " + String(to.name);

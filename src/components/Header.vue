@@ -1,14 +1,24 @@
 <template>
+  <!-- header at top of every page -->
   <header :big="big">
+    <!-- cool visualization -->
     <HexField />
+
+    <!-- expand button on mobile screens -->
     <button @click="expanded = !expanded">
       <i v-if="expanded" class="fas fa-angle-double-up"></i>
       <i v-else class="fas fa-bars"></i>
       <span v-if="expanded">Collapse</span>
       <span v-else>Menu</span>
     </button>
+
+    <!-- left -->
     <Nav :expanded="expanded" />
+
+    <!-- center -->
     <Logo :big="big" />
+
+    <!-- right -->
     <Account :expanded="expanded" />
   </header>
 </template>
@@ -22,6 +32,7 @@ import Account from "@/components/Account.vue";
 
 export default defineComponent({
   props: {
+    // is big version (for use on home page)
     big: Boolean
   },
   components: {
@@ -32,6 +43,7 @@ export default defineComponent({
   },
   data() {
     return {
+      // is nave menu expanded
       expanded: false
     };
   }

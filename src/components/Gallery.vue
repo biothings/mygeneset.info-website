@@ -1,4 +1,5 @@
 <template>
+  <!-- gallery of items (e.g. features, org logos, etc.) -->
   <div class="gallery">
     <slot></slot>
   </div>

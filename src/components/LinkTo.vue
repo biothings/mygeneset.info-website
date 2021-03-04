@@ -1,4 +1,5 @@
 <template>
+  <!-- router or external link -->
   <a v-if="isExternalLink(to)" :href="to || '/'">
     <slot></slot>
   </a>

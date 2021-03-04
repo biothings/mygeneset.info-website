@@ -1,46 +1,38 @@
 <template>
+  <!-- text input box to go inside code block -->
   <input
     class="code_input"
     @input="onInput"
     :value="value"
-    :placeholder="placeholder"
-    :name="name"
-    :type="type || 'text'"
+    type="text"
     :style="'width: ' + value.length + 'ch'"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
+    // starting value
     defaultValue: String,
-    placeholder: String,
-    name: String,
-    type: String,
-    sanitize: Function,
+    // called when value changes. is provided value, can return sanitized value
     onChange: Function
   },
   data() {
     return {
+      // current value
       value: this.defaultValue || ""
     };
   },
   methods: {
+    // when value changes
     onInput(event: Event) {
       const input = event.target as HTMLInputElement;
-      if (this.sanitize) {
-        const oldValue = this.value;
-        const newValue = this.sanitize(input.value);
-        this.value = newValue;
-        if (newValue === oldValue) {
-          const index = (input.selectionStart || 1) - 1;
-          this.$forceUpdate();
-          nextTick(() => input.setSelectionRange(index, index));
-        }
-      }
-      if (this.onChange) this.onChange(event);
+      const value = input.value || "";
+      let sanitized = value;
+      if (this.onChange) sanitized = this.onChange(value) || value;
+      this.value = sanitized;
     }
   }
 });

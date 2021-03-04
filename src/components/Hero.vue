@@ -1,18 +1,26 @@
 <template>
+  <!-- section with rotating icons and key stats text -->
   <div class="hero">
+    <!-- left icon wheel -->
     <div class="hero_icons">
       <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
       <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
       <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
     </div>
+
+    <!-- left text stats -->
     <div class="hero_text">
       <div><slot name="ATop"></slot></div>
       <div><slot name="ABottom"></slot></div>
     </div>
+
+    <!-- right text stats -->
     <div class="hero_text">
       <div><slot name="BTop"></slot></div>
       <div><slot name="BBottom"></slot></div>
     </div>
+
+    <!-- right icon wheel -->
     <div class="hero_icons">
       <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
       <div class="hero_icon"><i class="fa-lg" :class="icon" /></div>
@@ -26,6 +34,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
+    // font awesome icon code
     icon: String
   }
 });

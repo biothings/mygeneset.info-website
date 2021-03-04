@@ -1,5 +1,10 @@
 <template>
-  <LinkTo to="/user" class="avatar" v-tooltip="'Your user profile'">
+  <!-- colored circle and user initials -->
+  <LinkTo
+    to="/user"
+    class="avatar"
+    v-tooltip="`Your user profile, ${userName}`"
+  >
     <div>
       {{ userInitials }}
     </div>
@@ -15,6 +20,11 @@ export default defineComponent({
     LinkTo
   },
   computed: {
+    // user's full name
+    userName() {
+      return this.$store.state.userName;
+    },
+    // user's initials
     userInitials() {
       return this.$store.state.userName
         .split(/\s/)
@@ -41,5 +51,10 @@ export default defineComponent({
   color: $white;
   font-weight: $medium;
   text-decoration: none;
+  transition: background $fast;
+
+  &:hover {
+    background: $theme-light;
+  }
 }
 </style>

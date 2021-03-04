@@ -1,9 +1,13 @@
 <template>
+  <!-- editable text box or dropdown menu -->
   <div class="field">
+    <!-- field title -->
     <div>
       {{ name }}
       <i v-if="!disabled" class="fas fa-pencil-alt"></i>
     </div>
+
+    <!-- dropdown menu -->
     <select
       v-if="options && options.length"
       :value="modelValue"
@@ -14,6 +18,8 @@
         {{ option }}
       </option>
     </select>
+
+    <!-- text box -->
     <textarea
       ref="textarea"
       v-else
@@ -30,17 +36,23 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
+    // title
     name: String,
+    // text in text box when nothing typed in
     placeholder: String,
-    modelValue: String,
+    // is field editable
     disabled: Boolean,
-    options: Array
+    // array of string options for dropdown menu
+    options: Array,
+    // field value internal state
+    modelValue: String
   },
   mounted() {
     const textarea = this.$refs.textarea as HTMLInputElement;
     if (textarea) this.fitHeight(textarea);
   },
   methods: {
+    // fit height of text box to content
     fitHeight(textarea: HTMLInputElement) {
       // remember window scroll position
       const prevScroll = window.scrollY;
@@ -49,13 +61,14 @@ export default defineComponent({
       textarea.removeAttribute("disabled");
       // shrink to fit, but messes with window scroll position
       textarea.style.height = "0";
-      // get content height
+      // expand to content height
       textarea.style.height = textarea.scrollHeight + 2 + "px";
       // restore window scroll position
       window.scrollTo(0, prevScroll);
       // restore textarea disabled
       if (prevDisabled) textarea.setAttribute("disabled", "true");
     },
+    // when value changes
     onInput(event: Event) {
       const input = event.target as HTMLInputElement;
       this.$emit("update:modelValue", input.value);

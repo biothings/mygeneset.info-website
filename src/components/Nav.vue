@@ -1,4 +1,5 @@
 <template>
+  <!-- header navigation section -->
   <nav>
     <HeaderLink to="/browse" text="Browse" />
     <HeaderLink to="/build" text="Build" />

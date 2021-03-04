@@ -1,4 +1,5 @@
 <template>
+  <!-- link in header -->
   <LinkTo class="header_link" :to="to">
     <i v-if="icon" :class="icon" />
     <span>{{ text }}</span>
@@ -11,8 +12,11 @@ import LinkTo from "@/components/LinkTo.vue";
 
 export default defineComponent({
   props: {
+    // link target
     to: String,
+    // text to display
     text: String,
+    // font awesome icon code
     icon: String
   },
   components: {

@@ -1,4 +1,7 @@
 <template>
+  <!-- geneset edit higher-order-component -->
+
+  <!--  loading spinner -->
   <Section v-if="loading">
     <Center>
       <span class="loading">
@@ -7,6 +10,8 @@
       </span>
     </Center>
   </Section>
+
+  <!-- error message -->
   <Section v-if="error">
     <Center>
       <span class="error">
@@ -15,6 +20,8 @@
       </span>
     </Center>
   </Section>
+
+  <!-- basic details section -->
   <Section v-if="!loading && !error">
     <h2>
       <i class="fas fa-feather-alt"></i>
@@ -22,7 +29,7 @@
     </h2>
     <Field
       name="Title"
-      v-model="geneset.title"
+      v-model="geneset._id"
       placeholder="Descriptive title of the geneset"
       :disabled="!editable"
     />
@@ -36,11 +43,13 @@
     />
     <Field
       name="Visibility"
-      v-model="geneset.visibility"
+      v-model="geneset.is_public"
       :options="['Public', 'Private']"
       :disabled="!editable"
     />
   </Section>
+
+  <!-- selected genes section -->
   <Section v-if="!loading && !error">
     <h2>
       <i class="fas fa-check"></i>
@@ -53,15 +62,17 @@
         text="Format Options"
         icon="fas fa-cog"
         design="plain"
-        @click="formatExpanded = !formatExpanded"
+        @click="expanded = !expanded"
       />
-      <select v-if="formatExpanded">
+      <select v-if="expanded">
         <option>Tab-separated (.tsv)</option>
         <option>Comma-separated (.csv)</option>
         <option>Plain text (.txt)</option>
       </select>
     </Center>
   </Section>
+
+  <!-- add genes section -->
   <Section v-if="editable && !loading && !error">
     <h2>
       <i class="fas fa-plus"></i>
@@ -71,6 +82,8 @@
       Gene search and add
     </Placeholder>
   </Section>
+
+  <!-- finish section -->
   <Section v-if="!loading && !error">
     <Center v-if="!fresh" :vertical="true" width="200px">
       <Clickable text="Duplicate" icon="fas fa-copy" design="big" />
@@ -103,33 +116,19 @@ import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 import Placeholder from "@/components/Placeholder.vue";
 import { lookup } from "@/api/genesets";
+import { Geneset } from "@/types";
 
-interface Gene {
-  mygene_id: string;
-  name: string;
-  ensemblgene: string;
-  ncbigene: string;
-  uniprot: string;
-}
-
-interface Geneset {
-  title: string;
-  creator: string;
-  date: string;
-  description: string;
-  visibility: "Public" | "Private";
-  genes: Gene[];
-}
-
-const blankGeneset: Geneset = {
-  title: "",
+const blank: Geneset = {
+  _id: "",
   creator: "Casey S. Greene",
   date: new Date().toLocaleString(),
   description: "",
-  visibility: "Public",
+  // eslint-disable-next-line
+  is_public: true,
   genes: []
 };
 
+// columns in selected genes table
 const genesCols = [
   { key: "name", name: "Name", align: "left" },
   { key: "ensemblgene", name: "Ensembl ID", align: "center" },
@@ -153,28 +152,29 @@ export default defineComponent({
     Placeholder
   },
   props: {
+    // is this geneset editable
     editable: Boolean,
+    // is this a new geneset
     fresh: Boolean
   },
   data() {
     return {
+      // loading state
       loading: false,
+      // error state
       error: false,
-      geneset: blankGeneset,
-      formatExpanded: false
+      // current geneset
+      geneset: blank,
+      // format options expanded state
+      expanded: false
     };
   },
   methods: {
+    // load geneset from route id
     async loadGeneset(id: string) {
       this.loading = true;
       try {
-        const geneset = await lookup(id);
-        this.geneset.title = geneset._id;
-        // this.geneset.creator = geneset.author;
-        // this.geneset.date = geneset.date;
-        // this.geneset.description = geneset.description;
-        this.geneset.visibility = geneset.is_public ? "Public" : "Private";
-        this.geneset.genes = geneset.genes;
+        this.geneset = await lookup(id);
       } catch (error) {
         this.error = true;
       } finally {
@@ -183,12 +183,14 @@ export default defineComponent({
     }
   },
   computed: {
+    // columns in selected genes table
     _genesCols() {
       if (this.$props.editable) return genesCols;
       else return genesCols.slice(0, -1);
     }
   },
   async mounted() {
+    // load geneset from route it
     if (!this.fresh && this.$route.params.id)
       this.loadGeneset(this.$route.params.id as string);
   }

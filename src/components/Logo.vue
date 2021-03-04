@@ -1,4 +1,5 @@
 <template>
+  <!-- logo, text, and slogan in header -->
   <router-link to="/" class="logo" :big="big">
     <img src="@/assets/logo.svg" />
     <div class="title">My Geneset</div>
@@ -13,6 +14,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
+    // is big version (for use on home page)
     big: Boolean
   }
 });

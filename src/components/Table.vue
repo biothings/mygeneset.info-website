@@ -1,11 +1,17 @@
 <template>
+  <!-- sortable, paginated table -->
   <div class="table">
+    <!-- heading above table -->
     <div class="heading"><slot></slot></div>
+
+    <!-- container allowing horizontal scrolling -->
     <div class="scroll">
       <table>
+        <!-- head -->
         <thead>
           <tr>
             <th v-for="(col, colIndex) in cols" :key="colIndex">
+              <!-- sort button -->
               <button
                 v-if="col.sortable !== false && !col.action"
                 :align="col.align || 'center'"
@@ -18,15 +24,20 @@
                 ></i>
                 <i v-else class="fas fa-sort"></i>
               </button>
+
+              <!-- raw value -->
               <div v-else :align="col.align || 'center'">
                 {{ col.name }}
               </div>
             </th>
           </tr>
         </thead>
+
+        <!-- body -->
         <tbody>
           <tr v-for="(row, rowIndex) in _rows" :key="rowIndex">
             <template v-for="(col, colIndex) in cols" :key="colIndex">
+              <!-- action button -->
               <td v-if="col.action" :align="col.align || 'center'">
                 <Clickable
                   :title="col.action"
@@ -43,11 +54,15 @@
                   design="plain"
                 />
               </td>
+
+              <!-- custom html -->
               <td
                 v-else-if="col.format"
                 :align="col.align || 'center'"
                 v-html="col.format(row[col.key])"
               ></td>
+
+              <!-- raw value -->
               <td v-else :align="col.align || 'center'">
                 {{ row[col.key] }}
               </td>
@@ -56,6 +71,8 @@
         </tbody>
       </table>
     </div>
+
+    <!-- pagination controls -->
     <Center v-if="rows.length" class="pages">
       <Clickable
         icon="fas fa-chevron-left"
@@ -73,6 +90,8 @@
         v-tooltip="'Next page of table rows'"
       />
     </Center>
+
+    <!-- empty -->
     <Center v-else>
       No Results
     </Center>
@@ -85,24 +104,32 @@ import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 
 export interface Col {
-  key: string; // key to access in each row object for col
-  name?: string; // header text and unique id for col
-  align?: string; // alignment for col, left | center | right
-  sortable?: boolean; // is col sortable
-  action?: string; // action to emit when clicking on cell in col
-  icon?: string; // icon to show in button for action
-  format?: Function; // how to format cell
+  // key to access in each row object for col
+  key: string;
+  // header text and unique id for col
+  name?: string;
+  // alignment for col, left | center | right
+  align?: string;
+  // is col sortable
+  sortable?: boolean;
+  // action to emit when clicking on cell in col
+  action?: string;
+  // icon to show in button for action
+  icon?: string;
+  // how to format cell
+  format?: Function;
 }
 
-type Cell = number | string | null | undefined;
-
 interface Row {
-  [index: string]: Cell;
+  // eslint-disable-next-line
+  [index: string]: any;
 }
 
 export default defineComponent({
   props: {
+    // columns
     cols: Array,
+    // rows of data
     rows: Array
   },
   emits: ["action"],
@@ -112,13 +139,18 @@ export default defineComponent({
   },
   data() {
     return {
+      // current sort column by name
       sortCol: "",
+      // is column sort ascending or descending
       sortUp: false,
+      // first row to show on page
       startRow: 0,
+      // rows to show per page
       perPage: 10
     };
   },
   methods: {
+    // when sort button clicked
     changeSort(name: string) {
       if (this.sortCol === name) {
         if (this.sortUp) {
@@ -132,47 +164,57 @@ export default defineComponent({
         this.sortUp = false;
       }
     },
+    // when prev page button clicked
     prevPage() {
       if (this.canPrev) this.startRow -= this.perPage;
     },
+    // when next page button clicked
     nextPage() {
       if (this.canNext) this.startRow += this.perPage;
     }
   },
   computed: {
+    // display copy of row data, sorted and paginated
     _rows(): Row[] {
-      const sortCol: string =
+      // get key of sort column
+      const sortKey: string =
         (((this.cols as []).find((col: Col) => col.name === this.sortCol) ||
           {}) as Col)?.key || "";
 
+      // copy row data and track original indices for performing actions on rows
       let rows = [...((this.rows || []) as Row[])];
       rows = rows.map((row, index) => ({ ...row, originalIndex: index }));
 
-      const func = (a: Row, b: Row) => {
-        const valA = a[sortCol] || 0;
-        const valB = b[sortCol] || 0;
-        if (valA < valB === this.sortUp) return 1;
-        else if (valA > valB === this.sortUp) return -1;
-        else return 0;
-      };
+      // sort
+      if (sortKey)
+        rows.sort((a: Row, b: Row) => {
+          const valA = a[sortKey] || 0;
+          const valB = b[sortKey] || 0;
+          if (valA < valB === this.sortUp) return 1;
+          else if (valA > valB === this.sortUp) return -1;
+          else return 0;
+        });
 
-      if (sortCol) rows.sort(func);
-
+      // paginate
       rows = rows.slice(this.startRow, this.startRow + this.perPage);
 
       return rows;
     },
+    // is there a prev page to go to
     canPrev(): boolean {
       return this.startRow - this.perPage >= 0;
     },
+    // is there a next page to go to
     canNext(): boolean {
       return this.startRow + this.perPage <= (this.rows || []).length - 1;
     },
+    // last row to display on page
     endRow(): number {
       return Math.min(this.startRow + this.perPage, (this.rows || []).length);
     }
   },
   watch: {
+    // when table row data changes, go to first page
     rows: {
       handler() {
         this.startRow = 0;

@@ -1,9 +1,8 @@
 <template>
+  <!-- single line text box input -->
   <input
     class="text_box"
-    :placeholder="placeholder"
-    :name="name"
-    :type="type || 'text'"
+    type="text"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
   />
@@ -14,9 +13,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    placeholder: String,
-    name: String,
-    type: String,
+    // input value internal state
     modelValue: String
   }
 });

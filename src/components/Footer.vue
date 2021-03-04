@@ -1,4 +1,5 @@
 <template>
+  <!-- footer at bottom of every page -->
   <footer>
     <QuickLinks />
     <InfoLinks />

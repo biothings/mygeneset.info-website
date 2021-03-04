@@ -1,4 +1,5 @@
 <template>
+  <!-- portrait of team member with image, name, and role -->
   <LinkTo :to="link" class="portrait">
     <div class="portrait_image"><img :src="image" /></div>
     <div class="portrait_name">{{ name }}</div>
@@ -12,9 +13,13 @@ import LinkTo from "@/components/LinkTo.vue";
 
 export default defineComponent({
   props: {
+    // link target
     link: String,
+    // image src
     image: String,
+    // member's name, under image
     name: String,
+    // members role, under name
     role: String
   },
   components: {

@@ -1,5 +1,6 @@
 <template>
-  <code ref="code" class="code_block" :aria-label="ariaLabel">
+  <!-- block of syntax-highlighted code -->
+  <code ref="code" class="code_block">
     <slot></slot>
   </code>
 </template>
@@ -8,10 +9,8 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  props: {
-    ariaLabel: String
-  },
   methods: {
+    // get code content of block, including code input components
     getCode() {
       const code = this.$refs.code as HTMLElement;
       let text = "";

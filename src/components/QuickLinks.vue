@@ -1,4 +1,5 @@
 <template>
+  <!-- quick icon links in footer -->
   <div class="quick_links">
     <LinkTo
       to="https://github.com/biothings/mygeneset.info/"

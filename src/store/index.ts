@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import VuexPersistence from "vuex-persist";
 
+// global state type
 export interface State {
   loggedIn: boolean;
   userName: string;
@@ -9,10 +10,12 @@ export interface State {
   apiToken: string;
 }
 
+// local storage for persistence
 const vuexLocal = new VuexPersistence<State>({
   storage: window.localStorage
 });
 
+// global state store
 export default createStore<State>({
   state: {
     loggedIn: false,
@@ -22,6 +25,7 @@ export default createStore<State>({
     apiToken: ""
   },
   mutations: {
+    // dummy log in
     logIn(state) {
       state.loggedIn = true;
       state.userName = "Casey Greene";
@@ -29,6 +33,7 @@ export default createStore<State>({
       state.account = "GitHub";
       state.apiToken = "02j831lkdjf01j3fj013jf";
     },
+    // dummy log out
     logOut(state) {
       state.loggedIn = false;
       state.userName = "";
@@ -38,9 +43,11 @@ export default createStore<State>({
     }
   },
   actions: {
+    // dummy log in
     logIn({ commit }) {
       commit("logIn");
     },
+    // dummy log out
     logOut({ commit }) {
       commit("logOut");
     }

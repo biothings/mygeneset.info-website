@@ -1,4 +1,5 @@
 <template>
+  <!-- placeholder rectangle. to eventually be deleted. -->
   <p class="placeholder">
     <span>
       <slot></slot>

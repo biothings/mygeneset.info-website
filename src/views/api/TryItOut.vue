@@ -12,7 +12,7 @@
         v-tooltip="request.tooltip"
       />
     </Center>
-    <CodeBlock ref="codeBlock" :ariaLabel="code">
+    <CodeBlock ref="codeBlock">
       <span>{{ method }}</span>
       <span>&nbsp;</span>
       <span>{{ base }}</span>
@@ -26,7 +26,6 @@
         <CodeInput
           v-if="example"
           :defaultValue="example"
-          :sanitize="sanitize"
           :onChange="setCode"
           v-tooltip="tooltip"
           autocomplete="off"
@@ -205,9 +204,6 @@ export default defineComponent({
     };
   },
   methods: {
-    sanitize(value: string) {
-      return value;
-    },
     setCode() {
       nextTick(() => {
         const codeBlock = this.$refs.codeBlock as CodeBlockInterface;

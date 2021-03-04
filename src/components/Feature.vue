@@ -1,4 +1,5 @@
 <template>
+  <!-- product feature with icon, title, and description -->
   <div class="feature">
     <div class="feature_icon"><i :class="icon" /></div>
     <div class="feature_title">{{ title }}</div>
@@ -11,8 +12,11 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
+    // font awesome icon code
     icon: String,
+    // text in bold under icon
     title: String,
+    // text under title
     description: String
   }
 });

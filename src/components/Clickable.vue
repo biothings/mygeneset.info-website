@@ -1,12 +1,6 @@
 <template>
-  <component
-    :is="component"
-    class="clickable"
-    :to="to"
-    :design="design"
-    :title="title"
-    :aria-label="title"
-  >
+  <!-- button or link with various designs -->
+  <component :is="component" class="clickable" :to="to" :design="design">
     <i v-if="icon" :class="icon" />
     <span v-if="text">{{ text }}</span>
   </component>
@@ -18,17 +12,21 @@ import LinkTo from "@/components/LinkTo.vue";
 
 export default defineComponent({
   props: {
+    // link target
     to: String,
+    // font awesome icon code
     icon: String,
+    // text to display
     text: String,
-    design: String,
-    title: String
+    // plain, slim, or big
+    design: String
   },
   components: {
     LinkTo
   },
   data() {
     return {
+      // whether to render <a> (router link) or <button>
       component: this.to ? "LinkTo" : "button"
     };
   }

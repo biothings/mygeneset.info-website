@@ -26,7 +26,7 @@ import Table from "@/components/Table.vue";
 import TextBox from "@/components/TextBox.vue";
 import SpeciesSelect from "@/components/SpeciesSelect.vue";
 import { search } from "@/api/genesets";
-import { Json } from "@/api/index";
+import { Json } from "@/types";
 
 const cols = [
   {

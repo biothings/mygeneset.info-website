@@ -1,4 +1,5 @@
 <template>
+  <!-- cool visualization of hexagons in background of header -->
   <div class="hex_field">
     <div
       class="hex_view"
@@ -72,8 +73,9 @@ export default defineComponent({
     return {
       // hex grid objects
       cells,
-      // view angle
+      // view X angle
       xAngle: 0,
+      // view Y angle
       yAngle: 0
     };
   },
@@ -84,7 +86,7 @@ export default defineComponent({
       this.xAngle = (0.5 - event.clientY / window.innerHeight) * 30;
     }
   },
-
+  // add/remove listeners
   mounted() {
     window.addEventListener("mousemove", this.onMouseMove);
   },
