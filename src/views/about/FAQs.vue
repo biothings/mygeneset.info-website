@@ -27,9 +27,9 @@
     <h4>Where do the genes and genesets come from?</h4>
     <p>
       The genes themselves come from the BioThings
-      <a href="https://mygene.info/">My Gene</a> project, which contains
-      millions of genes from thousands of species. The built-in genesets come
-      from various public sources:
+      <a href="https://mygene.info/">MyGene</a> project, which contains millions
+      of genes from thousands of species. The built-in genesets come from
+      various public sources:
     </p>
     <ul>
       <li>

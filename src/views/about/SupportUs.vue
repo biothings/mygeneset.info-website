@@ -50,7 +50,7 @@
       ></component>
       <Clickable
         to="https://biothings.io/branding"
-        text='"Powered by MyGeneset"'
+        text='"Powered by" Branding'
         design="slim"
       />
       <Clickable to="#cite" text="Cite Us" design="slim" />
