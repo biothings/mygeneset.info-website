@@ -2,9 +2,9 @@
   <Section>
     <!-- high-level description of app and api -->
     <p>
-      MyGeneset allows scientists to conveniently collect, save, and share genes
-      from thousands of different species. You can use it through this website
-      or programmatically through the
+      MyGeneset allows scientists to conveniently collect, save, and share sets
+      of genes from thousands of different species. You can use it through this
+      website or programmatically through the
       <router-link to="API">API</router-link>.
     </p>
     <p>

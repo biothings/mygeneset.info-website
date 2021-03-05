@@ -1,7 +1,7 @@
 <template>
   <Section>
     <h2 id="api">API</h2>
-    <Center>Use My Geneset programatically</Center>
+    <Center>Use MyGeneset programatically</Center>
     <Placeholder>
       table of popular/recent queries with columns:<br />
       request, parameters, country, time took

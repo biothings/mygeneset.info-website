@@ -2,7 +2,7 @@
   <!-- logo, text, and slogan in header -->
   <router-link to="/" class="logo" :big="big">
     <img src="@/assets/logo.svg" />
-    <div class="title">My Geneset</div>
+    <div class="title">MyGeneset</div>
     <div v-if="big" class="slogan">
       Collect, save, and share genes
     </div>

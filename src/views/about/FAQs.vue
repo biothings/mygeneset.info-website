@@ -5,9 +5,9 @@
     <p>
       The source code for all BioThings tools are hosted on the
       <a href="https://github.com/biothings">BioThings GitHub organization</a>.
-      The source code for the My Geneset API can be found in
+      The source code for the MyGeneset API can be found in
       <a href="https://github.com/biothings/mygeneset.info">this repository</a>.
-      The source code for the My Geneset web app can be found in
+      The source code for the MyGeneset web app can be found in
       <a href="https://github.com/biothings/mygeneset.info-website"
         >this repository</a
       >.
@@ -33,29 +33,24 @@
     </p>
     <ul>
       <li>
-        <a
-          href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:KEGG"
-          >KEGG</a
+        <a href="https://ctdbase.org"
+          >CTD (Comparative Toxicogenomics Database)</a
+        >
+      </li>
+      <li><a href="https://disease-ontology.org">DO (Disease Ontology)</a></li>
+      <li><a href="http://geneontology.org">GO (Gene Ontology)</a></li>
+      <li>
+        <a href="https://www.kegg.jp"
+          >KEGG (Kyoto Encyclopedia of Genes and Genomes)</a
         >
       </li>
       <li>
-        <a
-          href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:BIOCARTA"
-          >BIOCARTA</a
+        <a href="https://www.gsea-msigdb.org/gsea/msigdb"
+          >MSigDB (Molecular Signatures Database)</a
         >
       </li>
-      <li>
-        <a
-          href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:REACTOME"
-          >REACTOME</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=CP:WIKIPATHWAYS"
-          >WIKIPATHWAYS</a
-        >
-      </li>
+      <li><a href="https://reactome.org/">Reactome</a></li>
+      <li><a href="https://www.wikipathways.org/">WikiPathways</a></li>
     </ul>
     <h4>How often is the data updated?</h4>
     <p>
@@ -63,13 +58,12 @@
       above) are
       <a href="http://mygeneset.info/v1/metadata"
         >updated from their original sources weekly</a
-      >. <br /><br />
-      The genes themselves (their annotation data) is also
+      >. The genes themselves (their annotation data) are also
       <a href="http://mygene.info/v1/metadata">updated weekly</a>.
     </p>
-    <h4>What's behind My Geneset?</h4>
+    <h4>What's behind MyGeneset?</h4>
     <p>
-      My Geneset uses the powerful
+      MyGeneset uses the powerful
       <a href="https://www.elastic.co/">Elasticsearch</a> for its backend
       database and query engine. This allows querying for data to be simple,
       flexible, and performative.

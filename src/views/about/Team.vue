@@ -2,7 +2,7 @@
   <Section>
     <h2 id="team">Team</h2>
     <p>
-      My Geneset was made by the
+      MyGeneset was made by the
       <LinkTo to="https://biothings.io/">BioThings collaboration</LinkTo>, a
       cross-organization group that builds
       <LinkTo to="https://www.go-fair.org/fair-principles/">FAIR</LinkTo> tools
@@ -16,7 +16,12 @@
         link="https://wulab.io/the-team-chunlei-wu"
         :image="chunlei"
       />
-
+      <Portrait
+        name="Casey Greene"
+        role="Principal Investigator"
+        link="https://greenelab.com/members/casey-greene.html"
+        :image="casey"
+      />
       <Portrait
         name="Ricardo Avila"
         role="Research Programmer"
@@ -53,6 +58,7 @@ import Gallery from "@/components/Gallery.vue";
 import Portrait from "@/components/Portrait.vue";
 
 import chunlei from "@/assets/team/chunlei.jpg";
+import casey from "@/assets/team/casey.jpg";
 import ricardo from "@/assets/team/ricardo.jpg";
 import dongbo from "@/assets/team/dongbo.jpg";
 import jerry from "@/assets/team/jerry.jpg";
@@ -68,6 +74,7 @@ export default defineComponent({
   data() {
     return {
       chunlei,
+      casey,
       ricardo,
       dongbo,
       jerry,

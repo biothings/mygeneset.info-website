@@ -10,7 +10,7 @@
       <div class="version">v1.0</div>
     </Center>
     <p>
-      Full documentation for using My Geneset programmatically through its API.
+      Full documentation for using MyGeneset programmatically through its API.
       Detailed info about request parameters, response schemas, and more.
     </p>
   </Section>

@@ -2,8 +2,8 @@
   <Section>
     <h2 id="terms">Terms of Use</h2>
     <p>
-      BY USING THIS WEBSITE, YOU ACKNOWLEDGE AND AGREE THAT YOU HAVE READ,
-      UNDERSTOOD AND AGREE TO ALL OF THE FOLLOWING TERMS OF USE.
+      BY USING THIS WEBSITE, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD AND
+      AGREED TO ALL OF THE FOLLOWING TERMS OF USE.
     </p>
     <p>
       This resource is intended for purely research purposes. It should not be
