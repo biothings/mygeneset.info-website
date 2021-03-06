@@ -3,13 +3,24 @@
     <h2 id="support">Support Us</h2>
     <p>
       The tools created by the BioThings collaboration are funded by grants from
-      <a href="https://foundation.org/">EXAMPLE FOUNDATION</a>,
-      <a href="https://foundation.org/">EXAMPLE FOUNDATION</a>, and
-      <a href="https://foundation.org/">EXAMPLE FOUNDATION</a>. Although the
-      individual data sources included in these tools may be subject to
-      restrictions, the tools themselves are free and we would like them to
-      remain that way. If you found our tools useful, please help support us by
-      spreading the word and demonstrating its value:
+      the
+      <a href="https://www.genome.gov/"
+        >National Human Genome Research Institute</a
+      >
+      (R01 HG010067), the
+      <a href="https://www.nigms.nih.gov/"
+        >National Institute of General Medical Sciences</a
+      >
+      (R01 GM083924), the
+      <a href="https://ncats.nih.gov/translator"
+        >National Center for Advancing Translational Sciences</a
+      >
+      (OT2TR003445), and the
+      <a href="https://www.moore.org/">Gordon and Betty Moore Foundation</a>
+      (GBMF 4552). Although the individual data sources included in these tools
+      may be subject to restrictions, the tools themselves are free and we would
+      like them to remain that way. If you found our tools useful, please help
+      support us by spreading the word and demonstrating its value:
     </p>
     <Center class="buttons">
       <a
