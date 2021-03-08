@@ -33,7 +33,6 @@ const cols = [
   {
     key: "_id",
     name: "Name",
-    align: "left",
     format: (cell: Geneset["_id"]) => `<a href="/geneset/${cell}">${cell}</a>`
   },
   {
@@ -45,7 +44,6 @@ const cols = [
   {
     key: "genes",
     name: "Genes",
-    align: "left",
     format: (cell: Geneset["genes"]) =>
       [cell]
         .flat()

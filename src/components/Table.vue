@@ -14,7 +14,7 @@
               <!-- sort button -->
               <button
                 v-if="col.sortable !== false && !col.action"
-                :align="col.align || 'center'"
+                :align="col.align || 'left'"
                 @click="changeSort(col.name)"
               >
                 {{ col.name }}
@@ -26,7 +26,7 @@
               </button>
 
               <!-- raw value -->
-              <div v-else :align="col.align || 'center'">
+              <div v-else :align="col.align || 'left'">
                 {{ col.name }}
               </div>
             </th>
@@ -38,9 +38,9 @@
           <tr v-for="(row, rowIndex) in _rows" :key="rowIndex">
             <template v-for="(col, colIndex) in cols" :key="colIndex">
               <!-- action button -->
-              <td v-if="col.action" :align="col.align || 'center'">
+              <td v-if="col.action" :align="col.align || 'left'">
                 <Clickable
-                  :title="col.action"
+                  v-tooltip="col.action"
                   :icon="col.icon"
                   @click="
                     $emit('action', {
@@ -58,12 +58,12 @@
               <!-- custom html -->
               <td
                 v-else-if="col.format"
-                :align="col.align || 'center'"
+                :align="col.align || 'left'"
                 v-html="col.format(row[col.key])"
               ></td>
 
               <!-- raw value -->
-              <td v-else :align="col.align || 'center'">
+              <td v-else :align="col.align || 'left'">
                 {{ row[col.key] }}
               </td>
             </template>

@@ -42,9 +42,9 @@
       :disabled="!editable"
     />
     <Field
-      name="Visibility"
+      name="Public"
       v-model="geneset.is_public"
-      :options="['Public', 'Private']"
+      type="checkbox"
       :disabled="!editable"
     />
   </Section>
@@ -55,7 +55,7 @@
       <i class="fas fa-check"></i>
       <span>Selected Genes</span>
     </h2>
-    <Table :cols="_genesCols" :rows="geneset.genes" @action="removeRow" />
+    <Table :cols="selectedCols" :rows="geneset.genes" />
     <Center :vertical="true" width="200px">
       <Clickable text="Download" icon="fas fa-download" design="big" />
       <Clickable
@@ -78,18 +78,33 @@
       <i class="fas fa-plus"></i>
       <span>Add Genes</span>
     </h2>
-    <Placeholder>
-      Gene search and add
-    </Placeholder>
+    <Center :vertical="true" width="100%">
+      <TextBox
+        :placeholder="`Search genes by keyword`"
+        v-model="keywords"
+        v-debounce="search"
+      />
+      <SpeciesSelect
+        :placeholder="`Search genes by species`"
+        v-model="species"
+      />
+    </Center>
+    <Table :cols="addCols" :rows="results">
+      <i class="fas fa-briefcase"></i>
+      <span>Top {{ top }} of {{ total }} total results</span>
+    </Table>
   </Section>
 
   <!-- finish section -->
   <Section v-if="!loading && !error">
-    <Center v-if="!fresh" :vertical="true" width="200px">
-      <Clickable text="Duplicate" icon="fas fa-copy" design="big" />
-      <div>Start new geneset from this one</div>
-    </Center>
     <Center v-if="editable" :vertical="true" width="200px">
+      <Clickable
+        v-if="!fresh"
+        text="Duplicate"
+        icon="fas fa-copy"
+        design="big"
+        v-tooltip="'Start new geneset from this one'"
+      />
       <Clickable
         v-if="fresh"
         text="Publish"
@@ -97,11 +112,16 @@
         design="big"
       />
       <Clickable v-else text="Save Changes" icon="fas fa-upload" design="big" />
-      <div>
-        <span class="edit">Edited</span>{{ " " }}
-        <span class="diff">title, description, visibility</span><br />
-        <span class="add">Added</span> <span class="diff">X genes</span><br />
-        <span class="remove">Removed</span> <span class="diff">X genes</span>
+      <div class="diff">
+        <div v-if="edited" class="edited">
+          <span>Edited </span><span>{{ edited }}</span>
+        </div>
+        <div v-if="added" class="added">
+          <span>Added </span><span>{{ added }}</span>
+        </div>
+        <div v-if="removed" class="removed">
+          <span>Removed </span><span>{{ added }}</span>
+        </div>
       </div>
     </Center>
   </Section>
@@ -114,9 +134,12 @@ import Field from "@/components/Field.vue";
 import Table from "@/components/Table.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
-import Placeholder from "@/components/Placeholder.vue";
+import TextBox from "@/components/TextBox.vue";
+import SpeciesSelect from "@/components/SpeciesSelect.vue";
 import { lookup } from "@/api/genesets";
+import { search } from "@/api/genes";
 import { Geneset } from "@/api/types";
+import { toHumanCase } from "@/util/string";
 
 const blank: Geneset = {
   _id: "",
@@ -128,18 +151,35 @@ const blank: Geneset = {
   genes: []
 };
 
+// columns in gene tables
+const cols = [
+  { key: "name", name: "Name" },
+  { key: "taxid", name: "TaxId" },
+  { key: "entrezgene", name: "Entrez" }
+];
+
 // columns in selected genes table
-const genesCols = [
-  { key: "name", name: "Name", align: "left" },
-  { key: "ensemblgene", name: "Ensembl ID", align: "center" },
-  { key: "uniprot", name: "Uniprot ID", align: "center" },
+const selectedCols = [
   {
     key: "delete",
     name: "",
     align: "center",
     action: "Remove gene from set",
-    icon: "fas fa-trash"
-  }
+    icon: "fas fa-times"
+  },
+  ...cols
+];
+
+// columns in add genes table
+const addCols = [
+  {
+    key: "add",
+    name: "",
+    align: "center",
+    action: "Add gene to set",
+    icon: "fas fa-plus"
+  },
+  ...cols
 ];
 
 export default defineComponent({
@@ -149,7 +189,8 @@ export default defineComponent({
     Table,
     Center,
     Clickable,
-    Placeholder
+    TextBox,
+    SpeciesSelect
   },
   props: {
     // is this geneset editable
@@ -163,51 +204,112 @@ export default defineComponent({
       loading: false,
       // error state
       error: false,
-      // current geneset
+      // geneset state
       geneset: blank,
+      // original unmodified genset
+      original: { ...blank },
       // format options expanded state
-      expanded: false
+      expanded: false,
+      // search keywords
+      keywords: "",
+      // selected species
+      species: [],
+      // add genes table columns
+      addCols,
+      // add genes table row data
+      results: [],
+      // "edited" fields diff
+      edited: "",
+      // added genes diff
+      added: "",
+      // removed genes diff
+      removed: ""
     };
   },
   methods: {
     // load geneset from route id
-    async loadGeneset(id: string) {
+    async load(id: string) {
       this.loading = true;
       try {
         this.geneset = await lookup(id);
+        this.original = { ...this.geneset };
+        console.log(this.geneset, this.original);
       } catch (error) {
         this.error = true;
       } finally {
         this.loading = false;
       }
+    },
+    // search genes
+    async search() {
+      try {
+        this.results = (await search(this.keywords, this.species)) as [];
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
   computed: {
     // columns in selected genes table
-    _genesCols() {
-      if (this.$props.editable) return genesCols;
-      else return genesCols.slice(0, -1);
+    selectedCols() {
+      // if not editable, remove first col w/ delete button
+      if (this.$props.editable) return selectedCols;
+      else return selectedCols.slice(1);
+    },
+    // top X of...
+    top(): string {
+      return Math.min(100, this.results.length || 0).toLocaleString();
+    },
+    // ...N total reults
+    total(): string {
+      return ((this.results[0] as Geneset)?.total || 0).toLocaleString();
+    }
+  },
+  watch: {
+    geneset: {
+      handler() {
+        // find changed fields
+        const edited = [];
+        const fields = ["_id", "creator", "date", "description", "is_public"];
+        for (const field of fields) {
+          const key = field as keyof Geneset;
+          if (this.geneset[key] !== this.original[key])
+            edited.push(toHumanCase(key));
+        }
+        this.edited = edited.join(", ");
+
+        // find removed genes
+      },
+      deep: true
+    },
+    // update search when selected species change
+    species() {
+      this.search();
     }
   },
   async mounted() {
     // load geneset from route it
     if (!this.fresh && this.$route.params.id)
-      this.loadGeneset(this.$route.params.id as string);
+      this.load(this.$route.params.id as string);
+    // update search on load
+    this.search();
   }
 });
 </script>
 
 <style scope lang="scss">
-.edit {
-  color: $blue;
-}
-.add {
-  color: $green;
-}
-.remove {
-  color: $red;
-}
 .diff {
-  color: $dark-gray;
+  .edited > span:first-child {
+    color: $blue;
+  }
+  .added > span:first-child {
+    color: $green;
+  }
+  .removed > span:first-child {
+    color: $red;
+  }
+  & > div > span:last-child {
+    color: $dark-gray;
+  }
 }
 </style>
