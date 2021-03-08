@@ -59,7 +59,7 @@
               <td
                 v-else-if="col.format"
                 :align="col.align || 'left'"
-                v-html="col.format(row[col.key])"
+                v-html="col.format(row[col.key], row)"
               ></td>
 
               <!-- raw value -->
@@ -116,7 +116,7 @@ export interface Col {
   action?: string;
   // icon to show in button for action
   icon?: string;
-  // how to format cell
+  // how to format cell. gets cell value and row object. return html string.
   format?: Function;
 }
 
