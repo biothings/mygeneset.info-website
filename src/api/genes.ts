@@ -17,7 +17,7 @@ export const search = async (
   if (species?.length) params.set("species", species.join(","));
   params.set("fields", "*");
   params.set("size", "100");
-  params.set("always_list", "genes.ensemblgene,genes.uniprot");
+  params.set("always_list", "symbol,ensembl,uniprot");
 
   // request and parse results
   const url = mygene + "query?" + params.toString();

@@ -33,11 +33,10 @@ export interface Gene {
   // from api
   mygene_id?: string;
   name?: string;
-  symbol?: string;
+  symbol?: string[];
   ncbigene?: string;
   ensemblgene?: string[];
   uniprot?: string[];
-  taxid?: number;
 
   // from app
   total?: number;
@@ -49,12 +48,11 @@ export interface MyGene {
   // from api
   _id?: string;
   name?: string;
-  symbol?: string;
+  symbol?: string[];
   ncbigene?: string;
-  ensembl?: { gene?: string };
+  ensembl?: { gene?: string }[];
   entrezgene?: string;
-  uniprot?: { "Swiss-Prot": string };
-  taxid?: number;
+  uniprot?: { "Swiss-Prot": string }[];
 
   // from app
   total?: number;
@@ -68,9 +66,8 @@ export const mapGene = (myGene: MyGene): Gene => ({
   name: myGene.name,
   symbol: myGene.symbol,
   ncbigene: myGene.entrezgene,
-  ensemblgene: [myGene.ensembl?.gene || ""],
-  uniprot: [(myGene.uniprot || {})["Swiss-Prot"] || ""],
-  taxid: myGene.taxid,
+  ensemblgene: (myGene.ensembl || []).map(e => e.gene || ""),
+  uniprot: (myGene.uniprot || []).map(u => (u || {})["Swiss-Prot"] || ""),
 
   // from app
   total: myGene.total

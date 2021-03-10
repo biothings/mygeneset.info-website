@@ -35,6 +35,7 @@ import { Geneset } from "@/api/types";
 import { Gene } from "@/api/types";
 
 // table columns
+const format = (cell: []) => cell?.join(", ") || "";
 const cols = [
   {
     key: "add",
@@ -44,22 +45,17 @@ const cols = [
       action: (cell: undefined, row: Gene) =>
         row?.selected ? "remove" : "add",
       icon: (cell: undefined, row: Gene) =>
-        row?.selected ? "fas fa-times" : "fas fa-plus",
+        row?.selected ? "fas fa-check" : "fas fa-plus",
       tooltip: (cell: undefined, row: Gene) =>
         row?.selected ? "Remove gene from set" : "Add gene to set"
     },
     sortable: false
   },
   { key: "name", name: "Name" },
-  { key: "symbol", name: "Symbol" },
+  { key: "symbol", name: "Symbol", format },
   { key: "ncbigene", name: "Entrez" },
-  {
-    key: "ensemblgene",
-    name: "Ensembl",
-    format: (cell: []) => cell.join(", ")
-  },
-  { key: "uniprot", name: "Uniprot", format: (cell: []) => cell.join(", ") },
-  { key: "taxid", name: "Tax Id" }
+  { key: "ensemblgene", name: "Ensembl", format },
+  { key: "uniprot", name: "Uniprot", format }
 ];
 
 export default defineComponent({

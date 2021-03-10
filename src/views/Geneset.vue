@@ -59,9 +59,9 @@ export default defineComponent({
       // error state
       error: false,
       // geneset state
-      geneset: Object as Geneset,
+      geneset: {} as Geneset,
       // original unmodified geneset
-      original: Object as Geneset
+      original: {} as Geneset
     };
   },
   methods: {
@@ -92,7 +92,6 @@ export default defineComponent({
   computed: {
     // dummy is editable property
     editable() {
-      console.log(this.original);
       return this.$route.params.id ? false : true;
     }
   },

@@ -223,8 +223,8 @@ export default defineComponent({
   watch: {
     // when table row data changes, go to first page
     rows: {
-      handler() {
-        this.startRow = 0;
+      handler(oldRows, newRows) {
+        if (oldRows.length !== newRows.length) this.startRow = 0;
       },
       deep: true
     }

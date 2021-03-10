@@ -75,8 +75,6 @@ export default defineComponent({
         const before = (original.genes || []).map(map);
         const after = (geneset.genes || []).map(map);
 
-        console.log(before, after);
-
         // find added genes (ones in after and not in before)
         this.added = after.filter(
           (a: string) => before.findIndex((b: string) => a === b) === -1

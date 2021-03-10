@@ -31,6 +31,7 @@ import Clickable from "@/components/Clickable.vue";
 import { Geneset } from "@/api/types";
 
 // table columns
+const format = (cell: []) => cell?.join(", ") || "";
 const cols = [
   {
     key: "remove",
@@ -44,15 +45,10 @@ const cols = [
     sortable: false
   },
   { key: "name", name: "Name" },
-  { key: "symbol", name: "Symbol" },
+  { key: "symbol", name: "Symbol", format },
   { key: "ncbigene", name: "Entrez" },
-  {
-    key: "ensemblgene",
-    name: "Ensembl",
-    format: (cell: []) => cell.join(", ")
-  },
-  { key: "uniprot", name: "Uniprot", format: (cell: []) => cell.join(", ") },
-  { key: "taxid", name: "Tax Id" }
+  { key: "ensemblgene", name: "Ensembl", format },
+  { key: "uniprot", name: "Uniprot", format }
 ];
 
 export default defineComponent({

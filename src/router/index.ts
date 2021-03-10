@@ -20,7 +20,7 @@ const handleRedirect: NavigationGuard = (to, from, next) => {
   // check for redirect storage flag
   const redirect = sessionStorage.redirect;
   if (redirect) {
-    console.log({ redirect });
+    console.info({ redirect });
     // route to redirect location instead
     next(redirect);
     // remove redirect storage flag
