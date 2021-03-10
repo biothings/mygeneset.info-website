@@ -1,16 +1,3 @@
-// expected type for genes in genesets
-export interface GenesetGene {
-  // from api
-  mygene_id: string;
-  name: string;
-  ensemblgene: string;
-  ncbigene: string;
-  uniprot: string;
-
-  // from app
-  total?: number;
-}
-
 // expected type for genesets from mygeneset.info
 export interface Geneset {
   // from api
@@ -19,7 +6,7 @@ export interface Geneset {
   date?: string;
   description?: string;
   is_public?: boolean;
-  genes?: GenesetGene | GenesetGene[];
+  genes?: Gene[];
 
   // from app
   total?: number;
@@ -41,15 +28,50 @@ export interface Species {
   icon?: string;
 }
 
-// expected type for genes from mygene.info
+// expected type for genes
 export interface Gene {
+  // from api
+  mygene_id?: string;
+  name?: string;
+  symbol?: string;
+  ncbigene?: string;
+  ensemblgene?: string[];
+  uniprot?: string[];
+  taxid?: number;
+
+  // from app
+  total?: number;
+  selected?: boolean;
+}
+
+// gene from mygene api
+export interface MyGene {
   // from api
   _id?: string;
   name?: string;
-  taxid?: number;
-  entrezgene?: string;
   symbol?: string;
+  ncbigene?: string;
+  ensembl?: { gene?: string };
+  entrezgene?: string;
+  uniprot?: { "Swiss-Prot": string };
+  taxid?: number;
 
   // from app
   total?: number;
 }
+
+// convert gene from mygene api to gene from mygeneset api
+export const mapGene = (myGene: MyGene): Gene => ({
+  // from api
+  // eslint-disable-next-line
+  mygene_id: myGene._id,
+  name: myGene.name,
+  symbol: myGene.symbol,
+  ncbigene: myGene.entrezgene,
+  ensemblgene: [myGene.ensembl?.gene || ""],
+  uniprot: [(myGene.uniprot || {})["Swiss-Prot"] || ""],
+  taxid: myGene.taxid,
+
+  // from app
+  total: myGene.total
+});

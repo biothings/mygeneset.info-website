@@ -6,8 +6,8 @@
     <Error v-if="error" />
     <template v-if="!loading && !error">
       <Details :geneset="geneset" :editable="editable" />
-      <Genes :geneset="geneset" :editable="editable" />
-      <Add v-if="editable" :geneset="geneset" />
+      <Genes :geneset="geneset" :editable="editable" :remove="remove" />
+      <Add v-if="editable" :geneset="geneset" :add="add" :remove="remove" />
       <Finish v-if="editable" :geneset="geneset" :original="original" />
     </template>
   </Main>
@@ -27,6 +27,8 @@ import Add from "@/views/geneset/Add.vue";
 import Finish from "@/views/geneset/Finish.vue";
 import { lookup } from "@/api/genesets";
 import { Geneset } from "@/api/types";
+import { Gene } from "@/api/types";
+import { cloneDeep } from "lodash";
 
 const blank: Geneset = {
   _id: "",
@@ -50,16 +52,16 @@ export default defineComponent({
     Add,
     Finish
   },
-  data: function() {
+  data() {
     return {
       // loading state
       loading: false,
       // error state
       error: false,
       // geneset state
-      geneset: {},
+      geneset: Object as Geneset,
       // original unmodified geneset
-      original: { ...blank }
+      original: Object as Geneset
     };
   },
   methods: {
@@ -68,22 +70,39 @@ export default defineComponent({
       this.loading = true;
       try {
         this.geneset = await lookup(id);
-        this.original = { ...this.geneset };
+        this.original = cloneDeep(this.geneset);
       } catch (error) {
         this.error = true;
       } finally {
         this.loading = false;
       }
+    },
+    // add gene to set
+    add(cell: undefined, row: Gene) {
+      (this.geneset as Geneset)?.genes?.push(row);
+    },
+    // remove gene from set
+    remove(cell: undefined, row: Gene) {
+      const match = (gene: Gene) => gene.mygene_id || row.mygene_id;
+      const index =
+        ((this.geneset as Geneset)?.genes || []).findIndex(match) || -1;
+      (this.geneset as Geneset)?.genes?.splice(index, 1);
     }
   },
   computed: {
+    // dummy is editable property
     editable() {
+      console.log(this.original);
       return this.$route.params.id ? false : true;
     }
   },
   mounted() {
+    // load geneset from id in url, or blank if on /new
     if (this.$route.params.id) this.load(this.$route.params.id as string);
-    else this.geneset = blank;
+    else {
+      this.geneset = cloneDeep(blank);
+      this.original = cloneDeep(blank);
+    }
   }
 });
 </script>

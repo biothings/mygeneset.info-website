@@ -16,7 +16,7 @@
         v-model="species"
       />
     </Center>
-    <Table :cols="cols" :rows="results">
+    <Table :cols="cols" :rows="_results" @add="add" @remove="remove">
       <i class="fas fa-dna"></i>
       <span>Top {{ top }} of {{ total }} total results</span>
     </Table>
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import Section from "@/components/Section.vue";
 import Table from "@/components/Table.vue";
 import Center from "@/components/Center.vue";
@@ -32,6 +32,7 @@ import TextBox from "@/components/TextBox.vue";
 import SpeciesSelect from "@/components/SpeciesSelect.vue";
 import { search } from "@/api/genes";
 import { Geneset } from "@/api/types";
+import { Gene } from "@/api/types";
 
 // table columns
 const cols = [
@@ -39,12 +40,26 @@ const cols = [
     key: "add",
     name: "",
     align: "center",
-    action: "Add gene to set",
-    icon: "fas fa-plus"
+    button: {
+      action: (cell: undefined, row: Gene) =>
+        row?.selected ? "remove" : "add",
+      icon: (cell: undefined, row: Gene) =>
+        row?.selected ? "fas fa-times" : "fas fa-plus",
+      tooltip: (cell: undefined, row: Gene) =>
+        row?.selected ? "Remove gene from set" : "Add gene to set"
+    },
+    sortable: false
   },
   { key: "name", name: "Name" },
-  { key: "taxid", name: "TaxId" },
-  { key: "entrezgene", name: "Entrez" }
+  { key: "symbol", name: "Symbol" },
+  { key: "ncbigene", name: "Entrez" },
+  {
+    key: "ensemblgene",
+    name: "Ensembl",
+    format: (cell: []) => cell.join(", ")
+  },
+  { key: "uniprot", name: "Uniprot", format: (cell: []) => cell.join(", ") },
+  { key: "taxid", name: "Tax Id" }
 ];
 
 export default defineComponent({
@@ -57,25 +72,29 @@ export default defineComponent({
   },
   props: {
     // current geneset
-    geneset: {}
+    geneset: Object as PropType<Geneset>,
+    // add gene to set
+    add: Function,
+    // remove gene from set
+    remove: Function
   },
   data() {
     return {
       // search keywords
       keywords: "",
       // selected species
-      species: [],
+      species: [] as string[],
       // table columns
       cols,
       // search results
-      results: []
+      results: [] as Gene[]
     };
   },
   methods: {
     // search genes
     async search() {
       try {
-        this.results = (await search(this.keywords, this.species)) as [];
+        this.results = await search(this.keywords, this.species);
       } catch (error) {
         console.error(error);
       }
@@ -88,7 +107,19 @@ export default defineComponent({
     },
     // ...N total reults
     total(): string {
-      return ((this.results[0] as Geneset)?.total || 0).toLocaleString();
+      return ((this.results[0] as Gene)?.total || 0).toLocaleString();
+    },
+    // copy of results with added properties
+    _results(): Gene[] {
+      const selected = (this.geneset as Geneset).genes || [];
+      return (this.results || []).map((result: Gene) => ({
+        ...result,
+        selected: selected.find(
+          (gene: Gene) => result.mygene_id === gene.mygene_id
+        )
+          ? true
+          : false
+      }));
     }
   },
   watch: {

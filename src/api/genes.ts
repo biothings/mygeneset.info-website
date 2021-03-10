@@ -1,6 +1,7 @@
 import { request } from ".";
 import { mygene } from ".";
 import { Gene } from "@/api/types";
+import { mapGene } from "@/api/types";
 
 // search genes by keyword
 export const search = async (
@@ -16,12 +17,15 @@ export const search = async (
   if (species?.length) params.set("species", species.join(","));
   params.set("fields", "*");
   params.set("size", "100");
+  params.set("always_list", "genes.ensemblgene,genes.uniprot");
 
   // request and parse results
   const url = mygene + "query?" + params.toString();
   try {
-    const { total = 0, hits = [] } = await request(url);
+    // eslint-disable-next-line
+    let { total = 0, hits = [] } = await request(url);
     if (hits.length) hits[0].total = total;
+    hits = hits.map(mapGene);
     return hits;
   } catch (error) {
     console.error(error);

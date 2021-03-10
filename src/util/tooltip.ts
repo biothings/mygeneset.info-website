@@ -23,14 +23,16 @@ const options: Options = {
 
 // open tooltip
 let timer: ReturnType<typeof setTimeout>;
-const open = (element: HTMLElement, value: string, slow?: boolean) => {
-  const delay = slow ? 750 : 250;
+const open = (event: Event) => {
+  const target = event.target as Element;
+  const delay = target.getAttribute("data-tooltip-slow") === "true" ? 750 : 250;
+  const text = target.getAttribute("data-tooltip-text") || "";
   window.clearTimeout(timer);
   timer = window.setTimeout(() => {
     if (popper) popper.destroy();
-    popper = createPopper(element, tooltip, options);
+    popper = createPopper(target, tooltip, options);
     tooltip.dataset.show = "true";
-    tooltip.innerHTML = value;
+    tooltip.innerHTML = text;
   }, delay);
 };
 
@@ -40,26 +42,41 @@ const close = () => {
   tooltip.dataset.show = "false";
 };
 
+// attach event listeners to element
+function attach(
+  element: HTMLElement,
+  {
+    value,
+    modifiers: { slow }
+  }: { value: string; modifiers: { slow?: boolean } }
+) {
+  element.addEventListener("mouseenter", open);
+  element.addEventListener("focus", open);
+  element.addEventListener("mouseleave", close);
+  element.addEventListener("blur", close);
+  element.setAttribute("data-tooltip-text", value);
+  element.setAttribute("data-tooltip-slow", slow ? "true" : "false");
+  element.setAttribute("aria-label", value);
+}
+
+// detach event listeners from element
+const detach = (element: HTMLElement) => {
+  element.removeEventListener("mouseenter", open);
+  element.removeEventListener("focus", open);
+  element.removeEventListener("mouseleave", close);
+  element.removeEventListener("blur", close);
+  element.removeAttribute("data-tooltip-text");
+  element.removeAttribute("data-tooltip-slow");
+  element.removeAttribute("aria-label");
+  close();
+};
+
 // create directive
 const directive = {
-  mounted(
-    element: HTMLElement,
-    { value, modifiers }: { value: string; modifiers: { slow?: boolean } }
-  ) {
-    const { slow } = modifiers;
-    element.addEventListener("mouseenter", () => open(element, value, slow));
-    element.addEventListener("focus", () => open(element, value, slow));
-    element.addEventListener("mouseleave", close);
-    element.addEventListener("blur", close);
-    element.setAttribute("aria-label", value);
-  },
-  beforeUnmount(element: HTMLElement, { value }: { value: string }) {
-    element.removeEventListener("mouseenter", () => open(element, value));
-    element.removeEventListener("focus", () => open(element, value));
-    element.removeEventListener("mouseleave", close);
-    element.removeEventListener("blur", close);
-    close();
-  }
+  mounted: attach,
+  beforeUpdate: detach,
+  updated: attach,
+  beforeUnmount: detach
 };
 
 export { directive };

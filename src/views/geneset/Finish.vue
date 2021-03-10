@@ -14,10 +14,10 @@
           <span>Edited </span><span>{{ edited }}</span>
         </div>
         <div v-if="added" class="added">
-          <span>Added </span><span>{{ added }}</span>
+          <span>Added </span><span>{{ added }} gene(s)</span>
         </div>
         <div v-if="removed" class="removed">
-          <span>Removed </span><span>{{ added }}</span>
+          <span>Removed </span><span>{{ removed }} gene(s)</span>
         </div>
       </div>
     </Center>
@@ -25,11 +25,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 import { Geneset } from "@/api/types";
+import { Gene } from "@/api/types";
 import { toHumanCase } from "@/util/string";
 
 export default defineComponent({
@@ -40,18 +41,18 @@ export default defineComponent({
   },
   props: {
     // current geneset
-    geneset: {},
+    geneset: Object as PropType<Geneset>,
     // original unmodified genset
-    original: {}
+    original: Object as PropType<Geneset>
   },
   data() {
     return {
       // "edited" fields diff
       edited: "",
       // added genes diff
-      added: "",
+      added: 0,
       // removed genes diff
-      removed: ""
+      removed: 0
     };
   },
   watch: {
@@ -59,8 +60,6 @@ export default defineComponent({
       handler() {
         const geneset = (this.geneset || {}) as Geneset;
         const original = (this.original || {}) as Geneset;
-
-        console.log(geneset, original);
 
         // find changed fields
         const edited = [];
@@ -71,7 +70,22 @@ export default defineComponent({
         }
         this.edited = edited.join(", ");
 
-        // find removed genes
+        // get list of before and after gene ids
+        const map = (gene: Gene) => gene.mygene_id || "";
+        const before = (original.genes || []).map(map);
+        const after = (geneset.genes || []).map(map);
+
+        console.log(before, after);
+
+        // find added genes (ones in after and not in before)
+        this.added = after.filter(
+          (a: string) => before.findIndex((b: string) => a === b) === -1
+        ).length;
+
+        // find removed genes (ones in before and not in after)
+        this.removed = before.filter(
+          (b: string) => after.findIndex((a: string) => a === b) === -1
+        ).length;
       },
       deep: true
     }

@@ -27,6 +27,7 @@ export const search = async (
   if (species?.length) params.set("species", species.join(","));
   params.set("fields", "*");
   params.set("size", "100");
+  params.set("always_list", "genes,genes.ensemblgene,genes.uniprot");
 
   // request and parse results
   const url = mygeneset + "query?" + params.toString();

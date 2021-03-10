@@ -4,7 +4,7 @@
       <i class="fas fa-dna"></i>
       <span>Genes</span>
     </h2>
-    <Table :cols="_cols" :rows="geneset?.genes || []" />
+    <Table :cols="_cols" :rows="geneset?.genes || []" @remove="remove" />
     <Center :vertical="true" width="200px">
       <Clickable text="Download" icon="fas fa-download" design="big" />
       <Clickable
@@ -23,11 +23,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import Section from "@/components/Section.vue";
 import Table from "@/components/Table.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
+import { Geneset } from "@/api/types";
 
 // table columns
 const cols = [
@@ -35,12 +36,23 @@ const cols = [
     key: "remove",
     name: "",
     align: "center",
-    action: "Remove gene from set",
-    icon: "fas fa-times"
+    button: {
+      action: () => "remove",
+      icon: () => "fas fa-times",
+      tooltip: () => "Remove gene from set"
+    },
+    sortable: false
   },
   { key: "name", name: "Name" },
-  { key: "taxid", name: "Tax Id" },
-  { key: "entrezgene", name: "Entrez" }
+  { key: "symbol", name: "Symbol" },
+  { key: "ncbigene", name: "Entrez" },
+  {
+    key: "ensemblgene",
+    name: "Ensembl",
+    format: (cell: []) => cell.join(", ")
+  },
+  { key: "uniprot", name: "Uniprot", format: (cell: []) => cell.join(", ") },
+  { key: "taxid", name: "Tax Id" }
 ];
 
 export default defineComponent({
@@ -52,9 +64,11 @@ export default defineComponent({
   },
   props: {
     // current geneset
-    geneset: {},
+    geneset: Object as PropType<Geneset>,
     // is this geneset editable
-    editable: Boolean
+    editable: Boolean,
+    // remove gene from set
+    remove: Function
   },
   data() {
     return {

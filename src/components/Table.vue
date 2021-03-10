@@ -38,18 +38,17 @@
           <tr v-for="(row, rowIndex) in _rows" :key="rowIndex">
             <template v-for="(col, colIndex) in cols" :key="colIndex">
               <!-- action button -->
-              <td v-if="col.action" :align="col.align || 'left'">
+              <td v-if="col.button" :align="col.align || 'left'">
                 <Clickable
-                  v-tooltip="col.action"
-                  :icon="col.icon"
+                  v-tooltip="col.button.tooltip(row[col.key], row, col)"
+                  :icon="col.button.icon(row[col.key], row, col)"
                   @click="
-                    $emit('action', {
-                      rowIndex,
-                      colIndex,
-                      originalIndex: row.originalIndex,
+                    $emit(
+                      col.button.action(row[col.key], row, col),
+                      row[col.key],
                       row,
-                      cell: row[col.key]
-                    })
+                      col
+                    )
                   "
                   design="plain"
                 />
@@ -59,7 +58,7 @@
               <td
                 v-else-if="col.format"
                 :align="col.align || 'left'"
-                v-html="col.format(row[col.key], row)"
+                v-html="col.format(row[col.key], row, col)"
               ></td>
 
               <!-- raw value -->
@@ -112,11 +111,20 @@ export interface Col {
   align?: string;
   // is col sortable
   sortable?: boolean;
-  // action to emit when clicking on cell in col
-  action?: string;
-  // icon to show in button for action
-  icon?: string;
-  // how to format cell. gets cell value and row object. return html string.
+  // action button in cell
+  button?: {
+    // what vue action to emit
+    // gets (cell, row, col), return string
+    action?: Function;
+    // what font awesome icon code to use for button
+    // gets (cell, row, col), return string
+    icon?: Function;
+    // button tooltip text
+    // gets (cell, row, col), return string
+    tooltip?: Function;
+  };
+  // how to format cell
+  // gets (cell, row, col), return html string
   format?: Function;
 }
 
@@ -132,7 +140,7 @@ export default defineComponent({
     // rows of data
     rows: Array
   },
-  emits: ["action"],
+  emits: ["add", "remove"],
   components: {
     Center,
     Clickable
@@ -181,9 +189,8 @@ export default defineComponent({
         (((this.cols as []).find((col: Col) => col.name === this.sortCol) ||
           {}) as Col)?.key || "";
 
-      // copy row data and track original indices for performing actions on rows
+      // copy row data
       let rows = [...((this.rows || []) as Row[])];
-      rows = rows.map((row, index) => ({ ...row, originalIndex: index }));
 
       // sort
       if (sortKey)
