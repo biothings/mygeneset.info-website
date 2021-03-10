@@ -27,8 +27,11 @@ describe("Table.vue", () => {
     {
       key: "fourthCol",
       name: "Fourth Col",
-      action: "Click me",
-      icon: "fas fa-trash"
+      button: {
+        action: () => "remove",
+        icon: () => "fas fa-trash",
+        tooltip: () => "Click me!"
+      }
     }
   ];
   const rows = [
@@ -89,14 +92,9 @@ describe("Table.vue", () => {
 
   it("emits actions properly", async () => {
     const button = getCell(3, 1, "button");
-    expect(button.attributes("title")).to.equal("Click me");
+    expect(button.attributes("aria-label")).to.equal("Click me!");
     await button.trigger("click");
-    const action = (wrapper.emitted().action as {}[][])[0][0];
-    expect(action).to.have.property("rowIndex");
-    expect(action).to.have.property("colIndex");
-    expect(action).to.have.property("originalIndex");
-    expect(action).to.have.property("row");
-    expect(action).to.have.property("cell");
+    expect(wrapper.emitted().remove).to.exist;
   });
 
   const rows2 = Array(30)

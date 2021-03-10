@@ -118,11 +118,10 @@ export default defineComponent({
         const key: string = result._id || "";
         const scientific: string = result.scientific_name || "";
         const common: string = [
-          result.genbank_common_name,
-          result.common_name,
-          result.other_names
+          ...(result.genbank_common_name || []),
+          ...(result.common_name || []),
+          ...(result.other_names || [])
         ]
-          .flat()
           .filter(name => name)
           .join(", ");
         const full = [key, scientific, common].join(" - ");

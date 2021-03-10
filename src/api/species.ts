@@ -10,6 +10,7 @@ export const search = async (query?: string): Promise<Species[]> => {
   if (query) params.set("q", query);
   params.set("fields", "*");
   params.set("size", "100");
+  params.set("always_list", "genbank_common_name,common_name,other_names");
 
   // request and parse results
   const url = biothings + "query?" + params.toString();
@@ -31,6 +32,7 @@ export const popular = async (): Promise<Species[]> => {
   params.set("facets", "taxid");
   params.set("facet_size", "100");
   params.set("fields", "*");
+  params.set("always_list", "genbank_common_name,common_name,other_names");
 
   // request and parse results
   let url = mygeneset + "query?" + params.toString();

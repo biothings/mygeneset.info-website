@@ -17,9 +17,9 @@ export interface Species {
   // from api
   _id?: string;
   scientific_name?: string;
-  genbank_common_name?: string | string[];
-  common_name?: string | string[];
-  other_names?: string | string[];
+  genbank_common_name?: string[];
+  common_name?: string[];
+  other_names?: string[];
 
   // from app
   total?: number;
