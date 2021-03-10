@@ -138,12 +138,12 @@ export default defineComponent({
     // columns
     cols: Array,
     // rows of data
-    rows: Array,
+    rows: Array
   },
   emits: ["add", "remove"],
   components: {
     Center,
-    Clickable,
+    Clickable
   },
   data() {
     return {
@@ -154,7 +154,7 @@ export default defineComponent({
       // first row to show on page
       startRow: 0,
       // rows to show per page
-      perPage: 10,
+      perPage: 10
     };
   },
   methods: {
@@ -179,7 +179,7 @@ export default defineComponent({
     // when next page button clicked
     nextPage() {
       if (this.canNext) this.startRow += this.perPage;
-    },
+    }
   },
   computed: {
     // display copy of row data, sorted and paginated
@@ -218,7 +218,7 @@ export default defineComponent({
     // last row to display on page
     endRow(): number {
       return Math.min(this.startRow + this.perPage, (this.rows || []).length);
-    },
+    }
   },
   watch: {
     // when table row data changes, go to first page
@@ -226,9 +226,9 @@ export default defineComponent({
       handler(newRows, oldRows) {
         if (newRows.length !== oldRows.length) this.startRow = 0;
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 });
 </script>
 
