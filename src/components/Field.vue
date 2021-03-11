@@ -95,8 +95,32 @@ export default defineComponent({
   }
 
   input {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    appearance: none;
     width: 20px;
     height: 20px;
+    margin: 5px;
+    padding: 0;
+    border-radius: 5px;
+    background: none;
+    color: transparent;
+    border: solid 2px $theme;
+    cursor: pointer;
+
+    &:after {
+      content: "\f00c";
+      position: absolute;
+      font-family: "Font Awesome 5 Free";
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    &:checked {
+      background: $theme;
+      color: $white;
+    }
   }
 
   i {
