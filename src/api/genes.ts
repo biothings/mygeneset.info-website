@@ -5,26 +5,53 @@ import { mapGene } from "@/api/types";
 
 // search genes by keyword
 export const search = async (
-  query?: string | string[],
+  query?: string,
   species?: string[]
 ): Promise<Gene[]> => {
   // params
   const params = new URLSearchParams();
-  if (!Array.isArray(query) && query) params.set("q", query);
-  if (Array.isArray(query) && query?.length) params.set("q", query?.join(","));
+  if (query) params.set("q", query);
+
   if (species?.length) params.set("species", species.join(","));
-  params.set("fields", "all");
+  params.set("fields", "*");
   params.set("size", "100");
   params.set("always_list", "symbol,ensembl,uniprot");
 
   // request and parse results
   const url = mygene + "query?" + params.toString();
   try {
-    const method = Array.isArray(query) ? "POST" : "GET";
     // eslint-disable-next-line
-    let { total = 0, hits = [] } = await request(url, method);
+    let { total = 0, hits = [] } = await request(url);
     if (hits.length) hits[0].total = total;
     hits = hits.map(mapGene);
+    return hits;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+// search genes by keyword
+export const batchSearch = async (
+  query?: string[],
+  species?: string[]
+): Promise<Gene[]> => {
+  // params
+  const params = new URLSearchParams();
+  if (query?.length) params.set("q", query.map(e => `"${e}"`).join(","));
+  if (species?.length) params.set("species", species.join(","));
+  params.set("fields", "*");
+  params.set("size", "100");
+  params.set("always_list", "symbol,ensembl,uniprot");
+
+  // request and parse results
+  const url = mygene + "query?" + params.toString();
+  try {
+    // eslint-disable-next-line
+    let hits = await request(url, "POST");
+    if (hits.length) hits[0].total = hits.length;
+    console.log(hits);
+    hits = hits.map(mapGene).filter((hit: Gene) => !hit.notfound);
     return hits;
   } catch (error) {
     console.error(error);

@@ -32,6 +32,7 @@ import Center from "@/components/Center.vue";
 import TextBox from "@/components/TextBox.vue";
 import SpeciesSelect from "@/components/SpeciesSelect.vue";
 import { search } from "@/api/genes";
+import { batchSearch } from "@/api/genes";
 import { Geneset } from "@/api/types";
 import { Gene } from "@/api/types";
 
@@ -91,13 +92,14 @@ export default defineComponent({
     // search genes
     async search() {
       try {
-        let keywords: string | string[] = this.keywords;
-        if (keywords.includes("\n"))
-          keywords = keywords
-            .split("\n")
-            .map(e => e.trim())
-            .filter(e => e);
-        this.results = await search(keywords, this.species);
+        if (this.keywords.includes("\n"))
+          this.results = await batchSearch(
+            this.keywords
+              .split("\n")
+              .map(e => e.trim())
+              .filter(e => e)
+          );
+        else this.results = await search(this.keywords, this.species);
       } catch (error) {
         console.error(error);
       }

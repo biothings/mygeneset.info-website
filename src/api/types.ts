@@ -37,6 +37,7 @@ export interface Gene {
   ncbigene?: string;
   ensemblgene?: string[];
   uniprot?: string[];
+  notfound?: boolean;
 
   // from app
   total?: number;
@@ -53,6 +54,7 @@ export interface MyGene {
   ensembl?: { gene?: string }[];
   entrezgene?: string;
   uniprot?: { "Swiss-Prot": string }[];
+  notfound?: boolean;
 
   // from app
   total?: number;
@@ -68,6 +70,7 @@ export const mapGene = (myGene: MyGene): Gene => ({
   ncbigene: myGene.entrezgene,
   ensemblgene: (myGene.ensembl || []).map(e => e.gene || ""),
   uniprot: (myGene.uniprot || []).map(u => (u || {})["Swiss-Prot"] || ""),
+  notfound: myGene.notfound,
 
   // from app
   total: myGene.total
