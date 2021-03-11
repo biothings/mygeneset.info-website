@@ -172,7 +172,7 @@ i + span {
   left: -999px;
   top: -999px;
   width: max-content;
-  max-width: 260px;
+  max-width: min(100%, 300px);
   padding: 8px 12px;
   background: $black;
   color: $white;

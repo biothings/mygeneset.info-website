@@ -6,6 +6,7 @@
       :value="modelValue"
       @input="$emit('update:modelValue', split($event.target.value))"
       :placeholder="placeholder"
+      v-tooltip="'Paste newline-, tab-, or comma-separated list'"
     />
 
     <!-- single-line text box input -->
@@ -17,17 +18,17 @@
       :placeholder="placeholder"
     />
 
-    <button v-if="multi" @click="expanded = !expanded">
-      <i
-        v-if="expanded"
-        class="fas fa-minus"
-        v-tooltip="'Switch to single line search'"
-      ></i>
-      <i
-        v-else
-        class="fas fa-bars"
-        v-tooltip="'Switch to multi-line search'"
-      ></i>
+    <button
+      v-if="multi"
+      @click="expanded = !expanded"
+      v-tooltip="
+        expanded
+          ? 'Switch to single line search'
+          : 'Switch to multi-line search'
+      "
+    >
+      <i v-if="expanded" class="fas fa-minus"></i>
+      <i v-else class="fas fa-bars"></i>
     </button>
   </div>
 </template>

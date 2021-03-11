@@ -50,7 +50,6 @@ export const batchSearch = async (
     // eslint-disable-next-line
     let hits = await request(url, "POST");
     if (hits.length) hits[0].total = hits.length;
-    console.log(hits);
     hits = hits.map(mapGene).filter((hit: Gene) => !hit.notfound);
     return hits;
   } catch (error) {
