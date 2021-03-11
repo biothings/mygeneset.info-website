@@ -74,12 +74,6 @@ export default defineComponent({
     @include truncate;
   }
 
-  &[disabled] {
-    pointer-events: none;
-    filter: saturate(0);
-    opacity: 0.5;
-  }
-
   &[selected="false"] {
     background: $theme-pale;
     color: $black;

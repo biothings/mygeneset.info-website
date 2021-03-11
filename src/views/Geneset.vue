@@ -7,6 +7,7 @@
     <template v-if="!loading && !error">
       <Details :geneset="geneset" :editable="editable" />
       <Genes :geneset="geneset" :editable="editable" :remove="remove" />
+      <Download :geneset="geneset" />
       <Add v-if="editable" :geneset="geneset" :add="add" :remove="remove" />
       <Finish v-if="editable" :geneset="geneset" :original="original" />
     </template>
@@ -23,6 +24,7 @@ import Loading from "@/views/geneset/Loading.vue";
 import Error from "@/views/geneset/Error.vue";
 import Details from "@/views/geneset/Details.vue";
 import Genes from "@/views/geneset/Genes.vue";
+import Download from "@/views/geneset/Download.vue";
 import Add from "@/views/geneset/Add.vue";
 import Finish from "@/views/geneset/Finish.vue";
 import { lookup } from "@/api/genesets";
@@ -49,6 +51,7 @@ export default defineComponent({
     Error,
     Details,
     Genes,
+    Download,
     Add,
     Finish
   },

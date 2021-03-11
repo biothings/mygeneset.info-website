@@ -1,5 +1,5 @@
 <template>
-  <!-- editable text box or dropdown menu -->
+  <!-- editable text box or checkbox menu -->
   <div class="field">
     <!-- field title -->
     <div>
