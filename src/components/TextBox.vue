@@ -4,7 +4,7 @@
     <textarea
       v-if="expanded"
       :value="modelValue"
-      @input="$emit('update:modelValue', split($event.target.value))"
+      @input="input"
       :placeholder="placeholder"
       v-tooltip="'Paste newline-, tab-, or comma-separated list'"
     />
@@ -14,7 +14,7 @@
       v-else
       type="text"
       :value="modelValue"
-      @input="$emit('update:modelValue', split($event.target.value))"
+      @input="input"
       :placeholder="placeholder"
     />
 
@@ -45,7 +45,7 @@ export default defineComponent({
     // input value internal state
     modelValue: String
   },
-  emits: ["expand"],
+  emits: ["expand", "update:modelValue"],
   data() {
     return {
       // is multi-line expanded
@@ -57,6 +57,11 @@ export default defineComponent({
     split(value: string) {
       if (this.expanded) return value.split(/[\n|\r|\t|,]/).join("\n");
       else return value;
+    },
+    // on input
+    input(event: Event) {
+      const target = event.target as HTMLInputElement;
+      this.$emit("update:modelValue", this.split(target.value));
     }
   },
   watch: {

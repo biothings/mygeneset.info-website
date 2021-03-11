@@ -15,11 +15,11 @@
               <button
                 v-if="col.sortable !== false && !col.action"
                 :align="col.align || 'left'"
-                @click="changeSort(col.name)"
+                @click="changeSort(colIndex)"
               >
                 {{ col.name }}
                 <i
-                  v-if="col.name === sortCol"
+                  v-if="colIndex === sortCol"
                   :class="`fas fa-sort-${sortUp ? 'up' : 'down'}`"
                 ></i>
                 <i v-else class="fas fa-sort"></i>
@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
 
@@ -136,7 +136,7 @@ interface Row {
 export default defineComponent({
   props: {
     // columns
-    cols: Array,
+    cols: Array as PropType<Col[]>,
     // rows of data
     rows: Array
   },
@@ -147,8 +147,8 @@ export default defineComponent({
   },
   data() {
     return {
-      // current sort column by name
-      sortCol: "",
+      // current sort column by index
+      sortCol: -1,
       // is column sort ascending or descending
       sortUp: false,
       // first row to show on page
@@ -159,16 +159,16 @@ export default defineComponent({
   },
   methods: {
     // when sort button clicked
-    changeSort(name: string) {
-      if (this.sortCol === name) {
+    changeSort(index: number) {
+      if (this.sortCol === index) {
         if (this.sortUp) {
           this.sortUp = false;
-          this.sortCol = "";
+          this.sortCol = -1;
         } else {
           this.sortUp = true;
         }
       } else {
-        this.sortCol = name;
+        this.sortCol = index;
         this.sortUp = false;
       }
     },
@@ -184,23 +184,21 @@ export default defineComponent({
   computed: {
     // display copy of row data, sorted and paginated
     _rows(): Row[] {
-      // get key of sort column
-      const sortKey: string =
-        (((this.cols as []).find((col: Col) => col.name === this.sortCol) ||
-          {}) as Col)?.key || "";
-
       // copy row data
       let rows = [...((this.rows || []) as Row[])];
 
       // sort
-      if (sortKey)
+      if (this.cols && this.sortCol > -1) {
+        // get key of sort column
+        const key = (this.cols[this.sortCol] as Col).key;
         rows.sort((a: Row, b: Row) => {
-          const valA = a[sortKey] || 0;
-          const valB = b[sortKey] || 0;
+          const valA = a[key] || 0;
+          const valB = b[key] || 0;
           if (valA < valB === this.sortUp) return 1;
           else if (valA > valB === this.sortUp) return -1;
           else return 0;
         });
+      }
 
       // paginate
       rows = rows.slice(this.startRow, this.startRow + this.perPage);
