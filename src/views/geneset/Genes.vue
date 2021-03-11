@@ -29,6 +29,7 @@ const cols = [
     sortable: false
   },
   { key: "name", name: "Name" },
+  { key: "alias", name: "Aliases", format },
   { key: "symbol", name: "Symbol", format },
   { key: "ncbigene", name: "Entrez" },
   { key: "ensemblgene", name: "Ensembl", format },

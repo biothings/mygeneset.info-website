@@ -33,6 +33,7 @@ export interface Gene {
   // from api
   mygene_id?: string;
   name?: string;
+  alias?: string[];
   symbol?: string[];
   ncbigene?: string;
   ensemblgene?: string[];
@@ -49,6 +50,7 @@ export interface MyGene {
   // from api
   _id?: string;
   name?: string;
+  alias?: string[];
   symbol?: string[];
   ncbigene?: string;
   ensembl?: { gene?: string }[];
@@ -66,6 +68,7 @@ export const mapGene = (myGene: MyGene): Gene => ({
   // eslint-disable-next-line
   mygene_id: myGene._id,
   name: myGene.name,
+  alias: myGene.alias,
   symbol: myGene.symbol,
   ncbigene: myGene.entrezgene,
   ensemblgene: (myGene.ensembl || []).map(e => e.gene || ""),

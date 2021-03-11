@@ -11,11 +11,11 @@ export const search = async (
   // params
   const params = new URLSearchParams();
   if (query) params.set("q", query);
-
   if (species?.length) params.set("species", species.join(","));
-  params.set("fields", "*");
+  params.set("fields", "all");
   params.set("size", "100");
-  params.set("always_list", "symbol,ensembl,uniprot");
+  params.set("scopes", "_id,alias,symbol,entrezgene,ensembl.gene,uniprot");
+  params.set("always_list", "alias,symbol,ensembl,uniprot");
 
   // request and parse results
   const url = mygene + "query?" + params.toString();
@@ -40,9 +40,10 @@ export const batchSearch = async (
   const params = new URLSearchParams();
   if (query?.length) params.set("q", query.map(e => `"${e}"`).join(","));
   if (species?.length) params.set("species", species.join(","));
-  params.set("fields", "*");
+  params.set("fields", "all");
   params.set("size", "100");
-  params.set("always_list", "symbol,ensembl,uniprot");
+  params.set("scopes", "_id,alias,symbol,entrezgene,ensembl.gene,uniprot");
+  params.set("always_list", "alias,symbol,ensembl,uniprot");
 
   // request and parse results
   const url = mygene + "query?" + params.toString();
