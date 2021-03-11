@@ -11,6 +11,7 @@
         v-model="keywords"
         v-debounce="search"
         :placeholder="`Search genes by keyword`"
+        @expand="expand"
       />
       <SpeciesSelect
         v-model="species"
@@ -86,14 +87,16 @@ export default defineComponent({
       // table columns
       cols,
       // search results
-      results: [] as Gene[]
+      results: [] as Gene[],
+      // is multi-line search expanded
+      expanded: false
     };
   },
   methods: {
     // search genes
     async search() {
       try {
-        if (this.keywords.includes("\n"))
+        if (this.expanded)
           this.results = await batchSearch(
             this.keywords
               .split("\n")
@@ -104,6 +107,10 @@ export default defineComponent({
       } catch (error) {
         console.error(error);
       }
+    },
+    // update local expanded state
+    expand(newExpanded: boolean) {
+      this.expanded = newExpanded;
     }
   },
   computed: {
@@ -131,6 +138,10 @@ export default defineComponent({
   watch: {
     // update search when selected species change
     species() {
+      this.search();
+    },
+    // update search when expanded changes
+    expanded() {
       this.search();
     }
   },

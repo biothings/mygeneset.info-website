@@ -45,6 +45,7 @@ export default defineComponent({
     // input value internal state
     modelValue: String
   },
+  emits: ["expand"],
   data() {
     return {
       // is multi-line expanded
@@ -56,6 +57,11 @@ export default defineComponent({
     split(value: string) {
       if (this.expanded) return value.split(/[\n|\r|\t|,]/).join("\n");
       else return value;
+    }
+  },
+  watch: {
+    expanded() {
+      this.$emit("expand", this.expanded);
     }
   }
 });

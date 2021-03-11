@@ -38,7 +38,8 @@ export const batchSearch = async (
 ): Promise<Gene[]> => {
   // params
   const params = new URLSearchParams();
-  if (query?.length) params.set("q", query.map(e => `"${e}"`).join(","));
+  if (query?.length)
+    params.set("q", query.map(e => e.split(/\s/).join("-")).join(","));
   if (species?.length) params.set("species", species.join(","));
   params.set("fields", "all");
   params.set("size", "100");
