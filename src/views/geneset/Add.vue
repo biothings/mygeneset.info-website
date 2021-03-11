@@ -7,13 +7,14 @@
     </h2>
     <Center :vertical="true" width="100%">
       <TextBox
-        :placeholder="`Search genes by keyword`"
+        :multi="true"
         v-model="keywords"
         v-debounce="search"
+        :placeholder="`Search genes by keyword`"
       />
       <SpeciesSelect
-        :placeholder="`Search genes by species`"
         v-model="species"
+        :placeholder="`Search genes by species`"
       />
     </Center>
     <Table :cols="cols" :rows="_results" @add="add" @remove="remove">
@@ -90,7 +91,13 @@ export default defineComponent({
     // search genes
     async search() {
       try {
-        this.results = await search(this.keywords, this.species);
+        let keywords: string | string[] = this.keywords;
+        if (keywords.includes("\n"))
+          keywords = keywords
+            .split("\n")
+            .map(e => e.trim())
+            .filter(e => e);
+        this.results = await search(keywords, this.species);
       } catch (error) {
         console.error(error);
       }

@@ -284,7 +284,7 @@ export default defineComponent({
       justify-content: center;
     }
 
-    .fas {
+    th .fas {
       margin-left: 5px;
     }
 

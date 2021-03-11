@@ -28,12 +28,9 @@ export const search = async (
 ): Promise<Geneset[]> => {
   // params
   const params = new URLSearchParams();
-  if (query) {
-    query = ` ${query} `.split(/\s+/g).join("*"); // pseudo fuzzy search
-    params.set("q", query);
-  }
+  if (query) params.set("q", query);
   if (species?.length) params.set("species", species.join(","));
-  params.set("fields", "*");
+  params.set("fields", "all");
   params.set("size", "100");
   params.set(
     "always_list",

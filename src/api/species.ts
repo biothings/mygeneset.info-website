@@ -8,7 +8,7 @@ export const search = async (query?: string): Promise<Species[]> => {
   // params
   const params = new URLSearchParams();
   if (query) params.set("q", query);
-  params.set("fields", "*");
+  params.set("fields", "all");
   params.set("size", "100");
   params.set("always_list", "genbank_common_name,common_name,other_names");
 
@@ -31,7 +31,7 @@ export const popular = async (): Promise<Species[]> => {
   params.set("q", "*");
   params.set("facets", "taxid");
   params.set("facet_size", "100");
-  params.set("fields", "*");
+  params.set("fields", "all");
   params.set("always_list", "genbank_common_name,common_name,other_names");
 
   // request and parse results
