@@ -10,12 +10,14 @@
         :multi="true"
         v-model="keywords"
         v-debounce="search"
-        :placeholder="`Search genes by keyword`"
+        :placeholder="
+          expanded ? 'Search list of genes' : 'Search genes by keyword'
+        "
         @expand="expand"
       />
       <SpeciesSelect
         v-model="species"
-        :placeholder="`Search genes by species`"
+        :placeholder="'Search genes by species'"
       />
     </Center>
     <Table :cols="cols" :rows="_results" @add="add" @remove="remove">

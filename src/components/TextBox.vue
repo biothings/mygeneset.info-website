@@ -6,7 +6,6 @@
       :value="modelValue"
       @input="input"
       :placeholder="placeholder"
-      v-tooltip="'Paste newline-, tab-, or comma-separated list'"
     />
 
     <!-- single-line text box input -->
@@ -21,11 +20,7 @@
     <button
       v-if="multi"
       @click="expanded = !expanded"
-      v-tooltip="
-        expanded
-          ? 'Switch to single line search'
-          : 'Switch to multi-line search'
-      "
+      v-tooltip="expanded ? 'Switch to single search' : 'Switch to list search'"
     >
       <i v-if="expanded" class="fas fa-minus"></i>
       <i v-else class="fas fa-bars"></i>
