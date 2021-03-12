@@ -31,13 +31,21 @@ export const search = async (
   }
 };
 
-// convert search into dash case expected by api
-// e.g. "  adjuba  LIM protein   " -> "adjuba-LIM-protein"
-const toDash = (search: string) =>
-  search
-    .split(/\s/)
-    .filter(word => word)
-    .join("-");
+// format query to what api expects
+const formatQuery = (query: string[]) =>
+  query
+    .map(search =>
+      search
+        // collapse whitespace
+        .split(/\s/)
+        .filter(word => word)
+        // make dash case
+        .join("-")
+    )
+    // remove blank search lines
+    .filter(search => search)
+    // comma separate searches
+    .join(",");
 
 // search genes by keyword
 export const batchSearch = async (
@@ -46,7 +54,7 @@ export const batchSearch = async (
 ): Promise<Gene[]> => {
   // params
   const params = new URLSearchParams();
-  if (query?.length) params.set("q", query.map(toDash).join(","));
+  if (query?.length) params.set("q", formatQuery(query));
   if (species?.length) params.set("species", species.join(","));
   params.set("fields", "all");
   params.set("size", "100");

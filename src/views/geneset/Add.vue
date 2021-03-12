@@ -98,10 +98,8 @@ export default defineComponent({
       try {
         if (this.expanded)
           this.results = await batchSearch(
-            this.keywords
-              .split("\n")
-              .map(e => e.trim())
-              .filter(e => e)
+            this.keywords.split("\n"),
+            this.species
           );
         else this.results = await search(this.keywords, this.species);
       } catch (error) {
