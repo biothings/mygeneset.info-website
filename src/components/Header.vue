@@ -33,7 +33,7 @@ import Account from "@/components/Account.vue";
 export default defineComponent({
   props: {
     // is big version (for use on home page)
-    big: Boolean,
+    big: Boolean
   },
   components: {
     HexField,
@@ -44,7 +44,7 @@ export default defineComponent({
   data() {
     return {
       // is nave menu expanded
-      expanded: false,
+      expanded: false
     };
   },
   mounted() {

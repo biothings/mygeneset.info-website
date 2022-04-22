@@ -28,7 +28,7 @@ export default defineComponent({
   components: {
     Section,
     Center,
-    Clickable,
+    Clickable
   },
   methods: {
     async logIn(method = "") {

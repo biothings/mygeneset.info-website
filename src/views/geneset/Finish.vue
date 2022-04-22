@@ -3,13 +3,18 @@
   <Section>
     <Center :vertical="true" width="200px">
       <Clickable
+        v-if="!fresh"
         text="Duplicate"
         icon="fas fa-copy"
         design="big"
         v-tooltip="'Start new geneset from this one'"
       />
-      <Clickable text="Publish Changes" icon="fas fa-upload" design="big" />
-      <div class="diff">
+      <Clickable
+        :text="fresh ? 'Create' : 'Publish Changes'"
+        :icon="fresh ? 'fas fa-magic' : 'fas fa-upload'"
+        design="big"
+      />
+      <div v-if="!fresh" class="diff">
         <div v-if="edited" class="edited">
           <span>Edited </span><span>{{ edited }}</span>
         </div>
@@ -43,7 +48,9 @@ export default defineComponent({
     // current geneset
     geneset: Object as PropType<Geneset>,
     // original unmodified genset
-    original: Object as PropType<Geneset>
+    original: Object as PropType<Geneset>,
+    // whether is new geneset
+    fresh: Boolean
   },
   data() {
     return {

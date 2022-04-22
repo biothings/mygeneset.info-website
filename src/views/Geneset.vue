@@ -9,7 +9,12 @@
       <Genes :geneset="geneset" :editable="editable" :remove="remove" />
       <Download :geneset="geneset" />
       <Add v-if="editable" :geneset="geneset" :add="add" :remove="remove" />
-      <Finish v-if="editable" :geneset="geneset" :original="original" />
+      <Finish
+        v-if="editable"
+        :fresh="fresh"
+        :geneset="geneset"
+        :original="original"
+      />
     </template>
   </Main>
   <Footer />
@@ -64,7 +69,9 @@ export default defineComponent({
       // geneset state
       geneset: {} as Geneset,
       // original unmodified geneset
-      original: {} as Geneset
+      original: {} as Geneset,
+      // whether is new geneset
+      fresh: false
     };
   },
   methods: {
@@ -100,10 +107,13 @@ export default defineComponent({
   },
   mounted() {
     // load geneset from id in url, or blank if on /new
-    if (this.$route.params.id) this.load(this.$route.params.id as string);
-    else {
+    if (this.$route.params.id) {
+      this.load(this.$route.params.id as string);
+      this.fresh = false;
+    } else {
       this.geneset = cloneDeep(blank);
       this.original = cloneDeep(blank);
+      this.fresh = true;
     }
   }
 });
