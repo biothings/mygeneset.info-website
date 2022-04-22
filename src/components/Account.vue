@@ -11,6 +11,7 @@
 import { defineComponent } from "vue";
 import HeaderLink from "@/components/HeaderLink.vue";
 import Avatar from "@/components/Avatar.vue";
+import { logOut } from "@/api/login";
 
 export default defineComponent({
   components: {
@@ -24,9 +25,9 @@ export default defineComponent({
     }
   },
   methods: {
-    // action to log user out
-    logOut() {
-      this.$store.dispatch("logOut");
+    async logOut() {
+      await logOut();
+      this.$store.dispatch("getUser");
     }
   }
 });

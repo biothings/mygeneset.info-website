@@ -2,18 +2,16 @@
   <Section>
     <Center :vertical="true" width="200px">
       <Clickable
-        icon="fas fa-graduation-cap"
-        text="With ORCID"
-        design="big"
-        @click="logIn"
-        to="/"
-      />
-      <Clickable
         icon="fab fa-github"
         text="With GitHub"
         design="big"
-        @click="logIn"
-        to="/"
+        @click="logIn('github')"
+      />
+      <Clickable
+        icon="fas fa-graduation-cap"
+        text="With ORCID"
+        design="big"
+        @click="logIn('github')"
       />
     </Center>
   </Section>
@@ -24,17 +22,18 @@ import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
+import { logIn } from "@/api/login";
 
 export default defineComponent({
   components: {
     Section,
     Center,
-    Clickable
+    Clickable,
   },
   methods: {
-    // dummy log in
-    logIn() {
-      this.$store.dispatch("logIn");
+    async logIn(method = "") {
+      await logIn(method);
+      this.$store.dispatch("getUser");
     }
   }
 });

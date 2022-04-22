@@ -1,26 +1,14 @@
 <template>
   <!-- user details -->
   <Section v-if="loggedIn">
-    <h2>{{ userName }}</h2>
+    <h2>{{ name }}</h2>
     <div class="details">
-      <div>
-        <i class="far fa-envelope"></i>
-        <span>Email</span>
-      </div>
-      <div>{{ email }} (linked with {{ account }})</div>
-      <div>
-        <i class="fas fa-dna"></i>
-        <span>Your Genesets</span>
-      </div>
-      <LinkTo to="/build">
-        {{ genesets.toLocaleString() }} genesets with
-        {{ genes.toLocaleString() }} genes
-      </LinkTo>
-      <div>
-        <i class="fas fa-database"></i>
-        <span>API Token</span>
-      </div>
-      <div>{{ apiToken }}</div>
+      <i class="fas fa-user fa-fw"></i>
+      <span>Username</span>
+      <span>{{ username }}</span>
+      <i class="fas fa-school fa-fw"></i>
+      <span>Organization</span>
+      <span>{{ organization }}</span>
     </div>
   </Section>
 
@@ -41,14 +29,12 @@
 import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
-import LinkTo from "@/components/LinkTo.vue";
 import Clickable from "@/components/Clickable.vue";
 
 export default defineComponent({
   components: {
     Section,
     Center,
-    LinkTo,
     Clickable
   },
   computed: {
@@ -57,28 +43,16 @@ export default defineComponent({
       return this.$store.state.loggedIn;
     },
     // user's full name
-    userName() {
-      return this.$store.state.userName;
+    name() {
+      return this.$store.state.name;
     },
-    // user's email
-    email() {
-      return this.$store.state.email;
+    // user's username
+    username() {
+      return this.$store.state.username;
     },
-    // linked user account
-    account() {
-      return this.$store.state.account;
-    },
-    // user's api token
-    apiToken() {
-      return this.$store.state.apiToken;
-    },
-    // dummy user's geneset count
-    genesets() {
-      return 45;
-    },
-    // dummy user's gene count
-    genes() {
-      return 10283;
+    // user's organization
+    organization() {
+      return this.$store.state.organization;
     }
   }
 });
@@ -87,8 +61,8 @@ export default defineComponent({
 <style scoped lang="scss">
 .details {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-gap: 20px;
+  grid-template-columns: 20px 1fr 2fr;
+  grid-gap: 10px;
   max-width: 500px;
   margin: 0 auto;
 

@@ -1,57 +1,40 @@
 import { createStore } from "vuex";
-import VuexPersistence from "vuex-persist";
+import { getUser } from "./../api/login";
 
 // global state type
 export interface State {
   loggedIn: boolean;
-  userName: string;
-  email: string;
-  account: string;
-  apiToken: string;
+  name: string;
+  username: string;
+  organization: string;
+  avatar: string;
 }
-
-// local storage for persistence
-const vuexLocal = new VuexPersistence<State>({
-  storage: window.localStorage
-});
 
 // global state store
 export default createStore<State>({
   state: {
     loggedIn: false,
-    userName: "",
-    email: "",
-    account: "",
-    apiToken: ""
+    name: "",
+    username: "",
+    organization: "",
+    avatar: ""
   },
   mutations: {
-    // dummy log in
-    logIn(state) {
-      state.loggedIn = true;
-      state.userName = "Casey Greene";
-      state.email = "casey@greenelab.com";
-      state.account = "GitHub";
-      state.apiToken = "02j831lkdjf01j3fj013jf";
-    },
-    // dummy log out
-    logOut(state) {
-      state.loggedIn = false;
-      state.userName = "";
-      state.email = "";
-      state.account = "";
-      state.apiToken = "";
+    // update logged in state
+    getUser(state, payload = {}) {
+      state.loggedIn = !!payload?.name;
+      state.name = payload?.name || "";
+      state.username = payload?.username || "";
+      state.organization = payload?.organization || "";
+      state.avatar = payload?.avatar_url || "";
     }
   },
   actions: {
-    // dummy log in
-    logIn({ commit }) {
-      commit("logIn");
-    },
-    // dummy log out
-    logOut({ commit }) {
-      commit("logOut");
+    // update logged in state
+    async getUser({ commit }) {
+      commit("getUser", await getUser());
     }
   },
   modules: {},
-  plugins: [vuexLocal.plugin]
+  plugins: []
 });
