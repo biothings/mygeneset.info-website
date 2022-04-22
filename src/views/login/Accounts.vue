@@ -2,18 +2,16 @@
   <Section>
     <Center :vertical="true" width="200px">
       <Clickable
-        icon="fas fa-graduation-cap"
-        text="With ORCID"
-        design="big"
-        @click="logIn"
-        to="/"
-      />
-      <Clickable
         icon="fab fa-github"
         text="With GitHub"
         design="big"
-        @click="logIn"
-        to="/"
+        to="https://mygeneset.info/login/github"
+      />
+      <Clickable
+        icon="fas fa-graduation-cap"
+        text="With ORCID"
+        design="big"
+        to="https://mygeneset.info/login/orcid"
       />
     </Center>
   </Section>
@@ -30,12 +28,6 @@ export default defineComponent({
     Section,
     Center,
     Clickable
-  },
-  methods: {
-    // dummy log in
-    logIn() {
-      this.$store.dispatch("logIn");
-    }
   }
 });
 </script>

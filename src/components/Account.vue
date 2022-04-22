@@ -1,7 +1,11 @@
 <template>
   <!-- log in/out  and avatar in header -->
   <div class="account">
-    <HeaderLink v-if="loggedIn" text="Log Out" @click="logOut" />
+    <HeaderLink
+      v-if="loggedIn"
+      text="Log Out"
+      to="https://mygeneset.info/logout"
+    />
     <Avatar v-if="loggedIn" />
     <HeaderLink v-else to="/login" text="Log In" />
   </div>
@@ -21,12 +25,6 @@ export default defineComponent({
     // is user logged in
     loggedIn() {
       return this.$store.state.loggedIn;
-    }
-  },
-  methods: {
-    // action to log user out
-    logOut() {
-      this.$store.dispatch("logOut");
     }
   }
 });

@@ -46,6 +46,10 @@ export default defineComponent({
       // is nave menu expanded
       expanded: false
     };
+  },
+  mounted() {
+    // get whether user logged in when redirected from login/logout
+    this.$store.dispatch("getUser");
   }
 });
 </script>

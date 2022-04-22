@@ -1,11 +1,8 @@
 <template>
   <!-- colored circle and user initials -->
-  <LinkTo
-    to="/user"
-    class="avatar"
-    v-tooltip="`Your user profile, ${userName}`"
-  >
-    <div>
+  <LinkTo to="/user" class="avatar" v-tooltip="`Your user profile, ${name}`">
+    <img v-if="avatar" :src="avatar" />
+    <div v-else>
       {{ userInitials }}
     </div>
   </LinkTo>
@@ -20,13 +17,17 @@ export default defineComponent({
     LinkTo
   },
   computed: {
+    // user's avatar
+    avatar() {
+      return this.$store.state.avatar || "";
+    },
     // user's full name
-    userName() {
-      return this.$store.state.userName;
+    name() {
+      return this.$store.state.name;
     },
     // user's initials
     userInitials() {
-      return this.$store.state.userName
+      return this.$store.state.name
         .split(/\s/)
         .filter((w: string) => w)
         .map((w: string) => w[0])
@@ -52,9 +53,16 @@ export default defineComponent({
   font-weight: $medium;
   text-decoration: none;
   transition: background $fast;
+  overflow: hidden;
 
   &:hover {
     background: $theme-light;
+  }
+
+  img {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
   }
 }
 </style>
