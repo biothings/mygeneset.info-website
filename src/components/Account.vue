@@ -1,7 +1,11 @@
 <template>
   <!-- log in/out  and avatar in header -->
   <div class="account">
-    <HeaderLink v-if="loggedIn" text="Log Out" @click="logOut" />
+    <HeaderLink
+      v-if="loggedIn"
+      text="Log Out"
+      to="https://mygeneset.info/logout"
+    />
     <Avatar v-if="loggedIn" />
     <HeaderLink v-else to="/login" text="Log In" />
   </div>
@@ -11,7 +15,6 @@
 import { defineComponent } from "vue";
 import HeaderLink from "@/components/HeaderLink.vue";
 import Avatar from "@/components/Avatar.vue";
-import { logOut } from "@/api/login";
 
 export default defineComponent({
   components: {
@@ -22,12 +25,6 @@ export default defineComponent({
     // is user logged in
     loggedIn() {
       return this.$store.state.loggedIn;
-    }
-  },
-  methods: {
-    async logOut() {
-      await logOut();
-      this.$store.dispatch("getUser");
     }
   }
 });

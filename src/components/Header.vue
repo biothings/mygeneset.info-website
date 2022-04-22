@@ -48,6 +48,7 @@ export default defineComponent({
     };
   },
   mounted() {
+    // get whether user logged in when redirected from login/logout
     this.$store.dispatch("getUser");
   }
 });

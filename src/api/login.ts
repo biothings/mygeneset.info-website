@@ -8,21 +8,3 @@ export const getUser = async () => {
     return null;
   }
 };
-
-// login via one of supported oauth methods
-export const logIn = async (method = "") => {
-  try {
-    await request(`${mygenesetRoot}login/${method}`);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-// logout, clear user cookie
-export const logOut = async () => {
-  try {
-    await request(`${mygenesetRoot}logout`);
-  } catch (error) {
-    console.error(error);
-  }
-};

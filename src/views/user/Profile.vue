@@ -1,14 +1,24 @@
 <template>
   <!-- user details -->
-  <Section v-if="loggedIn">
-    <h2>{{ name }}</h2>
+  <Section v-if="$store.state.loggedIn">
+    <h2>{{ $store.state.name }}</h2>
+
     <div class="details">
-      <i class="fas fa-user fa-fw"></i>
+      <i class="fas fa-link fa-fw"></i>
+      <span>Linked with</span>
+      <span>{{ $store.state.provider }}</span>
+
+      <i class="far fa-user fa-fw"></i>
       <span>Username</span>
-      <span>{{ username }}</span>
+      <span>{{ $store.state.username }}</span>
+
+      <i class="far fa-envelope fa-fw"></i>
+      <span>Email</span>
+      <span>{{ $store.state.email }}</span>
+
       <i class="fas fa-school fa-fw"></i>
       <span>Organization</span>
-      <span>{{ organization }}</span>
+      <span>{{ $store.state.organization }}</span>
     </div>
   </Section>
 
@@ -36,24 +46,6 @@ export default defineComponent({
     Section,
     Center,
     Clickable
-  },
-  computed: {
-    // is user logged in
-    loggedIn() {
-      return this.$store.state.loggedIn;
-    },
-    // user's full name
-    name() {
-      return this.$store.state.name;
-    },
-    // user's username
-    username() {
-      return this.$store.state.username;
-    },
-    // user's organization
-    organization() {
-      return this.$store.state.organization;
-    }
   }
 });
 </script>

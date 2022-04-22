@@ -6,8 +6,10 @@ export interface State {
   loggedIn: boolean;
   name: string;
   username: string;
+  email: string;
   organization: string;
   avatar: string;
+  provider: string;
 }
 
 // global state store
@@ -16,8 +18,10 @@ export default createStore<State>({
     loggedIn: false,
     name: "",
     username: "",
+    email: "",
     organization: "",
-    avatar: ""
+    avatar: "",
+    provider: ""
   },
   mutations: {
     // update logged in state
@@ -25,8 +29,10 @@ export default createStore<State>({
       state.loggedIn = !!payload?.name;
       state.name = payload?.name || "";
       state.username = payload?.username || "";
+      state.email = payload?.email || "";
       state.organization = payload?.organization || "";
       state.avatar = payload?.avatar_url || "";
+      state.provider = payload?.oauth_provider || "";
     }
   },
   actions: {
