@@ -43,6 +43,8 @@ export interface Gene {
   // from app
   total?: number;
   selected?: boolean;
+  // eslint-disable-next-line
+  [key: string]: any;
 }
 
 // gene from mygene api

@@ -4,26 +4,18 @@
 
     <!-- request options -->
     <Center>
-      <Clickable
-        v-for="(request, key, index) in requests"
-        :key="index"
-        @click="selected = key"
-        :text="key"
-        :selected="selected === key"
-        design="plain"
-        v-tooltip="request.tooltip"
-      />
+      <Checklist v-model="requests" :single="true" group="api_requests" />
     </Center>
 
     <!-- request code -->
-    <CodeBlock ref="codeBlock">
+    <CodeBlock ref="codeBlock" heading="Edit me!">
       <span>{{ method }}</span>
       <span>&nbsp;</span>
       <span>{{ base }}</span>
       <span>{{ path }}</span>
       <template
         v-for="({ name, example, tooltip }, index) in fields"
-        :key="selected + index"
+        :key="index + name + example + tooltip"
       >
         <span v-if="name" v-tooltip="tooltip">{{ name }}</span>
         <span v-if="name">=</span>
@@ -66,7 +58,7 @@
     </Center>
 
     <!-- response code -->
-    <CodeBlock v-if="!empty">
+    <CodeBlock v-if="!empty" heading="Response">
       <PrettyJson :data="response" />
     </CodeBlock>
 
@@ -94,6 +86,7 @@ import { nextTick } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
+import Checklist from "@/components/Checklist.vue";
 import CodeBlock from "@/components/CodeBlock.vue";
 import CodeInput from "@/components/CodeInput.vue";
 import PrettyJson from "@/components/PrettyJson.vue";
@@ -102,20 +95,18 @@ import { downloadJson } from "@/util/download";
 import { request } from "@/api";
 
 interface Field {
-  name: string;
-  example: string;
-  tooltip: string;
+  name?: string;
+  example?: string;
+  tooltip?: string;
 }
 
 interface Request {
-  method: string;
-  path: string;
+  label?: string;
+  checked?: boolean;
+  tooltip?: string;
+  method?: string;
+  path?: string;
   fields?: Field[];
-  tooltip: string;
-}
-
-interface Requests {
-  [index: string]: Request;
 }
 
 interface CodeBlockInterface {
@@ -126,27 +117,36 @@ interface CodeBlockInterface {
 const base = "https://mygeneset.info/v1/";
 
 // request types, fields, and descriptions
-const requests: Requests = {
-  "Get fields": {
+const requests: Request[] = [
+  {
+    label: "Get fields",
+    checked: false,
+    tooltip: "A list of all available fields in mygeneset.info",
     method: "GET",
-    path: "metadata/fields",
-    tooltip: "A list of all available fields in mygeneset.info"
+    path: "metadata/fields"
   },
-  "Get metadata": {
+  {
+    label: "Get metadata",
+    checked: false,
+    tooltip: "Various info about the mygeneset.info database itself",
     method: "GET",
-    path: "metadata/",
-    tooltip: "Various info about the mygeneset.info database itself"
+    path: "metadata/"
   },
-  "Lookup by id": {
+  {
+    label: "Lookup by id",
+    checked: false,
+    tooltip:
+      "How to lookup the info of a geneset when you know its mygenset.info id",
     method: "GET",
     path: "geneset/",
     fields: [
       { name: "", example: "WP661", tooltip: "mygenset.info id of geneset" }
-    ],
-    tooltip:
-      "How to lookup the info of a geneset when you know its mygenset.info id"
+    ]
   },
-  "Search by keyword": {
+  {
+    label: "Search by keyword",
+    checked: true,
+    tooltip: "How to search for gensets by keywords",
     method: "GET",
     path: "query/?",
     fields: [
@@ -165,10 +165,12 @@ const requests: Requests = {
         example: "10",
         tooltip: "How many results to return"
       }
-    ],
-    tooltip: "How to search for gensets by keywords"
+    ]
   },
-  "Batch search": {
+  {
+    label: "Batch search",
+    checked: false,
+    tooltip: "How to search for a list of genesets",
     method: "POST",
     path: "query/?",
     fields: [
@@ -192,16 +194,16 @@ const requests: Requests = {
         example: "1",
         tooltip: "How many results to return (in this case, per search)"
       }
-    ],
-    tooltip: "How to search for a list of genesets"
+    ]
   }
-};
+];
 
 export default defineComponent({
   components: {
     Section,
     Center,
     Clickable,
+    Checklist,
     CodeBlock,
     CodeInput,
     PrettyJson,
@@ -213,8 +215,8 @@ export default defineComponent({
       base,
       // request types
       requests,
-      // selected request
-      selected: "Search by keyword",
+      // currently selected request
+      selected: Object as Request,
       // request code
       code: "",
       // loading state
@@ -224,6 +226,10 @@ export default defineComponent({
     };
   },
   methods: {
+    // get currently selected request
+    getSelected(): Request {
+      return this.requests.find(request => request.checked) || {};
+    },
     // read request code from codeblock
     setCode() {
       nextTick(() => {
@@ -252,7 +258,7 @@ export default defineComponent({
   computed: {
     // method of request, GET or POST
     method(): string {
-      return this.requests[this.selected].method;
+      return this.getSelected().method || "";
     },
     // is response empty
     empty(): boolean {
@@ -260,11 +266,11 @@ export default defineComponent({
     },
     // request path, after base url
     path(): string {
-      return this.requests[this.selected].path;
+      return this.getSelected().path || "";
     },
     // list of selected request
     fields(): Field[] {
-      return this.requests[this.selected].fields || [];
+      return this.getSelected().fields || [];
     }
   },
   mounted() {
@@ -272,9 +278,13 @@ export default defineComponent({
     this.setCode();
   },
   watch: {
-    // update request code when selected request changes
-    selected() {
-      this.setCode();
+    // when selected request changes
+    requests: {
+      handler() {
+        // update request code
+        this.setCode();
+      },
+      deep: true
     }
   }
 });

@@ -34,9 +34,9 @@
         <PrettyJsonIndent :depth="(depth || 0) + 1" />
         <span class="key" v-if="!isArray">"{{ key }}"</span>
         <span class="pretty_punc" v-if="!isArray">: </span>
-        <span class="value">{{
-          typeof value === "string" ? '"' + value + '"' : value
-        }}</span>
+        <span class="value">
+          {{ typeof value === "string" ? '"' + value + '"' : String(value) }}
+        </span>
         <span
           v-if="
             isArray

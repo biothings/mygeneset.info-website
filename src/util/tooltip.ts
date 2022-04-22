@@ -24,13 +24,24 @@ const options: Options = {
 // open tooltip
 let timer: ReturnType<typeof setTimeout>;
 const open = (event: Event) => {
+  // get tooltip modifiers and values
   const target = event.target as Element;
   const delay = target.getAttribute("data-tooltip-slow") === "true" ? 750 : 250;
   const text = target.getAttribute("data-tooltip-text") || "";
+
+  // don't show if no text
+  if (!text) return;
+
+  // clear any running delay timer
   window.clearTimeout(timer);
+
+  // open tooltip after delay
   timer = window.setTimeout(() => {
+    // remove any previous popper instance
     if (popper) popper.destroy();
+    // new popper instance
     popper = createPopper(target, tooltip, options);
+    // set tooltip element props
     tooltip.dataset.show = "true";
     tooltip.innerHTML = text;
   }, delay);
@@ -38,7 +49,9 @@ const open = (event: Event) => {
 
 // close tooltip
 const close = () => {
+  // stop any running delay timer
   window.clearTimeout(timer);
+  // hide tooltip element
   tooltip.dataset.show = "false";
 };
 
@@ -50,10 +63,12 @@ function attach(
     modifiers: { slow }
   }: { value: string; modifiers: { slow?: boolean } }
 ) {
+  // add hover/focus listeners to target
   element.addEventListener("mouseenter", open);
   element.addEventListener("focus", open);
   element.addEventListener("mouseleave", close);
   element.addEventListener("blur", close);
+  // transfer directive value and modifiers to element
   element.setAttribute("data-tooltip-text", value);
   element.setAttribute("data-tooltip-slow", slow ? "true" : "false");
   element.setAttribute("aria-label", value);
@@ -61,10 +76,12 @@ function attach(
 
 // detach event listeners from element
 const detach = (element: HTMLElement) => {
+  // remove hover/focus listeners from target
   element.removeEventListener("mouseenter", open);
   element.removeEventListener("focus", open);
   element.removeEventListener("mouseleave", close);
   element.removeEventListener("blur", close);
+  // remove directive value and modifiers from element
   element.removeAttribute("data-tooltip-text");
   element.removeAttribute("data-tooltip-slow");
   element.removeAttribute("aria-label");

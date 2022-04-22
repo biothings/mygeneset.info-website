@@ -1,14 +1,21 @@
 <template>
   <!-- block of syntax-highlighted code -->
-  <code ref="code" class="code_block">
-    <slot></slot>
-  </code>
+  <div class="code">
+    <div>{{ heading }}</div>
+    <code ref="code">
+      <slot></slot>
+    </code>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  props: {
+    // heading above block
+    heading: String
+  },
   methods: {
     // get code content of block, including code input components
     getCode(): string {
@@ -26,21 +33,22 @@ export default defineComponent({
 </script>
 
 <style scope lang="scss">
-.code_block {
-  display: block;
+.code {
   margin: 20px 0;
-  @include trim-v-margins;
-  padding: 10px 20px;
-  border-radius: 5px;
-  background: $off-black;
-  word-break: break-word;
-  max-height: min(80vh, 600px);
-  overflow-x: auto;
-  overflow-y: auto;
 
-  * {
-    color: $white;
-    font-family: $mono;
+  & > div {
+    margin: 5px 10px;
+  }
+
+  & > code {
+    display: block;
+    @include trim-v-margins;
+    padding: 10px 20px;
+    border-radius: 5px;
+    word-break: break-word;
+    max-height: min(60vh, 600px);
+    overflow-x: auto;
+    overflow-y: auto;
   }
 }
 </style>

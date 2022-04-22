@@ -28,6 +28,12 @@ export default defineComponent({
   text-align: center;
   @include trim-v-margins;
 
+  br {
+    content: "";
+    margin: 0;
+    flex-basis: 100%;
+  }
+
   & > * {
     min-width: min(100%, var(--width));
     max-width: 100%;

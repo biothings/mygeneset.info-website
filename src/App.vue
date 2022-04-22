@@ -77,6 +77,7 @@ code {
   padding: 2px 5px;
   border-radius: 5px;
   background: $off-black;
+  white-space: pre;
 
   &,
   * {
@@ -136,10 +137,12 @@ textarea:not(:focus) {
 
 // select
 select {
-  border: none;
-  font-size: 1rem;
-  padding: 0;
+  border: solid 2px $theme;
+  border-radius: 5px;
+  margin: 0;
+  padding: 2px 5px;
   color: $black;
+  font-size: 1rem;
   opacity: 1;
 }
 
@@ -166,6 +169,52 @@ hr {
   height: 1px;
   background: $light-gray;
   border: none;
+}
+
+// checkbox and radio button
+input[type="checkbox"],
+input[type="radio"] {
+  position: relative;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: solid 2px $theme;
+  cursor: pointer;
+
+  &:checked {
+    background: $theme;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &[type="checkbox"] {
+    border-radius: 5px;
+
+    &:checked:after {
+      width: 12px;
+      height: 12px;
+      background-image: url("./assets/check.svg");
+    }
+  }
+
+  &[type="radio"] {
+    border-radius: 100%;
+
+    &:checked:after {
+      width: 8px;
+      height: 8px;
+      background-image: url("./assets/radio.svg");
+    }
+  }
 }
 
 // font awesome icons
