@@ -23,6 +23,12 @@ export default defineComponent({
     Footer,
     Accounts,
     UseAsGuest
+  },
+  watch: {
+    // redirect to user page if already logged in
+    "$store.state.loggedIn"() {
+      if (this.$store.state.loggedIn) this.$router.push("/user");
+    }
   }
 });
 </script>
