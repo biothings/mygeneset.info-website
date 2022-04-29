@@ -7,7 +7,11 @@ export const mygene = "https://mygene.info/v3/";
 // make request and get json results
 export const request = async (url: string, method = "GET") => {
   console.info(method + " " + url);
-  const response = await fetch(url, { method });
+  const headers = new Headers();
+  headers.append("pragma", "no-cache");
+  headers.append("cache-control", "no-cache");
+  const options: RequestInit = { method, headers, cache: "no-store" };
+  const response = await fetch(url, options);
   if (!response?.ok) throw new Error(`Response not ok`);
   const results = response.json();
   return results;

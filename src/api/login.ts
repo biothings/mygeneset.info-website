@@ -2,12 +2,12 @@ import { mygenesetRoot, request } from ".";
 
 // login via github or orcid
 export const login = async (method = "") => {
-  window.open(`${mygenesetRoot}login/${method}`);
+  window.location.href = `${mygenesetRoot}login/${method}`;
 };
 
 // logout
 export const logout = async () => {
-  window.open(`${mygenesetRoot}logout`);
+  window.location.href = `${mygenesetRoot}logout`;
 };
 
 // get user info and determine whether logged in or not
