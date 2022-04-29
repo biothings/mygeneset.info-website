@@ -5,15 +5,13 @@
         icon="fas fa-graduation-cap"
         text="With ORCID"
         design="big"
-        @click="logIn"
-        to="/"
+        @click="login('github')"
       />
       <Clickable
         icon="fab fa-github"
         text="With GitHub"
         design="big"
-        @click="logIn"
-        to="/"
+        @click="login('orcid')"
       />
     </Center>
   </Section>
@@ -24,6 +22,7 @@ import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
+import { login } from "@/api/login";
 
 export default defineComponent({
   components: {
@@ -32,10 +31,7 @@ export default defineComponent({
     Clickable
   },
   methods: {
-    // dummy log in
-    logIn() {
-      this.$store.dispatch("logIn");
-    }
+    login
   }
 });
 </script>
