@@ -1,7 +1,7 @@
 <template>
   <!-- log in/out  and avatar in header -->
   <div class="account">
-    <HeaderLink v-if="loggedIn" text="Log Out" @click="logout" />
+    <HeaderLink v-if="loggedIn" text="Log Out" @click.prevent="logout" />
     <Avatar v-if="loggedIn" />
     <HeaderLink v-else to="/login" text="Log In" />
   </div>
