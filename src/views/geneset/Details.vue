@@ -7,7 +7,7 @@
     </h2>
     <Field
       name="Title"
-      v-model="_geneset._id"
+      v-model="_geneset.name"
       placeholder="Descriptive title of the geneset"
       :disabled="!editable"
     />

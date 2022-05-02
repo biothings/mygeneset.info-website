@@ -2,6 +2,7 @@
 export interface Geneset {
   // from api
   _id?: string;
+  name?: string;
   creator?: string;
   date?: string;
   description?: string;

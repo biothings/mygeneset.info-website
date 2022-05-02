@@ -1,3 +1,4 @@
+import { Geneset } from "./../api/types";
 import { createStore } from "vuex";
 import { getUser } from "./../api/login";
 
@@ -10,6 +11,7 @@ export interface State {
   organization: string;
   avatar: string;
   provider: string;
+  genesets: Geneset[];
 }
 
 // global state store
@@ -21,7 +23,8 @@ export default createStore<State>({
     email: "",
     organization: "",
     avatar: "",
-    provider: ""
+    provider: "",
+    genesets: []
   },
   mutations: {
     // update logged in state
@@ -33,6 +36,7 @@ export default createStore<State>({
       state.organization = payload?.organization || "";
       state.avatar = payload?.avatar_url || "";
       state.provider = payload?.oauth_provider || "";
+      state.genesets = payload?.genesets || [];
     }
   },
   actions: {

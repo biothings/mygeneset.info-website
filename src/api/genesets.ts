@@ -48,3 +48,55 @@ export const search = async (
     return [];
   }
 };
+
+// create or update a geneset
+export const update = async (
+  fresh: boolean,
+  id: string,
+  name: string,
+  description: string,
+  isPublic: boolean,
+  genes: string[]
+) => {
+  // headers
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json");
+
+  // params
+  const params = new URLSearchParams();
+  if (!fresh) params.set("gene_operation", "replace");
+
+  // body
+  const body = {
+    name,
+    description,
+    isPublic,
+    genes
+  };
+
+  const url = mygeneset + "user_geneset/" + id + "?" + params.toString();
+
+  // make request
+  try {
+    const response = await request(url, {
+      method: fresh ? "POST" : "PUT",
+      body: JSON.stringify(body)
+    });
+    console.log(response);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+// delete geneset
+export const destroy = async (id: string) => {
+  const url = mygeneset + "user_geneset/" + id;
+  try {
+    const response = await request(url, { method: "DELETE" });
+    console.log(response);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};

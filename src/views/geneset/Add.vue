@@ -50,7 +50,7 @@ const cols = [
       action: (cell: undefined, row: Gene) =>
         row?.selected ? "remove" : "add",
       icon: (cell: undefined, row: Gene) =>
-        row?.selected ? "fas fa-check" : "fas fa-plus",
+        row?.selected ? "fas fa-times" : "fas fa-plus",
       tooltip: (cell: undefined, row: Gene) =>
         row?.selected ? "Remove gene from set" : "Add gene to set"
     },

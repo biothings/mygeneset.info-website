@@ -4,6 +4,12 @@
     <h2>{{ $store.state.name }}</h2>
 
     <div class="details">
+      <i class="fas fa-dna fa-fw"></i>
+      <span>Your Genesets</span>
+      <LinkTo to="build"
+        >{{ $store.state.genesets.length.toLocaleString() }} genesets</LinkTo
+      >
+
       <i class="fas fa-link fa-fw"></i>
       <span>Linked with</span>
       <span>{{ $store.state.provider }}</span>
@@ -40,12 +46,14 @@ import { defineComponent } from "vue";
 import Section from "@/components/Section.vue";
 import Center from "@/components/Center.vue";
 import Clickable from "@/components/Clickable.vue";
+import LinkTo from "@/components/LinkTo.vue";
 
 export default defineComponent({
   components: {
     Section,
     Center,
-    Clickable
+    Clickable,
+    LinkTo
   }
 });
 </script>
@@ -55,6 +63,7 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 20px 1fr 2fr;
   grid-gap: 10px;
+  align-items: center;
   max-width: 500px;
   margin: 0 auto;
 

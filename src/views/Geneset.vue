@@ -11,9 +11,11 @@
       <Add v-if="editable" :geneset="geneset" :add="add" :remove="remove" />
       <Finish
         v-if="editable"
-        :fresh="fresh"
         :geneset="geneset"
         :original="original"
+        :fresh="fresh"
+        :update="update"
+        :destroy="destroy"
       />
     </template>
   </Main>
@@ -32,20 +34,10 @@ import Genes from "@/views/geneset/Genes.vue";
 import Download from "@/views/geneset/Download.vue";
 import Add from "@/views/geneset/Add.vue";
 import Finish from "@/views/geneset/Finish.vue";
-import { lookup } from "@/api/genesets";
+import { lookup, update, destroy } from "@/api/genesets";
 import { Geneset } from "@/api/types";
 import { Gene } from "@/api/types";
 import { cloneDeep } from "lodash";
-
-const blank: Geneset = {
-  _id: "",
-  creator: "Casey S. Greene",
-  date: new Date().toLocaleString(),
-  description: "",
-  // eslint-disable-next-line
-  is_public: true,
-  genes: []
-};
 
 export default defineComponent({
   components: {
@@ -70,7 +62,9 @@ export default defineComponent({
       geneset: {} as Geneset,
       // original unmodified geneset
       original: {} as Geneset,
-      // whether is new geneset
+      // whether geneset is editable by logged in user
+      editable: false,
+      // whether is new geneset (can't use "new" because it's a js keyword)
       fresh: false
     };
   },
@@ -97,12 +91,51 @@ export default defineComponent({
       const index =
         ((this.geneset as Geneset)?.genes || []).findIndex(match) || -1;
       (this.geneset as Geneset)?.genes?.splice(index, 1);
-    }
-  },
-  computed: {
-    // dummy is editable property
-    editable() {
-      return this.$route.params.id ? false : true;
+    },
+    // update geneset
+    async update() {
+      if (!window.confirm("Are you sure you want to update this geneset?"))
+        return;
+
+      const {
+        _id,
+        name = "",
+        description = "",
+        // eslint-disable-next-line
+        is_public = false,
+        genes = []
+      } = this.geneset;
+
+      if (!name.trim()) {
+        window.alert("Please enter a name for this geneset!");
+        return;
+      }
+
+      const success = await update(
+        this.fresh,
+        _id || "",
+        name,
+        description,
+        is_public,
+        genes?.map(gene => gene.mygene_id || "") || []
+      );
+
+      // go back to build page
+      if (success) this.$router.push("/build");
+    },
+    // delete geneset
+    async destroy() {
+      if (
+        !window.confirm(
+          "Are you sure you want to delete this geneset? This cannot be undone."
+        )
+      )
+        return;
+
+      const success = await destroy(this.geneset._id || "");
+
+      // go back to build page
+      if (success) this.$router.push("/build");
     }
   },
   mounted() {
@@ -110,10 +143,23 @@ export default defineComponent({
     if (this.$route.params.id) {
       this.load(this.$route.params.id as string);
       this.fresh = false;
+      this.editable = this.geneset.creator === this.$store.state.username;
     } else {
+      const blank: Geneset = {
+        _id: "",
+        name: "",
+        creator: this.$store.state.username,
+        date: new Date().toLocaleString(),
+        description: "",
+        // eslint-disable-next-line
+        is_public: true,
+        genes: []
+      };
+
       this.geneset = cloneDeep(blank);
       this.original = cloneDeep(blank);
       this.fresh = true;
+      this.editable = true;
     }
   }
 });

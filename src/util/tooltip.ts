@@ -22,7 +22,7 @@ const options: Options = {
 };
 
 // open tooltip
-let timer: ReturnType<typeof setTimeout>;
+let timer: number;
 const open = (event: Event) => {
   // get tooltip modifiers and values
   const target = event.target as Element;

@@ -243,7 +243,7 @@ export default defineComponent({
 
       const code = this.code.replace(this.method, "").trim();
       try {
-        this.response = (await request(code, this.method)) as {};
+        this.response = (await request(code, { method: this.method })) as {};
       } catch (error) {
         console.error(error);
       }
