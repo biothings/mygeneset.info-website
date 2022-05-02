@@ -82,7 +82,7 @@ export const update = async (
       method: fresh ? "POST" : "PUT",
       body: JSON.stringify(body)
     });
-    console.log(response);
+    console.info(response);
     return true;
   } catch (error) {
     return false;
@@ -94,7 +94,7 @@ export const destroy = async (id: string) => {
   const url = mygeneset + "user_geneset/" + id;
   try {
     const response = await request(url, { method: "DELETE" });
-    console.log(response);
+    console.info(response);
     return true;
   } catch (error) {
     return false;
