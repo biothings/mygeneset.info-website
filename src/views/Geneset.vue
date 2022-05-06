@@ -38,6 +38,7 @@ import { lookup, update, destroy } from "@/api/genesets";
 import { Geneset } from "@/api/types";
 import { Gene } from "@/api/types";
 import { cloneDeep } from "lodash";
+import { sleep } from "@/util/debug";
 
 export default defineComponent({
   components: {
@@ -69,39 +70,54 @@ export default defineComponent({
     };
   },
   methods: {
-    // load geneset from route id
-    async load(id: string) {
-      this.loading = true;
-      try {
-        this.geneset = await lookup(id);
-        this.original = cloneDeep(this.geneset);
-      } catch (error) {
-        this.error = true;
-      } finally {
-        this.loading = false;
+    // load geneset from id in url, or blank if on /new
+    async load() {
+      if (this.$route.params.id) {
+        this.loading = true;
+        try {
+          this.geneset = await lookup(this.$route.params.id as string);
+          this.original = cloneDeep(this.geneset);
+        } catch (error) {
+          this.error = true;
+        } finally {
+          this.loading = false;
+        }
+        this.fresh = false;
+        this.editable = this.geneset.author === this.$store.state.username;
+      } else {
+        const blank: Geneset = {
+          _id: "",
+          name: "",
+          author: this.$store.state.username,
+          updated: new Date().toLocaleString(),
+          description: "",
+          is_public: true,
+          genes: []
+        };
+
+        this.geneset = cloneDeep(blank);
+        this.original = cloneDeep(blank);
+        this.fresh = true;
+        this.editable = true;
       }
     },
     // add gene to set
     add(cell: undefined, row: Gene) {
-      (this.geneset as Geneset)?.genes?.push(row);
+      if (this.geneset.genes) this.geneset.genes?.push(row);
+      else this.geneset.genes = [row];
     },
     // remove gene from set
     remove(cell: undefined, row: Gene) {
       const match = (gene: Gene) => gene.mygene_id || row.mygene_id;
-      const index =
-        ((this.geneset as Geneset)?.genes || []).findIndex(match) || -1;
-      (this.geneset as Geneset)?.genes?.splice(index, 1);
+      const index = (this.geneset?.genes || []).findIndex(match) || -1;
+      this.geneset?.genes?.splice(index, 1);
     },
     // update geneset
     async update() {
-      if (!window.confirm("Are you sure you want to update this geneset?"))
-        return;
-
       const {
         _id,
         name = "",
         description = "",
-        // eslint-disable-next-line
         is_public = false,
         genes = []
       } = this.geneset;
@@ -109,6 +125,14 @@ export default defineComponent({
       if (!name.trim()) {
         window.alert("Please enter a name for this geneset!");
         return;
+      }
+
+      if (this.fresh) {
+        if (!window.confirm("Are you sure you want to create this geneset?"))
+          return;
+      } else {
+        if (!window.confirm("Are you sure you want to update this geneset?"))
+          return;
       }
 
       const success = await update(
@@ -120,6 +144,8 @@ export default defineComponent({
         genes?.map(gene => gene.mygene_id || "") || []
       );
 
+      // wait for database to refresh
+      await sleep(1000);
       // go back to build page
       if (success) this.$router.push("/build");
     },
@@ -134,33 +160,23 @@ export default defineComponent({
 
       const success = await destroy(this.geneset._id || "");
 
+      // wait for database to refresh
+      await sleep(1000);
       // go back to build page
       if (success) this.$router.push("/build");
     }
   },
-  mounted() {
-    // load geneset from id in url, or blank if on /new
-    if (this.$route.params.id) {
-      this.load(this.$route.params.id as string);
-      this.fresh = false;
-      this.editable = this.geneset.creator === this.$store.state.username;
-    } else {
-      const blank: Geneset = {
-        _id: "",
-        name: "",
-        creator: this.$store.state.username,
-        date: new Date().toLocaleString(),
-        description: "",
-        // eslint-disable-next-line
-        is_public: true,
-        genes: []
-      };
-
-      this.geneset = cloneDeep(blank);
-      this.original = cloneDeep(blank);
-      this.fresh = true;
-      this.editable = true;
+  watch: {
+    // run load when certain props change
+    "$route.params.id"() {
+      this.load();
+    },
+    "$store.state.username"() {
+      this.load();
     }
+  },
+  mounted() {
+    this.load();
   }
 });
 </script>

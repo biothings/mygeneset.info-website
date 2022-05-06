@@ -1,7 +1,7 @@
 // api endpoint base urls
 export const biothings = "https://t.biothings.io/v1/";
-export const mygeneset = "https://mygeneset.info/v1/";
-export const mygenesetRoot = "https://mygeneset.info/";
+export const mygeneset = "http://localhost:8000/v1/";
+export const mygenesetRoot = "http://localhost:8000/";
 export const mygene = "https://mygene.info/v3/";
 
 // make request and get json results

@@ -3,8 +3,8 @@ export interface Geneset {
   // from api
   _id?: string;
   name?: string;
-  creator?: string;
-  date?: string;
+  author?: string;
+  updated?: string;
   description?: string;
   is_public?: boolean;
   genes?: Gene[];
@@ -68,7 +68,6 @@ export interface MyGene {
 // convert gene from mygene api to gene from mygeneset api
 export const mapGene = (myGene: MyGene): Gene => ({
   // from api
-  // eslint-disable-next-line
   mygene_id: myGene._id,
   name: myGene.name,
   alias: myGene.alias,

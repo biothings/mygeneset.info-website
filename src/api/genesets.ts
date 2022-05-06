@@ -55,7 +55,7 @@ export const update = async (
   id: string,
   name: string,
   description: string,
-  isPublic: boolean,
+  is_public: boolean,
   genes: string[]
 ) => {
   // headers
@@ -70,7 +70,7 @@ export const update = async (
   const body = {
     name,
     description,
-    isPublic,
+    is_public,
     genes
   };
 

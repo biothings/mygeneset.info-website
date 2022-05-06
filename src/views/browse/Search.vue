@@ -31,9 +31,10 @@ import { Geneset } from "@/api/types";
 // results table columns
 const cols = [
   {
-    key: "_id",
+    key: "name",
     name: "Name",
-    format: (cell: Geneset["_id"]) => `<a href="/geneset/${cell}">${cell}</a>`
+    format: (cell: Geneset["name"], row: Geneset) =>
+      `<a href="/geneset/${row._id}">${row.name}</a>`
   },
   {
     key: "genes",

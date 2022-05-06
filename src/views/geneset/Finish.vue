@@ -77,7 +77,7 @@ export default defineComponent({
 
         // find changed fields
         const edited = [];
-        const fields = ["_id", "creator", "date", "description", "is_public"];
+        const fields = ["_id", "author", "updated", "description", "is_public"];
         for (const field of fields) {
           const key = field as keyof Geneset;
           if (geneset[key] !== original[key]) edited.push(toHumanCase(key));
