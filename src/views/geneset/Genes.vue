@@ -23,7 +23,7 @@ const cols = [
     align: "center",
     button: {
       action: () => "remove",
-      icon: () => "fas fa-times",
+      icon: () => "fas fa-trash",
       tooltip: () => "Remove gene from set"
     },
     sortable: false
