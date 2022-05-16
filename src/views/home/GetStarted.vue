@@ -3,7 +3,7 @@
     <h2 id="get-started">Get Started</h2>
     <Placeholder>
       table of popular/recent genesets with columns:<br />
-      title (links to geneset page), species, gene count, creator, truncated
+      title (links to geneset page), species, gene count, author, truncated
       description
     </Placeholder>
     <Center width="200px">

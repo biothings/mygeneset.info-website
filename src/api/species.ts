@@ -48,7 +48,7 @@ export const popular = async (): Promise<Species[]> => {
   // request and parse results
   url = biothings + "query?" + params.toString();
   try {
-    const results = await request(url, "POST");
+    const results = await request(url, { method: "POST" });
     if (results.length) results[0].total = total;
     return results;
   } catch (error) {

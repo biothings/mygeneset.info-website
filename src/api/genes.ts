@@ -64,8 +64,7 @@ export const batchSearch = async (
   // request and parse results
   const url = mygene + "query?" + params.toString();
   try {
-    // eslint-disable-next-line
-    let hits = await request(url, "POST");
+    let hits = await request(url, { method: "POST" });
     if (hits.length) hits[0].total = hits.length;
     hits = hits.map(mapGene).filter((hit: Gene) => !hit.notfound);
     return hits;

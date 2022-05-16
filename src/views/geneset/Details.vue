@@ -7,12 +7,16 @@
     </h2>
     <Field
       name="Title"
-      v-model="_geneset._id"
+      v-model="_geneset.name"
       placeholder="Descriptive title of the geneset"
       :disabled="!editable"
     />
-    <Field name="Creator" v-model="_geneset.creator" :disabled="true" />
-    <Field name="Date" v-model="_geneset.date" :disabled="true" />
+    <Field name="Author" v-model="_geneset.author" :disabled="true" />
+    <Field
+      name="Updated"
+      :model-value="new Date(_geneset.updated).toLocaleString()"
+      :disabled="true"
+    />
     <Field
       name="Description"
       v-model="_geneset.description"

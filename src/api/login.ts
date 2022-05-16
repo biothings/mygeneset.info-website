@@ -1,3 +1,4 @@
+import { search } from "./genesets";
 import { mygenesetRoot, request } from ".";
 
 // login via github or orcid
@@ -13,7 +14,12 @@ export const logout = async () => {
 // get user info and determine whether logged in or not
 export const getUser = async () => {
   try {
-    return await request(`${mygenesetRoot}user_info`);
+    const userInfo = await request(`${mygenesetRoot}user_info`);
+    if (userInfo.username) {
+      const userGenesets = await search(`author:${userInfo.username}`);
+      userInfo.genesets = userGenesets;
+    }
+    return userInfo;
   } catch (error) {
     return null;
   }

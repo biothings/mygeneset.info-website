@@ -3,17 +3,12 @@
   <Section>
     <Center :vertical="true" width="200px">
       <Clickable
-        v-if="!fresh"
-        text="Duplicate"
-        icon="fas fa-copy"
-        design="big"
-        v-tooltip="'Start new geneset from this one'"
-      />
-      <Clickable
         :text="fresh ? 'Create' : 'Publish Changes'"
         :icon="fresh ? 'fas fa-magic' : 'fas fa-upload'"
         design="big"
+        @click="update"
       />
+
       <div v-if="!fresh" class="diff">
         <div v-if="edited" class="edited">
           <span>Edited </span><span>{{ edited }}</span>
@@ -25,6 +20,14 @@
           <span>Removed </span><span>{{ removed }} gene(s)</span>
         </div>
       </div>
+
+      <Clickable
+        v-if="!fresh"
+        text="Delete"
+        icon="fas fa-trash"
+        design="big"
+        @click="destroy"
+      />
     </Center>
   </Section>
 </template>
@@ -50,7 +53,11 @@ export default defineComponent({
     // original unmodified genset
     original: Object as PropType<Geneset>,
     // whether is new geneset
-    fresh: Boolean
+    fresh: Boolean,
+    // create/update geneset
+    update: Function,
+    // delete geneset
+    destroy: Function
   },
   data() {
     return {
@@ -70,7 +77,7 @@ export default defineComponent({
 
         // find changed fields
         const edited = [];
-        const fields = ["_id", "creator", "date", "description", "is_public"];
+        const fields = ["_id", "author", "updated", "description", "is_public"];
         for (const field of fields) {
           const key = field as keyof Geneset;
           if (geneset[key] !== original[key]) edited.push(toHumanCase(key));
