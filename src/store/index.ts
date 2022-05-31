@@ -1,50 +1,64 @@
-import { Geneset } from "./../api/types";
-import { createStore } from "vuex";
-import { getUser } from "./../api/login";
+import { InjectionKey } from "vue";
+import { createStore, useStore as baseUseStore, Store } from "vuex";
+import { Geneset } from "@/api/types";
+import { getMetadata, MetadataResult } from "@/api/metadata";
+import { getUser } from "@/api/login";
 
 // global state type
 export interface State {
-  loggedIn: boolean;
-  name: string;
-  username: string;
-  email: string;
-  organization: string;
-  avatar: string;
-  provider: string;
-  genesets: Geneset[];
+  loggedIn: {
+    name: string;
+    username: string;
+    email: string;
+    organization: string;
+    avatar: string;
+    provider: string;
+    genesets: Array<Geneset>;
+  } | null;
+  metadata: MetadataResult | null;
 }
 
 // global state store
 export default createStore<State>({
+  // default/starting global state
   state: {
-    loggedIn: false,
-    name: "",
-    username: "",
-    email: "",
-    organization: "",
-    avatar: "",
-    provider: "",
-    genesets: []
+    loggedIn: null,
+    metadata: null,
   },
   mutations: {
+    // update metadata info
+    getMetadata(state, payload: Awaited<ReturnType<typeof getMetadata>>) {
+      state.metadata = payload;
+    },
     // update logged in state
-    getUser(state, payload = {}) {
-      state.loggedIn = !!payload?.name;
-      state.name = payload?.name || "";
-      state.username = payload?.username || "";
-      state.email = payload?.email || "";
-      state.organization = payload?.organization || "";
-      state.avatar = payload?.avatar_url || "";
-      state.provider = payload?.oauth_provider || "";
-      state.genesets = payload?.genesets || [];
-    }
+    getUser(state, payload: Awaited<ReturnType<typeof getUser>>) {
+      state.loggedIn = payload.name
+        ? {
+            name: payload?.name || "",
+            username: payload?.username || "",
+            email: payload?.email || "",
+            organization: payload?.organization || "",
+            avatar: payload?.avatar_url || "",
+            provider: payload?.oauth_provider || "",
+            genesets: payload?.genesets || [],
+          }
+        : null;
+    },
   },
   actions: {
+    // update metadata info
+    async getMetadata({ commit }) {
+      commit("getMetadata", await getMetadata());
+    },
     // update logged in state
     async getUser({ commit }) {
       commit("getUser", await getUser());
-    }
+    },
   },
   modules: {},
-  plugins: []
+  plugins: [],
 });
+
+// https://vuex.vuejs.org/guide/typescript-support.html#simplifying-usestore-usage
+export const key: InjectionKey<Store<State>> = Symbol();
+export const useStore = () => baseUseStore(key);

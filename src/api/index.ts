@@ -1,11 +1,13 @@
 // api endpoint base urls
-export const biothings = "https://t.biothings.io/v1/";
-export const mygeneset = "https://mygeneset.info/v1/";
-export const mygenesetRoot = "https://mygeneset.info/";
-export const mygene = "https://mygene.info/v3/";
+export const biothings = "https://t.biothings.io/v1";
+export const mygeneset = "https://mygeneset.info/v1";
+export const mygene = "https://mygene.info/v3";
 
 // make request and get json results
-export const request = async (url: string, options: RequestInit = {}) => {
+export const request = async <Response = any>(
+  url: string,
+  options: RequestInit = {}
+): Promise<Response> => {
   // merge headers
   const headers = new Headers(options.headers);
   headers.append("pragma", "no-cache");

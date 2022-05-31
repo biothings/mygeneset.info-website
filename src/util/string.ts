@@ -7,12 +7,12 @@ const split = (string: string) =>
     .replace(/([0-9])(.*)/g, " $1$2") // put space after every last number
     .toLowerCase()
     .split(/\s+/)
-    .filter(word => word);
+    .filter((word) => word);
 
 // convert string to Human Case
 export const toHumanCase = (string: string) =>
   split(string)
-    .map(word => word.charAt(0).toUpperCase() + word.substring(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
     .join(" ");
 
 // convert sting to camelCase

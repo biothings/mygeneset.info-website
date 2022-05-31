@@ -13,7 +13,7 @@ export const search = async (query?: string): Promise<Species[]> => {
   params.set("always_list", "genbank_common_name,common_name,other_names");
 
   // request and parse results
-  const url = biothings + "query?" + params.toString();
+  const url = `${biothings}/query?${params.toString()}`;
   try {
     const { total = 0, hits = [] } = await request(url);
     if (hits.length) hits[0].total = total;
@@ -35,7 +35,7 @@ export const popular = async (): Promise<Species[]> => {
   params.set("always_list", "genbank_common_name,common_name,other_names");
 
   // request and parse results
-  let url = mygeneset + "query?" + params.toString();
+  let url = `${mygeneset}/query?${params.toString()}`;
   const { facets = {}, total = 0 } = await request(url);
   const ids = facets.taxid.terms
     .map(({ term }: { term: number }) => term)
@@ -46,7 +46,7 @@ export const popular = async (): Promise<Species[]> => {
   params.set("q", ids);
 
   // request and parse results
-  url = biothings + "query?" + params.toString();
+  url = `${biothings}/query?${params.toString()}`;
   try {
     const results = await request(url, { method: "POST" });
     if (results.length) results[0].total = total;

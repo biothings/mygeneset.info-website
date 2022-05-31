@@ -20,5 +20,5 @@ export const handlers = [
   ),
   rest.delete(/user_geneset/i, (req, res, ctx) =>
     res(ctx.status(200), ctx.json({}))
-  )
+  ),
 ];

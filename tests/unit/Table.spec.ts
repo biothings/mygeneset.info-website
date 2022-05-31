@@ -1,28 +1,21 @@
 import { expect } from "chai";
 import { mount } from "@vue/test-utils";
 import Table from "@/components/Table.vue";
-import { directive } from "@/util/tooltip";
-
-const global = {
-  directives: {
-    tooltip: directive
-  }
-};
 
 describe("Table.vue", () => {
   const cols = [
     {
       key: "firstCol",
-      name: "First Col"
+      name: "First Col",
     },
     {
       key: "secondCol",
-      name: "Second Col"
+      name: "Second Col",
     },
     {
       key: "thirdCol",
       name: "Third Col",
-      sortable: false
+      sortable: false,
     },
     {
       key: "fourthCol",
@@ -30,22 +23,21 @@ describe("Table.vue", () => {
       button: {
         action: () => "remove",
         icon: () => "fas fa-trash",
-        tooltip: () => "Click me!"
-      }
-    }
+        tooltip: () => "Click me!",
+      },
+    },
   ];
   const rows = [
     { firstCol: "apple", secondCol: 0, thirdCol: "big long string x" },
     { firstCol: "pear", secondCol: -10, thirdCol: "big long string y" },
-    { firstCol: "banana", secondCol: 10, thirdCol: "big long string z" }
+    { firstCol: "banana", secondCol: 10, thirdCol: "big long string z" },
   ];
 
   const wrapper = mount(Table, {
     props: {
       cols: cols,
-      rows: rows
+      rows: rows,
     },
-    global
   });
 
   const getCell = (col: number, row: number, query?: string) =>
@@ -55,7 +47,7 @@ describe("Table.vue", () => {
         row > 0 ? "tbody" : "thead",
         `tr:nth-child(${row + (row > 0 ? 0 : 1)})`,
         `${row > 0 ? "td" : "th"}:nth-child(${col + 1})`,
-        query || ""
+        query || "",
       ].join(" ")
     );
 
@@ -103,9 +95,8 @@ describe("Table.vue", () => {
   const wrapper2 = mount(Table, {
     props: {
       cols: cols,
-      rows: rows2
+      rows: rows2,
     },
-    global
   });
 
   it("paginates properly", async () => {

@@ -1,19 +1,20 @@
+import { waitFor } from "./../util/dom";
 import { nextTick } from "vue";
 import {
   createRouter,
   createWebHistory,
   RouteRecordRaw,
-  NavigationGuard
+  NavigationGuard,
+  RouterScrollBehavior,
 } from "vue-router";
-import Home from "@/views/Home.vue";
-import Browse from "@/views/Browse.vue";
-import Build from "@/views/Build.vue";
-import API from "@/views/API.vue";
-import About from "@/views/About.vue";
-import LogIn from "@/views/LogIn.vue";
-import Geneset from "@/views/Geneset.vue";
-import User from "@/views/User.vue";
-import { scrollToHash } from "@/util/url";
+import PageHome from "@/views/PageHome.vue";
+// import Browse from "@/views/Browse.vue";
+// import Build from "@/views/Build.vue";
+import PageApi from "@/views/PageApi.vue";
+import PageAbout from "@/views/PageAbout.vue";
+// import LogIn from "@/views/LogIn.vue";
+// import Geneset from "@/views/Geneset.vue";
+// import User from "@/views/User.vue";
 
 // handle redirect from 404
 const handleRedirect: NavigationGuard = (to, from, next) => {
@@ -36,63 +37,93 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
-    component: Home,
-    beforeEnter: handleRedirect
+    component: PageHome,
+    beforeEnter: handleRedirect,
   },
-  {
-    path: "/browse",
-    name: "Browse",
-    component: Browse
-  },
-  {
-    path: "/build",
-    name: "Build",
-    component: Build
-  },
+  // {
+  //   path: "/browse",
+  //   name: "Browse",
+  //   component: Browse,
+  // },
+  // {
+  //   path: "/build",
+  //   name: "Build",
+  //   component: Build,
+  // },
   {
     path: "/api",
     name: "API",
-    component: API
+    component: PageApi,
   },
   {
     path: "/about",
     name: "About",
-    component: About
+    component: PageAbout,
   },
-  {
-    path: "/login",
-    name: "Log In",
-    component: LogIn
-  },
-  {
-    path: "/new",
-    name: "New Geneset",
-    component: Geneset
-  },
-  {
-    path: "/geneset/:id",
-    name: "Geneset",
-    component: Geneset
-  },
-  {
-    path: "/user",
-    name: "User",
-    component: User
-  }
+  // {
+  //   path: "/login",
+  //   name: "Log In",
+  //   component: LogIn,
+  // },
+  // {
+  //   path: "/new",
+  //   name: "New Geneset",
+  //   component: Geneset,
+  // },
+  // {
+  //   path: "/geneset/:id",
+  //   name: "Geneset",
+  //   component: Geneset,
+  // },
+  // {
+  //   path: "/user",
+  //   name: "User",
+  //   component: User,
+  // },
 ];
 
-// create router object for vue router
+// vue-router's scroll behavior handler
+const scrollBehavior: RouterScrollBehavior = async (
+  to,
+  from,
+  savedPosition
+) => {
+  // scroll to element corresponding to hash
+  const element = await waitFor(to.hash);
+  if (element) return { el: getTarget(element), behavior: "smooth" };
+
+  // scroll to previous position if exists
+  if (savedPosition?.left || savedPosition?.top) return savedPosition;
+};
+
+// given element, get (possibly) modified target
+const getTarget = (element: Element): Element => {
+  // move target to parent section element if first child
+  if (
+    element.parentElement?.tagName === "SECTION" &&
+    element.matches(":first-child")
+  )
+    return element.parentElement;
+
+  return element;
+};
+
+// navigation history object
+const history = createWebHistory(process.env.BASE_URL);
+
+// router object
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+  history,
+  routes,
+  scrollBehavior,
 });
 
 // update tab title after each navigation
-router.afterEach(to =>
-  nextTick(() => {
-    document.title = process.env.VUE_APP_TITLE + " - " + String(to.name);
-    scrollToHash(to.hash);
-  })
-);
+router.afterEach(async ({ name }) => {
+  // https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+  await nextTick();
+
+  document.title = process.env.VUE_APP_TITLE + " - " + String(name);
+});
 
 export default router;

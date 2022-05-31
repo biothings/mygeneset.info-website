@@ -19,11 +19,11 @@ export const stringifyJson = (data: object) => JSON.stringify(data, null, 2);
 
 // format array of arrays as csv string
 export const stringifyCsv = (data: [][]) =>
-  data.map(cell => cell.join(",")).join("\n");
+  data.map((cell) => cell.join(",")).join("\n");
 
 // format array of arrays as tsv string
 export const stringifyTsv = (data: [][]) =>
-  data.map(cell => cell.join("\t")).join("\n");
+  data.map((cell) => cell.join("\t")).join("\n");
 
 // download object as .json file
 export const downloadJson = (data: object, filename: string) => {
@@ -32,7 +32,7 @@ export const downloadJson = (data: object, filename: string) => {
 
 // format array of arrays as gmx string
 export const stringifyGmx = (data: [][]) =>
-  data.map(cell => cell.join("\t")).join("\n");
+  data.map((cell) => cell.join("\t")).join("\n");
 
 // download array of arrays as .csv
 export const downloadCsv = (data: [][], filename: string) =>

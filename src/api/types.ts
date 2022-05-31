@@ -1,4 +1,9 @@
-// expected type for genesets from mygeneset.info
+export interface Metadata {
+  stats: {
+    total: number;
+  };
+}
+
 export interface Geneset {
   // from api
   _id?: string;
@@ -13,7 +18,6 @@ export interface Geneset {
   total?: number;
 }
 
-// expected type of species
 export interface Species {
   // from api
   _id?: string;
@@ -29,7 +33,6 @@ export interface Species {
   icon?: string;
 }
 
-// expected type for genes
 export interface Gene {
   // from api
   mygene_id?: string;
@@ -48,7 +51,6 @@ export interface Gene {
   [key: string]: any;
 }
 
-// gene from mygene api
 export interface MyGene {
   // from api
   _id?: string;
@@ -73,10 +75,10 @@ export const mapGene = (myGene: MyGene): Gene => ({
   alias: myGene.alias,
   symbol: myGene.symbol,
   ncbigene: myGene.entrezgene,
-  ensemblgene: (myGene.ensembl || []).map(e => e.gene || ""),
-  uniprot: (myGene.uniprot || []).map(u => (u || {})["Swiss-Prot"] || ""),
+  ensemblgene: (myGene.ensembl || []).map((e) => e.gene || ""),
+  uniprot: (myGene.uniprot || []).map((u) => (u || {})["Swiss-Prot"] || ""),
   notfound: myGene.notfound,
 
   // from app
-  total: myGene.total
+  total: myGene.total,
 });
