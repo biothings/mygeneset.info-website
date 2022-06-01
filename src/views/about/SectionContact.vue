@@ -52,7 +52,7 @@
   </AppSection>
 </template>
 
-<style scope lang="scss">
+<style scoped lang="scss">
 $breakpoint: 500px;
 
 .grid {

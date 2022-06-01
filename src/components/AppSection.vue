@@ -17,11 +17,15 @@ section {
   transition: background $fast;
 
   &:nth-child(even) {
-    background: $white;
+    background: $off-white;
   }
 
   &:nth-child(odd) {
-    background: $off-white;
+    background: $white;
+  }
+
+  &:last-child {
+    flex-grow: 1;
   }
 }
 </style>

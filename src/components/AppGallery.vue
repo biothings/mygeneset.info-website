@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<style scope lang="scss">
+<style scoped lang="scss">
 $tablet: 600px;
 $phone: 400px;
 

@@ -53,6 +53,10 @@
       />
     </AppFlex>
 
+    <!-- status -->
+    <AppStatus v-if="loading" status="loading">Loading response</AppStatus>
+
+    <!-- response -->
     <template v-if="response">
       <!-- response data -->
       <VueJsonPretty
@@ -84,11 +88,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
 import AppChecklist from "@/components/AppChecklist.vue";
 import AppCodeInput from "@/components/AppCodeInput.vue";
+import AppStatus from "@/components/AppStatus.vue";
 import { request } from "@/api";
 import { downloadJson } from "@/util/download";
 import { useMutationObserver } from "@vueuse/core";
@@ -234,6 +239,10 @@ const response = ref<{}>();
 
 // run request
 const run = async () => {
+  // reset response
+  response.value = undefined;
+
+  // status
   loading.value = true;
 
   const method = selected?.value?.method || "";
@@ -245,6 +254,7 @@ const run = async () => {
     response.value = undefined;
   }
 
+  // status
   loading.value = false;
 };
 
@@ -270,7 +280,7 @@ const updateBrackets = () => {
     else bracket.dataset.action = "";
   }
 };
-onMounted(updateBrackets);
+watch(vjp, updateBrackets);
 useMutationObserver(vjp, updateBrackets, { subtree: true, childList: true });
 </script>
 
@@ -295,6 +305,7 @@ useMutationObserver(vjp, updateBrackets, { subtree: true, childList: true });
   color: $light-gray;
   white-space: pre;
 }
+
 .vjs-tree__brackets {
   color: $gray;
 
@@ -302,15 +313,19 @@ useMutationObserver(vjp, updateBrackets, { subtree: true, childList: true });
     color: $yellow;
   }
 }
+
 .vjs-comment {
   color: $gray;
 }
+
 .vjs-value__number {
   color: $blue-light;
 }
+
 .vjs-value__string {
   color: $purple-light;
 }
+
 .vjs-tree__indent.has-line {
   border: none;
   border-left: solid 1px #ffffff20 !important;
@@ -319,12 +334,15 @@ useMutationObserver(vjp, updateBrackets, { subtree: true, childList: true });
 .vjs-tree__brackets:before {
   color: $dark-gray;
 }
+
 .vjs-tree__brackets:hover:before {
   color: $yellow;
 }
+
 .vjs-tree__brackets[data-action="collapse"]:before {
   content: "▾ ";
 }
+
 .vjs-tree__brackets[data-action="expand"]:before {
   content: "▸ ";
 }

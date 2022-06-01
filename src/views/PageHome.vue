@@ -1,6 +1,6 @@
 <template>
   <SectionHero />
-  <SectionGettingStarted />
+  <SectionGetStarted />
   <SectionApi />
   <SectionFeatures />
   <SectionRecent />
@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import SectionHero from "./home/SectionHero.vue";
-import SectionGettingStarted from "./home/SectionGettingStarted.vue";
+import SectionGetStarted from "./home/SectionGetStarted.vue";
 import SectionApi from "./home/SectionApi.vue";
 import SectionFeatures from "./home/SectionFeatures.vue";
 import SectionRecent from "./home/SectionRecent.vue";

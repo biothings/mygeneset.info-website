@@ -12,9 +12,9 @@ import PageHome from "@/views/PageHome.vue";
 // import Build from "@/views/Build.vue";
 import PageApi from "@/views/PageApi.vue";
 import PageAbout from "@/views/PageAbout.vue";
-// import LogIn from "@/views/LogIn.vue";
+import PageLogin from "@/views/PageLogin.vue";
+import PageUser from "@/views/PageUser.vue";
 // import Geneset from "@/views/Geneset.vue";
-// import User from "@/views/User.vue";
 
 // handle redirect from 404
 const handleRedirect: NavigationGuard = (to, from, next) => {
@@ -60,11 +60,16 @@ const routes: RouteRecordRaw[] = [
     name: "About",
     component: PageAbout,
   },
-  // {
-  //   path: "/login",
-  //   name: "Log In",
-  //   component: LogIn,
-  // },
+  {
+    path: "/login",
+    name: "Log In",
+    component: PageLogin,
+  },
+  {
+    path: "/user",
+    name: "User",
+    component: PageUser,
+  },
   // {
   //   path: "/new",
   //   name: "New Geneset",
@@ -74,11 +79,6 @@ const routes: RouteRecordRaw[] = [
   //   path: "/geneset/:id",
   //   name: "Geneset",
   //   component: Geneset,
-  // },
-  // {
-  //   path: "/user",
-  //   name: "User",
-  //   component: User,
   // },
 ];
 

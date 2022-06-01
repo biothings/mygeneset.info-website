@@ -72,7 +72,7 @@ const onInput = (index: number) => {
 };
 </script>
 
-<style scope lang="scss">
+<style scoped lang="scss">
 .label {
   display: inline-flex;
   justify-content: center;

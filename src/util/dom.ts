@@ -9,6 +9,8 @@ export const waitFor = async (
   // ms between checks
   interval = 10
 ): Promise<Element | void> => {
+  if (!selector) return;
+
   // time at first check
   const startTime = window.performance.now();
 

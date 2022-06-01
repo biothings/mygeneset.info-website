@@ -54,8 +54,8 @@
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "@/store";
-import TheHexField from "@/components/TheHexField.vue";
 import { logout } from "@/api/login";
+import TheHexField from "@/components/TheHexField.vue";
 import AppIcon from "./AppIcon.vue";
 import TheLogo from "@/assets/TheLogo.vue";
 
@@ -110,6 +110,8 @@ $breakpoint: 600px;
   display: none;
   justify-content: center;
   align-items: center;
+  background: none;
+  border: none;
 }
 
 .nav {

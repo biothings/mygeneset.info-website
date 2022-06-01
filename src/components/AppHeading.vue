@@ -41,8 +41,8 @@ const heading = ref<HTMLElement>();
 // get heading level/tag, i.e. h1, h2, h3, etc
 const tag = computed(() => "h" + props.level);
 // determine link from text content of heading
-const link = computed(() =>
-  kebabCase(heading.value?.innerText.toLowerCase() || "")
+const link = computed(
+  () => kebabCase(heading.value?.innerText.toLowerCase() || "") || undefined
 );
 </script>
 

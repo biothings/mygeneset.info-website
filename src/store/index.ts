@@ -32,7 +32,7 @@ export default createStore<State>({
     },
     // update logged in state
     getUser(state, payload: Awaited<ReturnType<typeof getUser>>) {
-      state.loggedIn = payload.name
+      state.loggedIn = payload?.name
         ? {
             name: payload?.name || "",
             username: payload?.username || "",

@@ -22,6 +22,9 @@ body,
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   flex-grow: 1;
 }
 
@@ -94,7 +97,7 @@ code {
   }
 }
 
-code[data-big="true"]{
+code[data-big="true"] {
   padding: 10px 20px;
 }
 
@@ -168,4 +171,13 @@ svg {
   hyphens: auto;
   word-break: break-word;
   overflow-wrap: anywhere;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

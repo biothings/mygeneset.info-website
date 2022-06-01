@@ -74,7 +74,7 @@
   </AppSection>
 </template>
 
-<style scope lang="scss">
+<style scoped lang="scss">
 .buttons {
   & > span {
     height: 27px;
