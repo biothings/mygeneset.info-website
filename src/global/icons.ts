@@ -41,7 +41,6 @@ library.add(
     fas.faSearch,
     fas.faSignature,
     fas.faSignInAlt,
-    fas.faSpinner,
     fas.faTimes,
   ] as Array<IconDefinition>)
 );

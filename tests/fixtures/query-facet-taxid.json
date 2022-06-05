@@ -1,0 +1,55 @@
+{
+  "took": 84,
+  "total": 146964,
+  "max_score": 1.55,
+  "facets": {
+    "taxid": {
+      "_type": "terms",
+      "terms": [
+        {
+          "count": 70943,
+          "term": 9606
+        },
+        {
+          "count": 15656,
+          "term": 9031
+        },
+        {
+          "count": 14847,
+          "term": 9913
+        },
+        {
+          "count": 14662,
+          "term": 9615
+        },
+        {
+          "count": 14498,
+          "term": 9823
+        },
+        {
+          "count": 6331,
+          "term": 10090
+        },
+        {
+          "count": 6295,
+          "term": 10116
+        },
+        {
+          "count": 1303,
+          "term": 7955
+        },
+        {
+          "count": 619,
+          "term": 7227
+        },
+        {
+          "count": 609,
+          "term": 6239
+        }
+      ],
+      "other": 1199,
+      "missing": 0,
+      "total": 145763
+    }
+  }
+}

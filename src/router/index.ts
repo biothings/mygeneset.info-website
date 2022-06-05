@@ -8,7 +8,7 @@ import {
   RouterScrollBehavior,
 } from "vue-router";
 import PageHome from "@/views/PageHome.vue";
-// import Browse from "@/views/Browse.vue";
+import PageBrowse from "@/views/PageBrowse.vue";
 // import Build from "@/views/Build.vue";
 import PageApi from "@/views/PageApi.vue";
 import PageAbout from "@/views/PageAbout.vue";
@@ -40,11 +40,11 @@ const routes: RouteRecordRaw[] = [
     component: PageHome,
     beforeEnter: handleRedirect,
   },
-  // {
-  //   path: "/browse",
-  //   name: "Browse",
-  //   component: Browse,
-  // },
+  {
+    path: "/browse",
+    name: "Browse",
+    component: PageBrowse,
+  },
   // {
   //   path: "/build",
   //   name: "Build",

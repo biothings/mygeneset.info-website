@@ -1,9 +1,9 @@
 <template>
   <AppSection>
     <AppHero icon="database">
-      <template #aTop>{{ requests ? requests : "???" }} </template>
+      <template #aTop>{{ requests ? requests : "..." }}</template>
       <template #aBottom>requests in last 30 days</template>
-      <template #bTop>{{ ips ? ips : "???" }} </template>
+      <template #bTop>{{ ips ? ips : "..." }}</template>
       <template #bBottom> unique IPs in last 30 days</template>
     </AppHero>
   </AppSection>

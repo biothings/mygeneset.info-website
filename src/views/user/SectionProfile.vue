@@ -1,8 +1,8 @@
 <template>
   <AppSection>
-    <AppHeading level="3"
-      >Logged in as {{ $store.state.loggedIn?.name }}</AppHeading
-    >
+    <AppHeading level="2" icon="user">{{
+      $store.state.loggedIn?.name
+    }}</AppHeading>
 
     <div class="details">
       <div>
@@ -11,7 +11,7 @@
       </div>
       <AppLink to="/build"
         >{{
-          $store.state.loggedIn?.genesets?.length?.toLocaleString() || "???"
+          $store.state.loggedIn?.genesets?.length?.toLocaleString() || "..."
         }}
         genesets</AppLink
       >

@@ -20,7 +20,6 @@ for (const [name, component] of Object.entries(components))
   // use mock api calls when developing locally, like we do during tests
   if (process.env.NODE_ENV === "development")
     await setupWorker(...handlers).start({ onUnhandledRequest: "bypass" });
-  // wait to mount app so we can catch immediate requests
 
   // render app
   app.mount("#app");

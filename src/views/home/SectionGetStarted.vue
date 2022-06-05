@@ -4,8 +4,8 @@
 
     Start browsing and building genesets, right on this website
     <AppFlex>
-      <AppButton icon="search" text="Browse All" />
-      <AppButton icon="hammer" text="Build Your Own" />
+      <AppButton to="/browse" icon="search" text="Browse All" />
+      <AppButton to="/build" icon="hammer" text="Build Your Own" />
     </AppFlex>
   </AppSection>
 </template>

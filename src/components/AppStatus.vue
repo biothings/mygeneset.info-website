@@ -14,7 +14,7 @@ import { computed } from "vue";
 
 // different status codes and their associated props
 const statuses = {
-  loading: { icon: "spinner" },
+  loading: { icon: "loading" },
   success: { icon: "check-circle" },
   warning: { icon: "exclamation-circle" },
   error: { icon: "exclamation-triangle" },
