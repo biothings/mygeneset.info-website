@@ -40,8 +40,13 @@ export const searchSpecies = async (query?: string): Promise<SearchResult> => {
   const params = new URLSearchParams();
 
   // dynamic params
-  if (query) params.set("q", query);
-  else params.set("q", (await getPopularSpecies()).join(","));
+  let method;
+  if (query) {
+    params.set("q", query);
+  } else {
+    method = "POST";
+    params.set("q", (await getPopularSpecies()).join(","));
+  }
 
   // static params
   params.set("fields", "all");
@@ -53,18 +58,20 @@ export const searchSpecies = async (query?: string): Promise<SearchResult> => {
 
   // request
   const url = `${biothings}/query?${params.toString()}`;
-  const { total = 0, hits = [] } = await request<SearchResponse>(url);
+  const response = await request<SearchResponse>(url, { method });
 
-  console.log(hits);
-
-  return { total, species: hits.map(mapSpecies) };
+  if (Array.isArray(response))
+    return { total: response.length, species: response.map(mapSpecies) };
+  else return { total: response.total, species: response.hits.map(mapSpecies) };
 };
 
 // from backend
-interface SearchResponse {
-  hits: Array<_Species>;
-  total: number;
-}
+type SearchResponse =
+  | {
+      hits: Array<_Species>;
+      total: number;
+    }
+  | Array<_Species>;
 
 // for frontend
 export interface SearchResult {

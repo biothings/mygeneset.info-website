@@ -4,7 +4,7 @@ import { _Gene, Gene, mapGene } from "./genes";
 
 // from backend
 export interface _Geneset {
-  _id?: string;
+  _id?: number;
   name?: string;
   author?: string;
   updated?: string;
@@ -26,7 +26,7 @@ export interface Geneset {
 
 // convert backend format to desired frontend format
 const mapGeneset = (geneset: _Geneset): Geneset => ({
-  id: geneset._id || "",
+  id: String(geneset._id || ""),
   name: geneset.name || "",
   author: geneset.author || "",
   updated: geneset.updated || new Date().toISOString(),
@@ -57,7 +57,7 @@ const mapGeneset = (geneset: _Geneset): Geneset => ({
 // search genesets by keyword, species, etc
 export const searchGenesets = async (
   query?: string,
-  species?: string[],
+  species?: Array<string>,
   sort?: string
 ): Promise<SearchResult> => {
   // params

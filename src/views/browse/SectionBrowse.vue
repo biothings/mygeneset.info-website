@@ -9,7 +9,12 @@
       @change="search"
     />
 
-    <AppSpeciesSelect placeholder="Search genesets by species" />
+    <AppSpeciesSelect
+      v-model="species"
+      placeholder="Search genesets by species"
+      @deselect="search"
+      @select="search"
+    />
 
     <AppStatus v-if="loading" status="loading">Loading genesets</AppStatus>
 
@@ -28,6 +33,9 @@ import { Geneset, searchGenesets } from "@/api/genesets";
 // searched keywords
 const keywords = ref("");
 
+// selected species
+const species = ref<Array<string>>([]);
+
 // loading state
 const loading = ref(false);
 
@@ -43,7 +51,9 @@ const search = async () => {
   loading.value = true;
 
   try {
-    genesets.value = (await searchGenesets(keywords.value)).genesets;
+    genesets.value = (
+      await searchGenesets(keywords.value, species.value)
+    ).genesets;
   } catch (error) {
     console.error(error);
     genesets.value = [];

@@ -14,8 +14,10 @@
     :options="options"
     :filterResults="false"
     :searchable="true"
+    :can-clear="false"
     :limit="50"
     :delay="300"
+    :caret="false"
     @open="(select: any) => select.refreshOptions()"
   >
     <!-- selected species -->
@@ -142,10 +144,6 @@ const options = async (query: string) =>
   background: none;
 }
 
-.multiselect-clear {
-  height: 40px;
-}
-
 .multiselect-dropdown {
   border: solid 2px $off-black;
   border-radius: 0 0 $rounded $rounded;
@@ -168,11 +166,4 @@ const options = async (query: string) =>
   overflow: hidden;
 }
 
-.multiselect-caret {
-  position: absolute;
-  right: 0;
-  width: 20px;
-  height: 20px;
-  margin: 8px;
-}
 </style>
