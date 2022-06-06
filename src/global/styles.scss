@@ -111,6 +111,7 @@ code[data-big="true"] {
 [disabled] {
   filter: saturate(0);
   opacity: 0.5;
+  pointer-events: none;
 }
 
 select {
@@ -164,6 +165,16 @@ svg {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@for $i from 1 through 5 {
+  .truncate-#{$i}:not(:focus) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $i;
+    overflow: hidden;
+    // cursor: zoom-in;
+  }
 }
 
 .wrap {

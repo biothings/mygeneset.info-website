@@ -45,10 +45,33 @@
       </tbody>
     </table>
   </div>
+
+  <AppFlex v-if="start >= 0 && perPage > 0 && total > 0" class="controls">
+    <AppButton
+      v-tippy="'Go to previous page'"
+      design="plain"
+      icon="angle-left"
+      :disabled="start - perPage < 0"
+      @click="prevPage"
+    />
+    <span
+      >{{ (start + 1).toLocaleString() }} to
+      {{ Math.min(start + perPage, total).toLocaleString() }} of
+      {{ total.toLocaleString() }}</span
+    >
+    <AppButton
+      v-tippy="'Go to next page'"
+      design="plain"
+      icon="angle-right"
+      :disabled="start + perPage >= total"
+      @click="nextPage"
+    />
+  </AppFlex>
 </template>
 
 <script setup lang="ts">
 import { computed, StyleValue } from "vue";
+import AppButton from "./AppButton.vue";
 
 type Row = Record<string, unknown>;
 
@@ -72,9 +95,32 @@ interface Props {
   rows: Array<Row>;
   // column specifications
   cols: Array<Col>;
+  // starting item index
+  start?: number;
+  // items per page
+  perPage?: number;
+  // total number of items
+  total?: number;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  start: -1,
+  perPage: 0,
+  total: 0,
+});
+
+interface Emits {
+  // page navigation
+  (event: "update:start", start: number): void;
+}
+
+const emit = defineEmits<Emits>();
+
+// pagination nav
+const prevPage = () =>
+  emit("update:start", Math.max(0, props.start - props.perPage));
+const nextPage = () =>
+  emit("update:start", Math.min(props.total, props.start + props.perPage));
 
 // processed cols prop
 const _cols = computed(() =>
@@ -126,6 +172,7 @@ const minWidth = computed(() =>
 }
 
 .cell {
+  max-width: 800px;
   padding: 5px 10px;
 }
 </style>

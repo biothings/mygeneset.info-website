@@ -21,6 +21,8 @@ library.add(
     far.faUser,
     fas.faAngleDoubleDown,
     fas.faAngleDoubleUp,
+    fas.faAngleLeft,
+    fas.faAngleRight,
     fas.faBars,
     fas.faBook,
     fas.faBook,

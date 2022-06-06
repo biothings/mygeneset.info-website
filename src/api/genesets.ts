@@ -58,7 +58,9 @@ const mapGeneset = (geneset: _Geneset): Geneset => ({
 export const searchGenesets = async (
   query?: string,
   species?: Array<string>,
-  sort?: string
+  sort?: string,
+  start?: number,
+  perPage?: number
 ): Promise<SearchResult> => {
   // params
   const params = new URLSearchParams();
@@ -67,10 +69,12 @@ export const searchGenesets = async (
   if (query) params.set("q", query);
   if (species?.length) params.set("species", species.join(","));
   if (sort) params.set("sort", sort);
+  if (start) params.set("from", String(start));
+  if (perPage) params.set("size", String(perPage));
+  else params.set("size", "100");
 
   // static params
   params.set("fields", "all");
-  params.set("size", "100");
   params.set(
     "always_list",
     [
@@ -101,10 +105,6 @@ export interface SearchResult {
   genesets: Array<Geneset>;
   total: number;
 }
-
-// get list of genesets in order of date update
-export const getRecentGenesets = async (): Promise<Array<Geneset>> =>
-  (await searchGenesets("", [], "updated")).genesets;
 
 // get number of public genesets
 export const getPublicGenesetCount = async (): Promise<number> =>

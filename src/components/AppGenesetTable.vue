@@ -6,7 +6,7 @@
   <AppTable :rows="genesets" :cols="cols">
     <!-- name col -->
     <template #name="{ row }">
-      <AppLink :to="`geneset/${row.id}`">{{ row.name }}</AppLink>
+      <AppLink :to="`geneset/${row.id}`">{{ row.name || "..." }}</AppLink>
     </template>
 
     <!-- number of genes col -->
@@ -16,7 +16,9 @@
 
     <!-- gene list col -->
     <template #genes="{ cell }">
-      {{ cell.map((gene: Gene) => gene.name).join(", ") }}
+      <div class="truncate-3">
+        {{ cell.map((gene: Gene) => gene.name).join(", ") }}
+      </div>
     </template>
   </AppTable>
 </template>
@@ -46,6 +48,7 @@ const cols = [
     key: "genes",
     heading: "# of Genes",
     width: "50px",
+    align: "center",
   },
   {
     id: "genes",
