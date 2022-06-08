@@ -58,7 +58,8 @@ export const searchSpecies = async (query?: string): Promise<SearchResult> => {
 
   // request
   const url = `${biothings}/query?${params.toString()}`;
-  const response = await request<SearchResponse>(url, { method });
+  const type = "searchSpecies";
+  const response = await request<SearchResponse>(url, type, { method });
 
   if (Array.isArray(response))
     return { total: response.length, species: response.map(mapSpecies) };
@@ -89,7 +90,8 @@ export const getPopularSpecies = async (): Promise<PopularResult> => {
 
   // request and parse results
   const url = `${mygeneset}/query?${params.toString()}`;
-  const response = await request<PopularResponse>(url);
+  const type = "getPopularSpecies";
+  const response = await request<PopularResponse>(url, type);
   return response.facets.taxid.terms.map(({ term }) => term);
 };
 

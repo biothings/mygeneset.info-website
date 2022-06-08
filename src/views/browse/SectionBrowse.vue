@@ -35,6 +35,7 @@ import AppSpeciesSelect from "@/components/AppSpeciesSelect.vue";
 import AppGenesetTable from "@/components/AppGenesetTable.vue";
 import AppStatus from "@/components/AppStatus.vue";
 import { Geneset, searchGenesets } from "@/api/genesets";
+import { isStale } from "@/api";
 
 // searched keywords
 const keywords = ref("");
@@ -63,6 +64,7 @@ const search = async () => {
 
   try {
     const response = await searchGenesets(
+      "browseGenesets",
       keywords.value,
       species.value,
       undefined,
@@ -74,6 +76,8 @@ const search = async () => {
     total.value = response.total;
   } catch (error) {
     console.error(error);
+
+    if (isStale(error)) return;
 
     genesets.value = [];
     total.value = 0;

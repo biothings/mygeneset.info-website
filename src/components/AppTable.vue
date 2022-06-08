@@ -39,6 +39,9 @@
               :cell="col.key ? row[col.key] : {}"
             />
 
+            <!-- show nothing if no key specified -->
+            <template v-else-if="!col.key"></template>
+
             <!-- default formatting for array -->
             <template v-else-if="Array.isArray(row[col.key])">
               {{ row[col.key].join(", ") || "-" }}
@@ -84,6 +87,7 @@
 import { computed, StyleValue } from "vue";
 import AppButton from "./AppButton.vue";
 
+// eslint-disable-next-line
 export type Row = Record<string, any>;
 
 export interface Col {

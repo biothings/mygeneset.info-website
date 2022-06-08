@@ -2,6 +2,11 @@
   <AppSection>
     <AppHeading level="3" icon="plus" link="add">Add Genes</AppHeading>
 
+    <i
+      >Switch to multi-line mode to paste comma/tab/newline-separated
+      keywords</i
+    >
+
     <AppInput
       v-model="keywords"
       placeholder="Search genes by keyword"
@@ -51,6 +56,7 @@ import AppTable, { Col } from "@/components/AppTable.vue";
 import AppStatus from "@/components/AppStatus.vue";
 import { Gene, searchGenes } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
+import { isStale } from "@/api";
 
 interface Props {
   // selected genes (current geneset genes)
@@ -64,7 +70,7 @@ interface Props {
 defineProps<Props>();
 
 // searched keywords
-const keywords = ref("");
+const keywords = ref<string | Array<string>>("");
 
 // selected species
 const species = ref<Array<string>>([]);
@@ -132,6 +138,9 @@ const cols: Array<Col> = [
 
 // run request
 const search = async () => {
+  // don't run search if nothing searched
+  if (!species.value.length && !keywords.value.length) return;
+
   // reset response
   results.value = [];
 
@@ -151,6 +160,8 @@ const search = async () => {
     total.value = response.total;
   } catch (error) {
     console.error(error);
+
+    if (isStale(error)) return;
 
     results.value = [];
     total.value = 0;

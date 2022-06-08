@@ -104,7 +104,7 @@ import "vue-json-pretty/lib/styles.css";
 import AppChecklist from "@/components/AppChecklist.vue";
 import AppCodeInput from "@/components/AppCodeInput.vue";
 import AppStatus from "@/components/AppStatus.vue";
-import { request } from "@/api";
+import { isStale, request } from "@/api";
 import { downloadJson } from "@/util/download";
 import { useMutationObserver } from "@vueuse/core";
 
@@ -257,10 +257,13 @@ const run = async () => {
 
   const method = selected?.value?.method || "";
   const url = command.value.replace(method, "").trim();
+  const type = "tryItNow";
   try {
-    response.value = await request(url, { method });
+    response.value = await request(url, type, { method });
   } catch (error) {
     console.error(error);
+
+    if (isStale(error)) return;
 
     response.value = undefined;
   }

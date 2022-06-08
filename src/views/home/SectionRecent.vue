@@ -27,6 +27,7 @@ const total = ref(0);
 const search = async () => {
   // get list of genesets in order of date update
   const response = await searchGenesets(
+    "getRecentGenesets",
     undefined,
     undefined,
     "updated",

@@ -64,9 +64,9 @@
     </template>
 
     <!-- gene list col -->
-    <template #genes="{ cell }">
+    <template #genes="{ cell }: { cell: Geneset['genes'] }">
       <div class="truncate-3">
-        {{ cell.map((gene: Gene) => gene.name).join(", ") }}
+        {{ cell.map((gene) => gene.name).join(", ") }}
       </div>
     </template>
   </AppTable>
@@ -74,7 +74,6 @@
 
 <script setup lang="ts">
 import { Geneset } from "@/api/genesets";
-import { Gene } from "@/api/genes";
 import AppTable, { Col } from "./AppTable.vue";
 
 interface Props {

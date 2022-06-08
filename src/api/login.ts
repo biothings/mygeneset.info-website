@@ -37,12 +37,15 @@ interface User {
 
 // get user info and determine whether logged in or not
 export const getUser = async (): Promise<User> => {
-  const response = await request<_User>(`${root}/user_info`);
+  const url = `${root}/user_info`;
+  const type = "getUser";
+  const response = await request<_User>(url, type);
   const user: User = response as User;
   if (user?.username) {
-    const { total = 0 } = await searchGenesets(`author:${user.username}`);
-    console.log(total)
-    user.genesetCount = total;
+    const type = "getUserGenesetCount";
+    const query = `author:${user.username}`;
+    const response = await searchGenesets(type, query);
+    user.genesetCount = response.total;
   }
   return user;
 };

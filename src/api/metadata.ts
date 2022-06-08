@@ -9,7 +9,8 @@ const usageUrl =
 export const getMetadata = async (): Promise<MetadataResult> => {
   // get metadata info
   const url = `${mygeneset}/metadata`;
-  const response = await request<MetadataResponse>(url);
+  const type = "getMetadata";
+  const response = await request<MetadataResponse>(url, type);
 
   // calculate geneset numbers
   const totalGenesets = response.stats.total;
@@ -17,13 +18,15 @@ export const getMetadata = async (): Promise<MetadataResult> => {
     .map(([key, { stats }]) => stats[key])
     .reduce((total, value) => total + value, 0);
   const userGenesets = totalGenesets - curatedGenesets;
-  const publicUserGenesets = (await searchGenesets("_exists_:author")).total;
+  const publicUserGenesets = (
+    await searchGenesets("getPublicUserGenesets", "_exists_:author")
+  ).total;
   const privateUserGenesets = userGenesets - publicUserGenesets;
 
   // get usage metadata
   let usage: UsageMetadataResponse = {};
   try {
-    usage = await request<UsageMetadataResponse>(usageUrl);
+    usage = await request<UsageMetadataResponse>(usageUrl, "getUsage");
   } catch (error) {
     console.error(error);
   }

@@ -88,7 +88,8 @@ export const searchGenes = async (
 
   // query
   const url = `${mygene}/query?${params.toString()}`;
-  const response = await request<SearchResponse>(url, { method });
+  const type = "searchGenes";
+  const response = await request<SearchResponse>(url, type, { method });
 
   if (Array.isArray(response))
     return { total: response.length, genes: response.map(mapGene) };

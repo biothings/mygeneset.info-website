@@ -37,6 +37,7 @@ import { searchGenesets, Geneset } from "@/api/genesets";
 import AppGenesetTable from "@/components/AppGenesetTable.vue";
 import AppStatus from "@/components/AppStatus.vue";
 import { useStore } from "@/store";
+import { isStale } from "@/api";
 
 const store = useStore();
 
@@ -61,6 +62,7 @@ const search = async () => {
   try {
     // get list of genesets with author matching logged in username
     const response = await searchGenesets(
+      "getUserGenesets",
       `author:${loggedIn.value.username}`,
       undefined,
       "updated",
@@ -72,6 +74,8 @@ const search = async () => {
     total.value = response.total;
   } catch (error) {
     console.error(error);
+
+    if (isStale(error)) return;
 
     userGenesets.value = [];
     total.value = 0;

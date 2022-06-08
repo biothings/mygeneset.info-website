@@ -1,4 +1,3 @@
-import { sleep } from "./../util/debug";
 import { request } from ".";
 import { mygeneset } from ".";
 import { _Gene, Gene, mapGene } from "./genes";
@@ -62,13 +61,14 @@ export const lookupGeneset = async (id: string): Promise<Geneset> => {
 
   // request
   const url = `${mygeneset}/geneset/${id}?${params.toString()}`;
-  const response = await request<_Geneset>(url);
+  const response = await request<_Geneset>(url, "lookupGeneset");
 
   return mapGeneset(response);
 };
 
 // search genesets by keyword, species, etc
 export const searchGenesets = async (
+  type: string,
   query?: string,
   species?: Array<string>,
   sort?: string,
@@ -77,8 +77,6 @@ export const searchGenesets = async (
 ): Promise<SearchResult> => {
   // params
   const params = new URLSearchParams();
-
-  // await sleep(1000);
 
   // dynamic params
   if (query) params.set("q", query);
@@ -105,7 +103,7 @@ export const searchGenesets = async (
 
   // request
   const url = `${mygeneset}/query?${params.toString()}`;
-  const response = await request<SearchResponse>(url);
+  const response = await request<SearchResponse>(url, type);
 
   return { total: response.total, genesets: response.hits.map(mapGeneset) };
 };
@@ -122,54 +120,63 @@ export interface SearchResult {
   total: number;
 }
 
-// // create or update a geneset
-// export const update = async (
-//   fresh: boolean,
-//   id: string,
-//   name: string,
-//   description: string,
-//   is_public: boolean,
-//   genes: string[]
-// ) => {
-//   // headers
-//   const headers = new Headers();
-//   headers.set("Content-Type", "application/json");
+// create or update a geneset
+export const updateGeneset = async (
+  fresh: boolean,
+  id: string,
+  name: string,
+  description: string,
+  is_public: boolean,
+  genes: string[]
+) => {
+  // headers
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json");
 
-//   // params
-//   const params = new URLSearchParams();
-//   if (!fresh) params.set("gene_operation", "replace");
+  // params
+  const params = new URLSearchParams();
+  let method;
+  if (fresh) {
+    method = "POST";
+  } else {
+    method = "PUT";
+    params.set("gene_operation", "replace");
+  }
 
-//   // body
-//   const body = {
-//     name,
-//     description,
-//     is_public,
-//     genes,
-//   };
+  // body
+  const data = {
+    name,
+    description,
+    is_public,
+    genes,
+  };
 
-//   const url = `${mygeneset}/user_geneset/${id}?${params.toString()}`;
+  const url = `${mygeneset}/user_geneset/${id}?${params.toString()}`;
+  const type = "updateGeneset";
+  const body = JSON.stringify(data);
 
-//   // make request
-//   try {
-//     const response = await request(url, {
-//       method: fresh ? "POST" : "PUT",
-//       body: JSON.stringify(body),
-//     });
-//     console.info(response);
-//     return true;
-//   } catch (error) {
-//     return false;
-//   }
-// };
+  // make request
+  try {
+    const response = await request(url, type, { body, method });
+    console.info(response);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 
-// // delete geneset
-// export const destroy = async (id: string) => {
-//   const url = `${mygeneset}/user_geneset/${id}`;
-//   try {
-//     const response = await request(url, { method: "DELETE" });
-//     console.info(response);
-//     return true;
-//   } catch (error) {
-//     return false;
-//   }
-// };
+// delete geneset
+export const deleteGeneset = async (id: string) => {
+  const url = `${mygeneset}/user_geneset/${id}`;
+  const type = "deleteGeneset";
+  const method = "DELETE";
+
+  // make request
+  try {
+    const response = await request(url, type, { method });
+    console.info(response);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};

@@ -80,7 +80,6 @@ watch(multi, async () => {
 
 // when user types in box
 const onInput = (value: string | Array<string>) => {
-  console.log("on input", value);
   emit("update:modelValue", value);
   debouncedOnChange();
 };

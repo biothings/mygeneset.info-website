@@ -37,6 +37,8 @@
       :geneset="geneset"
       :original="original"
       :fresh="fresh"
+      :update-geneset="updateGeneset"
+      :delete-geneset="deleteGeneset"
     />
   </template>
 </template>
@@ -51,7 +53,13 @@ import SectionSelected from "@/views/geneset/SectionSelected.vue";
 import SectionAdd from "@/views/geneset/SectionAdd.vue";
 import SectionDownload from "@/views/geneset/SectionDownload.vue";
 import SectionFinish from "@/views/geneset/SectionFinish.vue";
-import { Geneset, lookupGeneset } from "@/api/genesets";
+import { isStale } from "@/api";
+import {
+  Geneset,
+  lookupGeneset,
+  updateGeneset as updateGenesetApi,
+  deleteGeneset as deleteGenesetApi,
+} from "@/api/genesets";
 import { Gene } from "@/api/genes";
 import { cloneDeep } from "lodash";
 import { sleep } from "@/util/debug";
@@ -109,6 +117,8 @@ const load = async () => {
     } catch (error) {
       console.error(error);
 
+      if (isStale(error)) return;
+
       problem.value = true;
       editable.value = false;
     }
@@ -147,55 +157,58 @@ const updateField = (field: keyof Geneset, value: unknown) => {
 };
 
 // update geneset
-// const update = async () => {
-//   const {
-//     id,
-//     name = "",
-//     description = "",
-//     isPublic = false,
-//     genes = [],
-//   } = geneset.value;
-//   if (!name.trim()) {
-//     window.alert("Please enter a name for this geneset!");
-//     return;
-//   }
-//   if (fresh.value) {
-//     if (!window.confirm("Are you sure you want to create this geneset?"))
-//       return;
-//   } else {
-//     if (!window.confirm("Are you sure you want to update this geneset?"))
-//       return;
-//   }
-//   const success = await updateGeneset(
-//     fresh.value,
-//     id || "",
-//     name,
-//     description,
-//     isPublic,
-//     genes?.map((gene) => gene.mygene_id || "") || []
-//   );
+const updateGeneset = async () => {
+  const {
+    id,
+    name = "",
+    description = "",
+    isPublic = false,
+    genes = [],
+  } = geneset.value;
 
-//   // wait for database to refresh
-//   await sleep(1000);
-//   // go back to build page
-//   if (success) router.push("/build");
-// };
+  if (!name.trim()) {
+    window.alert("Please enter a name for this geneset!");
+    return;
+  }
+  if (fresh.value) {
+    if (!window.confirm("Are you sure you want to create this geneset?"))
+      return;
+  } else {
+    if (!window.confirm("Are you sure you want to update this geneset?"))
+      return;
+  }
+
+  const success = await updateGenesetApi(
+    fresh.value,
+    id || "",
+    name,
+    description,
+    isPublic,
+    genes?.map((gene) => gene.id || "") || []
+  );
+
+  // wait for database to refresh
+  await sleep(1000);
+  // go back to build page
+  if (success) router.push("/build");
+};
 
 // delete geneset
-// const destroy = async () => {
-//   if (
-//     !window.confirm(
-//       "Are you sure you want to delete this geneset? This cannot be undone."
-//     )
-//   )
-//     return;
-//   const success = await destroyGeneset(geneset.value.id || "");
+const deleteGeneset = async () => {
+  if (
+    !window.confirm(
+      "Are you sure you want to delete this geneset? This cannot be undone."
+    )
+  )
+    return;
 
-//   // wait for database to refresh
-//   await sleep(1000);
-//   // go back to build page
-//   if (success) router.push("/build");
-// };
+  const success = await deleteGenesetApi(geneset.value.id || "");
+
+  // wait for database to refresh
+  await sleep(1000);
+  // go back to build page
+  if (success) router.push("/build");
+};
 
 watch([() => route.params.id, () => store.state.loggedIn?.username], load);
 onMounted(load);
