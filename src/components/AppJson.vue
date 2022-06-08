@@ -1,3 +1,7 @@
+<!--
+  render json with formatting and collapsing
+-->
+
 <template>
   <VueJsonPretty
     :data="data"

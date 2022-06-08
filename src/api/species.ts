@@ -61,6 +61,7 @@ export const searchSpecies = async (query?: string): Promise<SearchResult> => {
   const type = "searchSpecies";
   const response = await request<SearchResponse>(url, type, { method });
 
+  // distinguish between batch and single query
   if (Array.isArray(response))
     return { total: response.length, species: response.map(mapSpecies) };
   else return { total: response.total, species: response.hits.map(mapSpecies) };

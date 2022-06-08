@@ -37,8 +37,8 @@ export const getMetadata = async (): Promise<MetadataResult> => {
     publicUserGenesets,
     privateUserGenesets,
     curatedGenesets,
-    requests: usage["mygene.info"]?.no_of_requests || 0,
-    ips: usage["mygene.info"]?.no_of_unique_ips || 0,
+    requests: usage["mygeneset.info"]?.no_of_requests || 0,
+    ips: usage["mygeneset.info"]?.no_of_unique_ips || 0,
     curatedMeta: mapValues(response.src, (value) => ({
       url: value.url || "",
       logo: value.logo || "",

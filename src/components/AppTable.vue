@@ -1,5 +1,5 @@
 <!--
-  generic table component
+  generic (controlled) table component
 -->
 
 <template>

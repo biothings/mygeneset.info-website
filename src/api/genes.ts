@@ -91,6 +91,7 @@ export const searchGenes = async (
   const type = "searchGenes";
   const response = await request<SearchResponse>(url, type, { method });
 
+  // distinguish between batch and single query
   if (Array.isArray(response))
     return { total: response.length, genes: response.map(mapGene) };
   else
@@ -102,11 +103,11 @@ export const searchGenes = async (
 
 // from backend
 type SearchResponse =
-  | Array<_Gene>
   | {
       hits: Array<_Gene>;
       total: number;
-    };
+    }
+  | Array<_Gene>;
 
 // for frontend
 export interface SearchResult {

@@ -3,7 +3,7 @@
 -->
 
 <template>
-  <a v-if="isExternalLink(to)" :href="to || '/'">
+  <a v-if="isExternalLink(to)" :href="to || '/'" target="_blank">
     <slot></slot>
   </a>
   <router-link v-else :to="to || '/'">

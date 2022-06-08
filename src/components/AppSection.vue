@@ -3,11 +3,13 @@
 -->
 
 <template>
-  <section><slot /></section>
+  <section class="section">
+    <slot />
+  </section>
 </template>
 
 <style scoped lang="scss">
-section {
+.section {
   display: flex;
   align-items: center;
   flex-direction: column;

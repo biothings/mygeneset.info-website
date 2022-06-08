@@ -39,10 +39,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
+import { reject, startCase } from "lodash";
 import { Geneset } from "@/api/genesets";
 import { Gene } from "@/api/genes";
-import { toHumanCase } from "@/util/string";
-import { reject } from "lodash";
 
 interface Props {
   // current geneset
@@ -77,7 +76,7 @@ const computeDiff = () => {
   // "edited" fields diff
   edited.value = keys
     .filter((key) => props.geneset[key] !== props.original[key])
-    .map((key) => `"${toHumanCase(key)}"`)
+    .map((key) => `"${startCase(key)}"`)
     .join(", ");
 
   // get list of before and after gene ids
