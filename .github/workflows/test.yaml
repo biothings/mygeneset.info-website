@@ -61,7 +61,7 @@ jobs:
           path: ${{ env.CACHE_PATH }}
           key: ${{ needs.install-cache.outputs.cache-key }}
       - name: Run test
-        run: yarn test:lint
+        run: yarn lint
 
   # run unit tests
   test-unit:
