@@ -15,6 +15,7 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
+    "vue/script-setup-uses-vars": "error",
     "vue/multi-word-component-names": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/ban-types": "off",

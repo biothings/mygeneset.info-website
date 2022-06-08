@@ -3,7 +3,7 @@
 -->
 
 <template>
-  <AppFlex gap="small">
+  <AppFlex flow="inline" gap="small">
     <AppCheckbox
       v-for="(item, index) in modelValue"
       :key="index"

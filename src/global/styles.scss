@@ -87,6 +87,7 @@ code {
   overflow-y: auto;
   border-radius: $rounded;
   background: $off-black;
+  text-align: left;
   white-space: pre;
 
   &,
@@ -97,8 +98,9 @@ code {
   }
 }
 
-code[data-big="true"] {
-  padding: 10px 20px;
+code[data-block="true"] {
+  width: 100%;
+  padding: 20px;
 }
 
 // inputs

@@ -7,6 +7,7 @@
 <template>
   <div
     class="flex"
+    :data-flow="flow"
     :data-direction="direction"
     :data-gap="gap"
     :style="{ justifyContent, alignItems }"
@@ -28,6 +29,8 @@ const alignMap = {
 };
 
 interface Props {
+  // flex display
+  flow: "inline" | "block";
   // horizontal or vertical
   direction?: "row" | "col";
   // spacing between items
@@ -39,6 +42,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  flow: "block",
   direction: "row",
   gap: "medium",
   hAlign: "center",
@@ -57,8 +61,14 @@ const alignItems = computed(() =>
 
 <style lang="scss" scoped>
 .flex {
-  display: flex;
-  width: 100%;
+  &[data-flow="block"] {
+    display: flex;
+    width: 100%;
+  }
+
+  &[data-flow="inline"] {
+    display: inline-flex;
+  }
 
   &[data-direction="row"] {
     flex-wrap: wrap;

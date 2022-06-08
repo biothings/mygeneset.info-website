@@ -6,7 +6,7 @@
     <AppChecklist v-model="requests" :single="true" />
 
     <!-- request command code box -->
-    <code ref="codeBlock" data-big="true">
+    <code ref="codeBlock" data-block="true">
       <span>{{ selected?.method }}</span>
       <span>&nbsp;</span>
       <span>{{ base }}</span>

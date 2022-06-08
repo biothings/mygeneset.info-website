@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { useStore } from "@/store";
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import AppHero from "@/components/AppHero.vue";
 
 const store = useStore();
