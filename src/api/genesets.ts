@@ -1,12 +1,15 @@
+import { sleep } from "./../util/debug";
 import { request } from ".";
 import { mygeneset } from ".";
 import { _Gene, Gene, mapGene } from "./genes";
 
 // from backend
 export interface _Geneset {
-  _id?: number;
+  _id?: string;
   name?: string;
   author?: string;
+  source?: string;
+  created?: string;
   updated?: string;
   description?: string;
   is_public?: boolean;
@@ -18,7 +21,9 @@ export interface Geneset {
   id: string;
   name: string;
   author?: string;
-  updated: string;
+  source?: string;
+  created?: Date;
+  updated?: Date;
   description: string;
   isPublic: boolean;
   genes: Array<Gene>;
@@ -29,30 +34,38 @@ const mapGeneset = (geneset: _Geneset): Geneset => ({
   id: String(geneset._id || ""),
   name: geneset.name || "",
   author: geneset.author || "",
-  updated: geneset.updated || new Date().toISOString(),
+  source: geneset.source || "",
+  created: geneset.created ? new Date(geneset.created) : undefined,
+  updated: geneset.updated ? new Date(geneset.updated) : undefined,
   description: geneset.description || "",
   isPublic: !!geneset.is_public,
   genes: geneset.genes?.map(mapGene) || [],
 });
 
-// // look up geneset from id
-// export const lookup = async (id: string): Promise<Geneset> => {
-//   // params
-//   const params = new URLSearchParams();
-//   params.set(
-//     "always_list",
-//     "genes,genes.symbol,genes.ensemblgene,genes.uniprot"
-//   );
+// look up geneset from id
+export const lookupGeneset = async (id: string): Promise<Geneset> => {
+  // params
+  const params = new URLSearchParams();
+  params.set("fields", "all");
+  params.set(
+    "always_list",
+    [
+      "genes",
+      "genes.alias",
+      "genes.entrezgene",
+      "genes.symbol",
+      "genes.ensembl",
+      "genes.ensemblgene",
+      "genes.uniprot",
+    ].join(",")
+  );
 
-//   // request
-//   const url = `${mygeneset}/geneset/${id}?${params.toString()}`;
-//   try {
-//     return await request(url);
-//   } catch (error) {
-//     console.error(error);
-//     return {};
-//   }
-// };
+  // request
+  const url = `${mygeneset}/geneset/${id}?${params.toString()}`;
+  const response = await request<_Geneset>(url);
+
+  return mapGeneset(response);
+};
 
 // search genesets by keyword, species, etc
 export const searchGenesets = async (
@@ -64,6 +77,8 @@ export const searchGenesets = async (
 ): Promise<SearchResult> => {
   // params
   const params = new URLSearchParams();
+
+  // await sleep(1000);
 
   // dynamic params
   if (query) params.set("q", query);
@@ -80,18 +95,19 @@ export const searchGenesets = async (
     [
       "genes",
       "genes.alias",
-      "genes.symbol",
       "genes.entrezgene",
+      "genes.symbol",
       "genes.ensembl",
+      "genes.ensemblgene",
       "genes.uniprot",
     ].join(",")
   );
 
   // request
   const url = `${mygeneset}/query?${params.toString()}`;
-  const { total = 0, hits = [] } = await request<SearchResponse>(url);
+  const response = await request<SearchResponse>(url);
 
-  return { total, genesets: hits.map(mapGeneset) };
+  return { total: response.total, genesets: response.hits.map(mapGeneset) };
 };
 
 // from backend
@@ -105,10 +121,6 @@ export interface SearchResult {
   genesets: Array<Geneset>;
   total: number;
 }
-
-// get number of public genesets
-export const getPublicGenesetCount = async (): Promise<number> =>
-  (await searchGenesets("_exists_:author")).total;
 
 // // create or update a geneset
 // export const update = async (

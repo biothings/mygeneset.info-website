@@ -4,40 +4,24 @@
 
 <template>
   <AppFlex gap="small">
-    <label
+    <AppCheckbox
       v-for="(item, index) in modelValue"
       :key="index"
-      v-tippy="item.tooltip || ''"
-      class="label"
-    >
-      <input
-        class="input"
-        :type="single ? 'radio' : 'checkbox'"
-        name="checklist-group"
-        :index="index"
-        :checked="item.checked"
-        @change="onInput(index)"
-      />
-      <AppIcon
-        v-if="single"
-        :icon="item.checked ? 'circle-dot' : 'circle'"
-        class="icon"
-      />
-      <AppIcon
-        v-else
-        :icon="item.checked ? 'square-check' : 'square'"
-        class="icon"
-      />
-      <span class="text">{{ item.label }}</span>
-    </label>
+      v-tippy="item.tooltip"
+      :text="item.text"
+      :model-value="item.checked"
+      :type="single ? 'radio' : 'check'"
+      @update:model-value="() => onChange(index)"
+    />
   </AppFlex>
 </template>
 
 <script setup lang="ts">
 import { cloneDeep } from "lodash";
+import AppCheckbox from "./AppCheckbox.vue";
 
 interface Option {
-  label?: string;
+  text: string;
   checked?: boolean;
   tooltip?: string;
 }
@@ -57,7 +41,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
-const onInput = (index: number) => {
+const onChange = (index: number) => {
   const newValue = cloneDeep(props.modelValue || []);
 
   // select only one
@@ -71,31 +55,3 @@ const onInput = (index: number) => {
   emit("update:modelValue", newValue);
 };
 </script>
-
-<style scoped lang="scss">
-.label {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px 10px;
-  border-radius: $rounded;
-  transition: background $fast;
-
-  &:focus-within,
-  &:hover {
-    background: $light-gray;
-  }
-}
-
-.icon {
-  color: $theme;
-}
-
-.text {
-  margin-left: 8px;
-}
-
-.input {
-  appearance: none;
-}
-</style>

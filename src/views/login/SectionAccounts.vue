@@ -6,13 +6,15 @@
       <AppButton
         icon="github"
         text="With GitHub"
-        design="big"
+        fill="filled"
+        size="big"
         @click="login('github')"
       />
       <AppButton
         icon="graduation-cap"
         text="With ORCID"
-        design="big"
+        fill="filled"
+        size="big"
         @click="login('orcid')"
       />
     </AppFlex>

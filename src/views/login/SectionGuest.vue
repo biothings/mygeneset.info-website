@@ -9,8 +9,20 @@
     </p>
 
     <AppFlex>
-      <AppButton to="/browse" icon="search" text="Browse" design="big" />
-      <AppButton to="/build" icon="hammer" text="Build" design="big" />
+      <AppButton
+        to="/browse"
+        icon="search"
+        text="Browse"
+        fill="filled"
+        size="big"
+      />
+      <AppButton
+        to="/build"
+        icon="hammer"
+        text="Build"
+        fill="filled"
+        size="big"
+      />
     </AppFlex>
   </AppSection>
 </template>

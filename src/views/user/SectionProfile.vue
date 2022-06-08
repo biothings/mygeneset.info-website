@@ -11,7 +11,7 @@
       </div>
       <AppLink to="/build"
         >{{
-          $store.state.loggedIn?.genesets?.length?.toLocaleString() || "..."
+          $store.state.loggedIn?.genesetCount?.toLocaleString() || "..."
         }}
         genesets</AppLink
       >

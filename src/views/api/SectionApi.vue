@@ -7,7 +7,8 @@
         to="https://docs.mygeneset.info/en/latest/index.html"
         icon="book"
         text="API Docs"
-        design="big"
+        fill="filled"
+        size="big"
       />
       <div>v1.0</div>
     </AppFlex>

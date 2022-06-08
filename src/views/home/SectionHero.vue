@@ -2,13 +2,13 @@
   <AppSection>
     <AppHero icon="dna">
       <template #aTop>
-        {{ userGenesets ? userGenesets.toLocaleString() : "..." }}
+        {{ userGenesets ? userGenesets.toLocaleString() : "-" }}
       </template>
 
       <template #aBottom>user genesets</template>
 
       <template #bTop>
-        {{ curatedGenesets ? curatedGenesets.toLocaleString() : "..." }}
+        {{ curatedGenesets ? curatedGenesets.toLocaleString() : "-" }}
       </template>
 
       <template #bBottom>curated genesets</template>

@@ -1,0 +1,26 @@
+{
+  "mygene.info": {
+    "no_of_requests": 11195702,
+    "no_of_unique_ips": 33452
+  },
+  "mygeneset.info": {
+    "no_of_requests": 11195702,
+    "no_of_unique_ips": 33452
+  },
+  "myvariant.info": {
+    "no_of_requests": 1604793,
+    "no_of_unique_ips": 2520
+  },
+  "mychem.info": {
+    "no_of_requests": 2207232,
+    "no_of_unique_ips": 154
+  },
+  "mydisease.info": {
+    "no_of_requests": 16411,
+    "no_of_unique_ips": 144
+  },
+  "outbreak.info": {
+    "no_of_requests": 6106897,
+    "no_of_unique_ips": 481242
+  }
+}

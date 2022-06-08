@@ -22,11 +22,13 @@
   >
     <!-- selected species -->
     <template #tag="{ option, handleTagRemove, disabled }">
-      <button
+      <AppButton
         v-tippy="option.common + ' - ' + option.scientific"
         class="button"
+        icon="times"
+        fill="filled"
         :disabled="disabled"
-        @click.prevent
+        @click.prevent="() => null"
         @mousedown.prevent.stop="handleTagRemove(option, $event)"
       >
         <AppIcon v-if="option.icon" :icon="option.icon" class="icon" />
@@ -36,8 +38,7 @@
         <span v-if="option.scientific" class="scientific truncate">
           {{ option.scientific }}
         </span>
-        <AppIcon icon="times" />
-      </button>
+      </AppButton>
     </template>
 
     <!-- species results/options -->
@@ -85,27 +86,8 @@ const options = async (query: string) =>
 
 <style scoped lang="scss">
 .button {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  max-width: min(200px, 100%);
-  padding: 2px 5px;
-  border: none;
-  border-radius: $rounded;
-  background: $theme-light;
-  font-size: 0.9rem;
-  transition: background $fast;
-}
-
-.button:hover {
-  background: $light-gray;
-}
-
-.clear {
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: none;
+  gap: 8px;
+  padding: 2px 5px !important;
 }
 
 .scientific {
@@ -165,5 +147,4 @@ const options = async (query: string) =>
   white-space: nowrap;
   overflow: hidden;
 }
-
 </style>

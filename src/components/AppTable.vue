@@ -30,6 +30,7 @@
             class="cell"
             :style="col.style"
           >
+            <!-- named slot for custom formatting -->
             <slot
               v-if="$slots[col.id]"
               :name="col.id"
@@ -37,8 +38,20 @@
               :col="col"
               :cell="col.key ? row[col.key] : {}"
             />
+
+            <!-- default formatting for array -->
+            <template v-else-if="Array.isArray(row[col.key])">
+              {{ row[col.key].join(", ") || "-" }}
+            </template>
+
+            <!-- default formatting for number -->
+            <template v-else-if="typeof row[col.key] === 'number'">
+              {{ row[col.key].toLocaleString() || "-" }}
+            </template>
+
+            <!-- otherwise just display raw value -->
             <template v-else>
-              {{ row[col.key] }}
+              {{ row[col.key] || "-" }}
             </template>
           </td>
         </tr>
@@ -49,7 +62,6 @@
   <AppFlex v-if="start >= 0 && perPage > 0 && total > 0" class="controls">
     <AppButton
       v-tippy="'Go to previous page'"
-      design="plain"
       icon="angle-left"
       :disabled="start - perPage < 0"
       @click="prevPage"
@@ -61,7 +73,6 @@
     >
     <AppButton
       v-tippy="'Go to next page'"
-      design="plain"
       icon="angle-right"
       :disabled="start + perPage >= total"
       @click="nextPage"
@@ -73,16 +84,16 @@
 import { computed, StyleValue } from "vue";
 import AppButton from "./AppButton.vue";
 
-type Row = Record<string, unknown>;
+export type Row = Record<string, any>;
 
-interface Col {
+export interface Col {
   // unique id of column
   // used for identifying cols for sorting/filtering/etc and for slot names
   id: string;
   // key to access in row object as cell value
-  key: string;
+  key?: string;
   // text to show as column heading
-  heading: string;
+  heading?: string;
   // width of column
   // use units of e.g. 100px or 1fr (see CSS fr)
   width?: string;
@@ -163,12 +174,11 @@ const minWidth = computed(() =>
 
 .head {
   font-weight: $medium;
+  border-bottom: solid 1px $off-white;
 }
 
-.body {
-}
-
-.row {
+.body .cell {
+  border-bottom: solid 1px $off-white;
 }
 
 .cell {

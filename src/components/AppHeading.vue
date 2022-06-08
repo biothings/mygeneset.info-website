@@ -3,7 +3,7 @@
 -->
 
 <template>
-  <component :is="tag || 'div'" :id="link" ref="heading" class="heading">
+  <component :is="'h' + level" :id="link" ref="heading" class="heading">
     <!-- heading icon -->
     <AppIcon v-if="icon" :icon="icon" class="icon" />
 
@@ -23,30 +23,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { kebabCase } from "lodash";
-
 interface Props {
   // level of heading
   level: 1 | 2 | 3 | 4 | "1" | "2" | "3" | "4";
+  // link for anchor
+  link?: string;
   // icon to show next to text
   icon?: string;
 }
 
-const props = defineProps<Props>();
-
-// heading ref
-const heading = ref<HTMLElement>();
-
-// get heading level/tag, i.e. h1, h2, h3, etc
-const tag = computed(() => "h" + props.level);
-// determine link from text content of heading
-const link = computed(
-  () => kebabCase(heading.value?.innerText.toLowerCase() || "") || undefined
-);
+defineProps<Props>();
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .anchor {
   display: inline-block;
   width: 0;
@@ -62,11 +51,8 @@ const link = computed(
 }
 
 .icon {
-  position: relative;
-  top: -1px;
   margin-right: 0.75em;
   color: $gray;
-  vertical-align: middle;
 }
 
 .heading:hover .anchor {

@@ -1,6 +1,6 @@
 <template>
   <AppSection>
-    <AppHeading level="2">How to Cite</AppHeading>
+    <AppHeading level="2" link="cite">How to Cite</AppHeading>
 
     <p class="citation">
       <b

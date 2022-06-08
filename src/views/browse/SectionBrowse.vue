@@ -19,7 +19,7 @@
     <AppStatus v-if="loading" status="loading">Loading genesets</AppStatus>
 
     <AppGenesetTable
-      v-if="genesets.length"
+      v-else-if="genesets.length"
       v-model:start="start"
       :genesets="genesets"
       :per-page="perPage"
@@ -74,7 +74,9 @@ const search = async () => {
     total.value = response.total;
   } catch (error) {
     console.error(error);
+
     genesets.value = [];
+    total.value = 0;
   }
 
   // status

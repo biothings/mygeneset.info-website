@@ -1,13 +1,13 @@
 <template>
   <AppSection>
-    <AppHeading level="2">Contact</AppHeading>
+    <AppHeading level="2" link="contact">Contact</AppHeading>
 
     <div class="grid">
       <AppButton
         to="mailto:biothings@googlegroups.com"
         icon="envelope"
         text="Email Us"
-        design="slim"
+        fill="filled"
       />
       <span
         >Write us at
@@ -19,7 +19,7 @@
         to="https://github.com/biothings/mygeneset.info/"
         icon="github"
         text="Bug Us"
-        design="slim"
+        fill="filled"
       />
       <span
         >Report bugs and request features on
@@ -31,7 +31,7 @@
         to="https://twitter.com/mygenesetinfo/"
         icon="twitter"
         text="Tweet Us"
-        design="slim"
+        fill="filled"
       />
       <span
         >Ask us a question on
@@ -41,7 +41,7 @@
         to="https://biostars.org/"
         icon="comment"
         text="Ask Us"
-        design="slim"
+        fill="filled"
       />
       <span
         >Post a question on

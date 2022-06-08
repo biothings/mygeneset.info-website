@@ -1,5 +1,5 @@
 import { mygeneset, request } from ".";
-import { Geneset, searchGenesets } from "./genesets";
+import { searchGenesets } from "./genesets";
 
 // mygeneset api root
 const root = mygeneset.replaceAll(/\/v\d/g, "");
@@ -32,7 +32,7 @@ interface User {
   avatar_url?: string;
   organization?: string;
   oauth_provider?: string;
-  genesets?: Array<Geneset>;
+  genesetCount: number;
 }
 
 // get user info and determine whether logged in or not
@@ -40,8 +40,9 @@ export const getUser = async (): Promise<User> => {
   const response = await request<_User>(`${root}/user_info`);
   const user: User = response as User;
   if (user?.username) {
-    const { genesets } = await searchGenesets(`author:${user.username}`);
-    user.genesets = genesets;
+    const { total = 0 } = await searchGenesets(`author:${user.username}`);
+    console.log(total)
+    user.genesetCount = total;
   }
   return user;
 };

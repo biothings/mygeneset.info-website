@@ -1,8 +1,15 @@
 import { rest } from "msw";
 
 import userInfo from "./user-info.json";
-import query from "./query.json";
-import queryFacetTaxid from "./query-facet-taxid.json";
+import usage from "./usage.json";
+import lookupGeneset from "./lookup-geneset.json";
+import searchGenesets from "./search-genesets.json";
+import searchGenesetsFacetTaxid from "./search-genesets-facet-taxid.json";
+import searchGenes from "./search-genes.json";
+
+// flag to conveniently switch between mocking every call (except user info)
+// and mocking no calls, only in development mode
+const mock = false;
 
 // api calls to be mocked with fixture data
 export const handlers = [
@@ -11,22 +18,48 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(userInfo)); // logged in
   }),
 
-  rest.get(/mygeneset.info.*query/i, (req, res, ctx) => {
-    if (req.url.searchParams.get("facets") === "taxid")
-      return res(ctx.status(200), ctx.json(queryFacetTaxid));
+  rest.get(/biothings-data/i, (req, res, ctx) => {
+    if (!mock) return req.passthrough();
 
-    return res(ctx.status(200), ctx.json(query));
+    return res(ctx.status(200), ctx.json(usage));
   }),
 
-  rest.post(/mygeneset.info.*user_geneset/i, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json({}))
-  ),
+  rest.get(/mygeneset.info.*geneset/i, (req, res, ctx) => {
+    if (!mock) return req.passthrough();
 
-  rest.put(/mygeneset.info.*user_geneset/i, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json({}))
-  ),
+    return res(ctx.status(200), ctx.json(lookupGeneset));
+  }),
 
-  rest.delete(/mygeneset.info.*user_geneset/i, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json({}))
-  ),
+  rest.get(/mygeneset.info.*query/i, (req, res, ctx) => {
+    if (!mock) return req.passthrough();
+
+    if (req.url.searchParams.get("facets") === "taxid")
+      return res(ctx.status(200), ctx.json(searchGenesetsFacetTaxid));
+
+    return res(ctx.status(200), ctx.json(searchGenesets));
+  }),
+
+  rest.get(/mygene.info.*query/i, (req, res, ctx) => {
+    if (!mock) return req.passthrough();
+
+    return res(ctx.status(200), ctx.json(searchGenes));
+  }),
+
+  rest.post(/mygeneset.info.*user_geneset/i, (req, res, ctx) => {
+    if (!mock) return req.passthrough();
+
+    return res(ctx.status(200), ctx.json({}));
+  }),
+
+  rest.put(/mygeneset.info.*user_geneset/i, (req, res, ctx) => {
+    if (!mock) return req.passthrough();
+
+    return res(ctx.status(200), ctx.json({}));
+  }),
+
+  rest.delete(/mygeneset.info.*user_geneset/i, (req, res, ctx) => {
+    if (!mock) return req.passthrough();
+
+    return res(ctx.status(200), ctx.json({}));
+  }),
 ];

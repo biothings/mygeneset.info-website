@@ -1,6 +1,6 @@
 <template>
   <AppSection>
-    <AppHeading level="2">Support Us</AppHeading>
+    <AppHeading level="2" link="support">Support Us</AppHeading>
 
     <p>
       The tools created by the BioThings collaboration are funded by grants from
@@ -29,9 +29,9 @@
       <AppButton
         to="https://biothings.io/branding"
         text='"Powered by" Branding'
-        design="slim"
+        fill="filled"
       />
-      <AppButton to="#how-to-cite" text="Cite Us" design="slim" />
+      <AppButton to="#how-to-cite" text="Cite Us" fill="filled" />
     </AppFlex>
     <AppFlex class="buttons">
       <AppLink

@@ -1,6 +1,6 @@
 <template>
   <AppSection>
-    <AppHeading level="2">Terms of Use</AppHeading>
+    <AppHeading level="2" link="terms">Terms of Use</AppHeading>
 
     <AppFlex direction="col" h-align="left">
       <p>
@@ -127,7 +127,6 @@
       <AppButton
         :text="expanded ? 'See less' : 'See more'"
         :icon="expanded ? 'angle-double-up' : 'angle-double-down'"
-        design="plain"
         @click="expanded = !expanded"
       />
     </AppFlex>

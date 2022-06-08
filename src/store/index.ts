@@ -1,6 +1,5 @@
 import { InjectionKey } from "vue";
 import { createStore, useStore as baseUseStore, Store } from "vuex";
-import { Geneset } from "@/api/types";
 import { getMetadata, MetadataResult } from "@/api/metadata";
 import { getUser } from "@/api/login";
 
@@ -13,7 +12,7 @@ export interface State {
     organization: string;
     avatar: string;
     provider: string;
-    genesets: Array<Geneset>;
+    genesetCount: number;
   } | null;
   metadata: MetadataResult | null;
 }
@@ -40,7 +39,7 @@ export default createStore<State>({
             organization: payload?.organization || "",
             avatar: payload?.avatar_url || "",
             provider: payload?.oauth_provider || "",
-            genesets: payload?.genesets || [],
+            genesetCount: payload?.genesetCount || 0,
           }
         : null;
     },

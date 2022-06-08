@@ -1,6 +1,6 @@
 <template>
   <AppSection>
-    <AppHeading level="2">Try It Out</AppHeading>
+    <AppHeading level="2" link="try">Try It Out</AppHeading>
 
     <!-- list of demo request options -->
     <AppChecklist v-model="requests" :single="true" />
@@ -13,7 +13,7 @@
       <span>{{ selected?.path }}</span>
       <template
         v-for="(field, index) in selected?.fields"
-        :key="selected?.label + ' ' + index"
+        :key="selected?.text + ' ' + index"
       >
         <template v-if="field.name">
           <span v-tippy="field.tooltip">{{ field.name }}</span>
@@ -43,12 +43,19 @@
 
     <!-- action buttons -->
     <AppFlex>
-      <AppButton icon="copy" text="Copy Command" :copy="command" />
+      <AppButton
+        icon="copy"
+        text="Copy Command"
+        :copy="command"
+        fill="filled"
+        size="big"
+      />
       <AppButton
         v-tippy="'Run request and get response'"
         icon="play"
         text="Run"
-        design="big"
+        fill="filled"
+        size="big"
         @click="run"
       />
     </AppFlex>
@@ -72,13 +79,16 @@
         <AppButton
           icon="copy"
           text="Copy Response"
+          fill="filled"
+          size="big"
           :copy="JSON.stringify(response || {}, null, 2)"
         />
         <AppButton
           v-tippy="'Download response as .json file'"
           icon="download"
           text="Download"
-          design="big"
+          fill="filled"
+          size="big"
           :disabled="loading"
           @click="() => downloadJson(response || {}, 'response')"
         />
@@ -107,7 +117,7 @@ interface Field {
 
 // a type of demo request
 interface Request {
-  label: string;
+  text: string;
   checked: boolean;
   tooltip: string;
   method: string;
@@ -121,21 +131,21 @@ const base = "https://mygeneset.info/v1/";
 // list of demo requests, with types, fields, and descriptions
 const requests = ref<Array<Request>>([
   {
-    label: "Get fields",
+    text: "Get fields",
     checked: false,
     tooltip: "A list of all available fields in mygeneset.info",
     method: "GET",
     path: "metadata/fields",
   },
   {
-    label: "Get metadata",
+    text: "Get metadata",
     checked: false,
     tooltip: "Various info about the mygeneset.info database itself",
     method: "GET",
     path: "metadata/",
   },
   {
-    label: "Lookup by id",
+    text: "Lookup by id",
     checked: false,
     tooltip:
       "How to lookup the info of a geneset when you know its mygenset.info id",
@@ -150,7 +160,7 @@ const requests = ref<Array<Request>>([
     ],
   },
   {
-    label: "Search by keyword",
+    text: "Search by keyword",
     checked: true,
     tooltip: "How to search for gensets by keywords",
     method: "GET",
@@ -174,7 +184,7 @@ const requests = ref<Array<Request>>([
     ],
   },
   {
-    label: "Batch search",
+    text: "Batch search",
     checked: false,
     tooltip: "How to search for a list of genesets",
     method: "POST",
@@ -251,6 +261,7 @@ const run = async () => {
     response.value = await request(url, { method });
   } catch (error) {
     console.error(error);
+
     response.value = undefined;
   }
 

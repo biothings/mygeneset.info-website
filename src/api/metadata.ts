@@ -1,5 +1,6 @@
+import { mapValues } from "lodash";
 import { mygeneset, request } from ".";
-import { getPublicGenesetCount } from "./genesets";
+import { searchGenesets } from "./genesets";
 
 const usageUrl =
   "https://biothings-data.s3.us-west-2.amazonaws.com/stats/biothings_30day_usage.json";
@@ -14,9 +15,9 @@ export const getMetadata = async (): Promise<MetadataResult> => {
   const totalGenesets = response.stats.total;
   const curatedGenesets = Object.entries(response.src)
     .map(([key, { stats }]) => stats[key])
-    .reduce((a, b) => a + b, 0);
+    .reduce((total, value) => total + value, 0);
   const userGenesets = totalGenesets - curatedGenesets;
-  const publicUserGenesets = await getPublicGenesetCount();
+  const publicUserGenesets = (await searchGenesets("_exists_:author")).total;
   const privateUserGenesets = userGenesets - publicUserGenesets;
 
   // get usage metadata
@@ -33,8 +34,12 @@ export const getMetadata = async (): Promise<MetadataResult> => {
     publicUserGenesets,
     privateUserGenesets,
     curatedGenesets,
-    requests: usage["mygeneset.info"]?.no_of_requests || 0,
-    ips: usage["mygeneset.info"]?.no_of_unique_ips || 0,
+    requests: usage["mygene.info"]?.no_of_requests || 0,
+    ips: usage["mygene.info"]?.no_of_unique_ips || 0,
+    curatedMeta: mapValues(response.src, (value) => ({
+      url: value.url || "",
+      logo: value.logo || "",
+    })),
   };
 };
 
@@ -48,6 +53,8 @@ interface MetadataResponse {
       stats: {
         [key: string]: number;
       };
+      url?: string;
+      logo?: string;
     };
   };
 }
@@ -76,4 +83,11 @@ export interface MetadataResult {
   requests: number;
   // number of unique IP addresses in last 30 days
   ips: number;
+  // metadata about curated genesets
+  curatedMeta: {
+    [key: string]: {
+      url: string;
+      logo: string;
+    };
+  };
 }

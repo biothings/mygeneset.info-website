@@ -1,0 +1,84 @@
+{
+  "_id": "KEGG_disease_H00001_9606",
+  "_score": 5.543135,
+  "genes": [
+    {
+      "ensemblgene": ["ENSG00000097007"],
+      "mygene_id": "25",
+      "name": "ABL proto-oncogene 1, non-receptor tyrosine kinase",
+      "ncbigene": "25",
+      "symbol": ["ABL1"],
+      "uniprot": ["P00519"]
+    },
+    {
+      "ensemblgene": ["ENSG00000118058"],
+      "mygene_id": "4297",
+      "name": "lysine methyltransferase 2A",
+      "ncbigene": "4297",
+      "symbol": ["KMT2A"],
+      "uniprot": ["Q03164"]
+    },
+    {
+      "ensemblgene": ["ENSG00000172493"],
+      "mygene_id": "4299",
+      "name": "AF4/FMR2 family member 1",
+      "ncbigene": "4299",
+      "symbol": ["AFF1"],
+      "uniprot": ["P51825"]
+    },
+    {
+      "ensemblgene": ["ENSG00000071564"],
+      "mygene_id": "6929",
+      "name": "transcription factor 3",
+      "ncbigene": "6929",
+      "symbol": ["TCF3"],
+      "uniprot": ["P15923"]
+    },
+    {
+      "ensemblgene": ["ENSG00000185630"],
+      "mygene_id": "5087",
+      "name": "PBX homeobox 1",
+      "ncbigene": "5087",
+      "symbol": ["PBX1"],
+      "uniprot": ["P40424"]
+    },
+    {
+      "ensemblgene": ["ENSG00000159216"],
+      "mygene_id": "861",
+      "name": "RUNX family transcription factor 1",
+      "ncbigene": "861",
+      "symbol": ["RUNX1"],
+      "uniprot": ["Q01196"]
+    },
+    {
+      "ensemblgene": ["ENSG00000136997"],
+      "mygene_id": "4609",
+      "name": "MYC proto-oncogene, bHLH transcription factor",
+      "ncbigene": "4609",
+      "symbol": ["MYC"],
+      "uniprot": ["P01106"]
+    },
+    {
+      "ensemblgene": ["ENSG00000205755"],
+      "mygene_id": "64109",
+      "name": "cytokine receptor like factor 2",
+      "ncbigene": "64109",
+      "symbol": ["CRLF2"],
+      "uniprot": ["Q9HC73"]
+    },
+    {
+      "ensemblgene": ["ENSG00000196092"],
+      "mygene_id": "5079",
+      "name": "paired box 5",
+      "ncbigene": "5079",
+      "symbol": ["PAX5"],
+      "uniprot": ["Q02548"]
+    }
+  ],
+  "name": "B-cell acute lymphoblastic leukemia; B-cell acute lymphocytic leukemia",
+  "description": "Test description",
+  "is_public": true,
+  "updated": "2022-01-01T20:43:30.919Z",
+  "source": "kegg",
+  "taxid": 9606
+}

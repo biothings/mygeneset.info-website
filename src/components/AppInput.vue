@@ -4,78 +4,94 @@
 
 <template>
   <label class="label">
-    <div class="container" :data-icon="!!icon">
+    <div class="container">
       <textarea
         v-if="multi"
+        ref="element"
         class="textarea"
-        :value="modelValue"
+        :value="Array.isArray(modelValue) ? modelValue.join('\n') : modelValue"
         :placeholder="placeholder"
-        @input="onInput"
+        @input="(event) => onInput((event.target as HTMLInputElement).value.split('\n'))"
         @change="onChange"
       >
       </textarea>
       <input
         v-else
+        ref="element"
         class="input"
-        :value="modelValue"
+        :value="Array.isArray(modelValue) ? modelValue.join(', ') : modelValue"
         :placeholder="placeholder"
-        @input="onInput"
+        @input="(event) => onInput((event.target as HTMLInputElement).value)"
         @change="onChange"
       />
-      <div class="icon">
-        <AppIcon v-if="icon" :icon="icon" />
-      </div>
+      <button
+        v-if="mode === 'switchable'"
+        v-tippy="
+          multi ? 'Switch to single line input' : 'Switch to multi-line input'
+        "
+        class="button"
+        @click="multi = !multi"
+      >
+        <AppIcon :icon="multi ? 'minus' : 'bars'" />
+      </button>
     </div>
   </label>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from "vue";
+import { nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { debounce } from "lodash";
 
 interface Props {
   // state
-  modelValue?: string;
+  modelValue?: string | Array<string>;
   // placeholder string when nothing typed in
   placeholder?: string;
-  // whether field is multi-line
-  multi?: boolean;
-  // optional side icon
-  icon?: string;
+  // line mode
+  mode?: "single" | "multi" | "switchable";
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: "",
+  placeholder: "",
+  mode: "single",
+});
 
 interface Emits {
   // two-way binding value
-  (event: "update:modelValue", value: string): void;
+  (event: "update:modelValue", value: string | Array<string>): void;
   // when input value change "submitted"/"committed" by user
-  (event: "change", value: string): void;
+  (event: "change"): void;
 }
 
 const emit = defineEmits<Emits>();
 
-// last on change value that was emitted
-const last = ref<string | undefined>(undefined);
+// input element
+const element = ref();
+
+// whether field is multi-line
+const multi = ref(props.mode === "multi");
+
+// when mode switched, trigger input event as if user had typed
+watch(multi, async () => {
+  await nextTick();
+  element.value.dispatchEvent(new Event("input"));
+});
 
 // when user types in box
-function onInput(event: Event) {
-  emit("update:modelValue", (event.target as HTMLInputElement).value);
-  debouncedOnChange(event);
-}
+const onInput = (value: string | Array<string>) => {
+  console.log("on input", value);
+  emit("update:modelValue", value);
+  debouncedOnChange();
+};
 
 // when user "commits" change to value, e.g. pressing enter, de-focusing, etc
-function onChange(event: Event) {
+const onChange = () => {
   // cancel any pending calls
   debouncedOnChange.cancel();
 
-  // if on change (for this value) has not already emitted
-  const value = (event.target as HTMLInputElement).value;
-  if (value !== last.value) {
-    emit("change", value);
-    last.value = value;
-  }
-}
+  emit("change");
+};
 
 // make instance-unique debounced version of on change func
 const debouncedOnChange = debounce(onChange, 500);
@@ -98,16 +114,17 @@ onBeforeUnmount(debouncedOnChange.cancel);
   width: 100%;
 }
 
-.icon {
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   right: 0;
   top: 0;
   width: var(--height);
   height: var(--height);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: $gray;
+  background: none;
+  border: none;
 }
 
 .input,
@@ -122,17 +139,17 @@ onBeforeUnmount(debouncedOnChange.cancel);
 
 .input {
   height: var(--height);
-  padding: 0 calc(var(--height) * 0.25);
-  line-height: 1.7;
+  padding: calc(var(--height) * 0.25);
+  line-height: 1.5;
 }
 
 .textarea {
   min-width: 100%;
   max-width: 100%;
   min-height: calc(var(--height) * 2);
-  height: calc(var(--height) * 4);
+  height: calc(var(--height) * 2);
   padding: calc(var(--height) * 0.25);
-  line-height: 1.7;
+  line-height: 1.5;
 }
 
 .container[data-icon="true"] {

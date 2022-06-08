@@ -19,8 +19,8 @@
 
     <!-- middle section (links) -->
     <div class="center">
-      <AppLink to="/about#terms-of-use">Terms of Use</AppLink> |
-      <AppLink to="/about#how-to-cite">How to Cite</AppLink>
+      <AppLink to="/about#terms">Terms of Use</AppLink> |
+      <AppLink to="/about#cite">How to Cite</AppLink>
     </div>
 
     <!-- right section (copyright) -->

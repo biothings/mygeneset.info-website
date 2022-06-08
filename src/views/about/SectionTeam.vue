@@ -1,6 +1,6 @@
 <template>
   <AppSection>
-    <AppHeading level="2">Team</AppHeading>
+    <AppHeading level="2" link="team">Team</AppHeading>
 
     <p>
       MyGeneset was made by the

@@ -7,10 +7,15 @@
     :is="component"
     class="button"
     :to="to"
-    :data-design="design"
-    :data-selected="selected"
+    :data-fill="fill"
+    :data-size="size"
+    :data-color="color"
+    :data-slot="!!$slots.default"
+    :data-icon="!!icon"
+    :data-text="!!text"
     @click="onClick"
   >
+    <slot />
     <AppIcon v-if="icon" :icon="icon" />
     <span v-if="copied">Copied!</span>
     <span v-else-if="text">{{ text }}</span>
@@ -29,10 +34,12 @@ interface Props {
   to?: string;
   // on click action
   click?: (event: MouseEvent) => void;
-  // visual design
-  design?: "plain" | "slim" | "big";
-  // whether selected or not
-  selected?: boolean;
+  // fill design of button
+  fill?: "hollow" | "filled";
+  // size of button
+  size?: "fitted" | "big";
+  // color
+  color?: "normal" | "important";
   // text content to copy to clipboard
   copy?: string;
 }
@@ -41,8 +48,9 @@ const props = withDefaults(defineProps<Props>(), {
   icon: "",
   to: "",
   click: () => null,
-  design: "big",
-  selected: undefined,
+  fill: "hollow",
+  size: "fitted",
+  color: "normal",
   copy: "",
 });
 
@@ -75,41 +83,48 @@ const onClick = async (event: MouseEvent) => {
   border: solid 2px transparent;
   border-radius: $rounded;
   text-decoration: none;
-  background: $theme-light;
-  color: $black;
   transition: background $fast, opacity $fast, filter $fast, border $fast;
 
   &:hover,
   &:focus {
-    background: none;
+    background: none !important;
     border-color: $theme-light;
   }
 
-  &[data-design="plain"] {
+  &[data-fill="hollow"] {
     background: none;
     color: $theme;
+  }
+
+  &[data-fill="filled"] {
+    background: $theme-light;
+    color: $black;
+  }
+
+  &[data-size="fitted"] {
     padding: 5px 10px;
   }
 
-  &[data-design="slim"] {
-    height: 30px;
-    padding: 5px 10px;
-  }
-
-  &[data-design="big"] {
+  &[data-size="big"] {
     min-width: min(200px, 100%);
     min-height: 40px;
     padding: 10px 20px;
   }
 
-  &[data-selected="false"] {
-    background: $theme-pale;
-    color: $black;
+  &[data-slot="false"][data-text="false"][data-icon="true"] {
+    width: 30px;
+    height: 30px;
+    padding: 0;
   }
 
-  &[data-selected="true"] {
-    background: $theme-light;
-    color: $black;
+  &[data-color="important"] {
+    &[data-fill="hollow"] {
+      color: $red;
+    }
+
+    &[data-fill="filled"] {
+      background: $red;
+    }
   }
 }
 </style>

@@ -9,12 +9,12 @@ import {
 } from "vue-router";
 import PageHome from "@/views/PageHome.vue";
 import PageBrowse from "@/views/PageBrowse.vue";
-// import Build from "@/views/Build.vue";
+import PageBuild from "@/views/PageBuild.vue";
 import PageApi from "@/views/PageApi.vue";
 import PageAbout from "@/views/PageAbout.vue";
 import PageLogin from "@/views/PageLogin.vue";
 import PageUser from "@/views/PageUser.vue";
-// import Geneset from "@/views/Geneset.vue";
+import PageGeneset from "@/views/PageGeneset.vue";
 
 // handle redirect from 404
 const handleRedirect: NavigationGuard = (to, from, next) => {
@@ -45,11 +45,11 @@ const routes: RouteRecordRaw[] = [
     name: "Browse",
     component: PageBrowse,
   },
-  // {
-  //   path: "/build",
-  //   name: "Build",
-  //   component: Build,
-  // },
+  {
+    path: "/build",
+    name: "Build",
+    component: PageBuild,
+  },
   {
     path: "/api",
     name: "API",
@@ -70,16 +70,16 @@ const routes: RouteRecordRaw[] = [
     name: "User",
     component: PageUser,
   },
-  // {
-  //   path: "/new",
-  //   name: "New Geneset",
-  //   component: Geneset,
-  // },
-  // {
-  //   path: "/geneset/:id",
-  //   name: "Geneset",
-  //   component: Geneset,
-  // },
+  {
+    path: "/new",
+    name: "New Geneset",
+    component: PageGeneset,
+  },
+  {
+    path: "/geneset/:id",
+    name: "Geneset",
+    component: PageGeneset,
+  },
 ];
 
 // vue-router's scroll behavior handler

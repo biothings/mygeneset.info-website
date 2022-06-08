@@ -1,6 +1,6 @@
 <template>
   <AppSection>
-    <AppHeading level="2">FAQ's</AppHeading>
+    <AppHeading level="2" link="faq">FAQ's</AppHeading>
 
     <AppFlex direction="col" h-align="left">
       <AppHeading level="3">Where can I find the source code?</AppHeading>
