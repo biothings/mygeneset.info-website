@@ -42,6 +42,7 @@ import { onMounted, ref, watch } from "vue";
 import { Geneset } from "@/api/genesets";
 import { Gene } from "@/api/genes";
 import { toHumanCase } from "@/util/string";
+import { reject } from "lodash";
 
 interface Props {
   // current geneset
@@ -85,14 +86,10 @@ const computeDiff = () => {
   const after = props.geneset.genes.map(map);
 
   // find added genes (ones in after and not in before)
-  added.value = after.filter(
-    (a) => before.findIndex((b) => a === b) === -1
-  ).length;
+  added.value = reject(after, (a) => before.includes(a)).length;
 
   // find removed genes (ones in before and not in after)
-  removed.value = before.filter(
-    (b) => after.findIndex((a) => a === b) === -1
-  ).length;
+  removed.value = reject(before, (b) => after.includes(b)).length;
 };
 
 watch(() => props.geneset, computeDiff, { deep: true });

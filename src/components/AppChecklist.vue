@@ -26,9 +26,11 @@ interface Option {
   tooltip?: string;
 }
 
+type Options = Array<Option>;
+
 interface Props {
   // internal input state
-  modelValue: Array<Option>;
+  modelValue: Options;
   // whether to make radio/single select
   single?: boolean;
 }

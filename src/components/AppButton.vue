@@ -74,7 +74,7 @@ const onClick = async (event: MouseEvent) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .button {
   display: inline-flex;
   justify-content: center;
@@ -85,19 +85,29 @@ const onClick = async (event: MouseEvent) => {
   text-decoration: none;
   transition: background $fast, opacity $fast, filter $fast, border $fast;
 
+  &[data-color="normal"] {
+    --color: #{$theme};
+    --color-light: #{$theme-light};
+  }
+
+  &[data-color="important"] {
+    --color: #{$red};
+    --color-light: #{$red-light};
+  }
+
   &:hover,
   &:focus {
     background: none !important;
-    border-color: $theme-light;
+    border-color: var(--color-light);
   }
 
   &[data-fill="hollow"] {
     background: none;
-    color: $theme;
+    color: var(--color);
   }
 
   &[data-fill="filled"] {
-    background: $theme-light;
+    background: var(--color-light);
     color: $black;
   }
 
@@ -115,18 +125,6 @@ const onClick = async (event: MouseEvent) => {
     width: 30px;
     height: 30px;
     padding: 0;
-  }
-
-  &[data-color="important"] {
-    &[data-fill="hollow"] {
-      color: $red;
-      border-color: $red;
-    }
-
-    &[data-fill="filled"] {
-      background: $red;
-      border-color: $red;
-    }
   }
 }
 </style>

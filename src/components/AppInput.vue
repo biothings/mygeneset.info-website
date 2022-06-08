@@ -129,7 +129,7 @@ const debouncedOnChange = debounce(onChange, 500);
 onBeforeUnmount(debouncedOnChange.cancel);
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .label {
   display: flex;
   flex-direction: column;

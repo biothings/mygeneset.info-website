@@ -59,7 +59,7 @@ const alignItems = computed(() =>
 );
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .flex {
   &[data-flow="block"] {
     display: flex;

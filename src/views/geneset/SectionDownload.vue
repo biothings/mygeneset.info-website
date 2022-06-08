@@ -6,15 +6,7 @@
     <AppFlex>
       <AppFlex gap="small">
         <span>Format:</span>
-        <select v-model="format">
-          <option
-            v-for="(formatOption, index) in formatOptions"
-            :key="index"
-            :value="formatOption.key"
-          >
-            {{ formatOption.text }}
-          </option>
-        </select>
+        <AppSelect v-model="format" :options="formatOptions" />
         <AppCheckbox
           v-model="transpose"
           v-tippy="'Flip gene rows/columns'"
@@ -35,9 +27,9 @@
     </AppFlex>
 
     <!-- preview -->
-    <code data-block="true">
+    <AppCode flow="block" heading="Preview">
       {{ stringified }}
-    </code>
+    </AppCode>
 
     <!-- action -->
     <AppButton
@@ -53,7 +45,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import AppChecklist from "@/components/AppChecklist.vue";
+import AppSelect from "@/components/AppSelect.vue";
 import AppCheckbox from "@/components/AppCheckbox.vue";
+import AppCode from "@/components/AppCode.vue";
 import { Gene } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import {

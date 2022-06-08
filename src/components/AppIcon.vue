@@ -54,7 +54,7 @@ const fa = computed(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .icon {
   height: 1em;
 }

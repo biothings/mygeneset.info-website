@@ -77,32 +77,6 @@ a:hover {
   color: $black;
 }
 
-// formatting
-
-code {
-  max-width: 100%;
-  max-height: min(60vh, 600px);
-  padding: 2px 5px;
-  overflow-x: auto;
-  overflow-y: auto;
-  border-radius: $rounded;
-  background: $off-black;
-  text-align: left;
-  white-space: pre;
-
-  &,
-  * {
-    color: $white;
-    font-family: $mono;
-    font-style: normal;
-  }
-}
-
-code[data-block="true"] {
-  width: 100%;
-  padding: 20px;
-}
-
 // inputs
 
 ::placeholder {
@@ -116,15 +90,6 @@ code[data-block="true"] {
   pointer-events: none;
 }
 
-select {
-  border: solid 2px $theme;
-  border-radius: $rounded;
-  margin: 0;
-  padding: 2px 5px;
-  color: $black;
-  font-size: 1rem;
-  opacity: 1;
-}
 
 // cursor
 

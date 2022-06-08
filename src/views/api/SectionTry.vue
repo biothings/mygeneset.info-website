@@ -6,7 +6,12 @@
     <AppChecklist v-model="requests" :single="true" />
 
     <!-- request command code box -->
-    <code ref="codeBlock" data-block="true">
+    <AppCode
+      ref="codeBlock"
+      flow="block"
+      heading="Edit me!"
+      @text="(value) => (command = value)"
+    >
       <span>{{ selected?.method }}</span>
       <span>&nbsp;</span>
       <span>{{ base }}</span>
@@ -30,7 +35,7 @@
         />
         <span v-if="index < (selected?.fields?.length || 0) - 1">&</span>
       </template>
-    </code>
+    </AppCode>
 
     <!-- note -->
     <i>
@@ -38,7 +43,7 @@
       <AppLink
         to="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html"
         >standard Elasticsearch query syntax</AppLink
-      >, like <code>*</code> for wildcards
+      >, like <AppCode>*</AppCode> for wildcards
     </i>
 
     <!-- action buttons -->
@@ -66,13 +71,7 @@
     <!-- response -->
     <template v-if="response">
       <!-- response data -->
-      <VueJsonPretty
-        ref="vjp"
-        :data="response"
-        :deep="1"
-        :deep-collapse-children="true"
-        :show-length="true"
-      />
+      <AppJson :data="response" />
 
       <!-- response buttons -->
       <AppFlex>
@@ -90,7 +89,7 @@
           fill="filled"
           size="big"
           :disabled="loading"
-          @click="() => downloadJson(response || {}, 'response')"
+          @click="() => downloadJson(stringifyJson(response || {}), 'response')"
         />
       </AppFlex>
     </template>
@@ -98,15 +97,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from "vue";
-import VueJsonPretty from "vue-json-pretty";
-import "vue-json-pretty/lib/styles.css";
+import { computed, ref, watch } from "vue";
 import AppChecklist from "@/components/AppChecklist.vue";
 import AppCodeInput from "@/components/AppCodeInput.vue";
 import AppStatus from "@/components/AppStatus.vue";
+import AppCode from "@/components/AppCode.vue";
+import AppJson from "@/components/AppJson.vue";
 import { isStale, request } from "@/api";
-import { downloadJson } from "@/util/download";
-import { useMutationObserver } from "@vueuse/core";
+import { downloadJson, stringifyJson } from "@/util/download";
 
 // field within a request
 interface Field {
@@ -225,22 +223,6 @@ const selected = computed(() =>
 // code block element
 const codeBlock = ref<HTMLElement>();
 
-// get code content of block, including children textboxes
-const setCommand = async () => {
-  await nextTick();
-
-  let text = "";
-  const children = codeBlock.value?.children || [];
-  for (const child of children) {
-    text +=
-      (child as HTMLElement).innerText || (child as HTMLInputElement).value;
-  }
-  command.value = text;
-};
-
-// when selected request or field values change, re-get command text
-watch(requests, setCommand, { deep: true, immediate: true });
-
 // loading state
 const loading = ref(false);
 
@@ -278,86 +260,4 @@ watch(requests, () => (response.value = undefined), {
   deep: true,
   immediate: true,
 });
-
-// dirty hack to add carets to VueJsonPretty
-// https://github.com/leezng/vue-json-pretty/issues/169
-const vjp = ref(null);
-const updateBrackets = () => {
-  for (const element of document.querySelectorAll(".vjs-tree__brackets")) {
-    const bracket = element as HTMLElement;
-    const text = bracket.innerText.trim();
-    const starts = text.startsWith("{") || text.startsWith("[");
-    const ends = text.endsWith("}") || text.endsWith("]");
-    bracket.dataset.debug = [text, starts, ends].join(" ");
-    if (starts && ends) bracket.dataset.action = "expand";
-    else if (starts) bracket.dataset.action = "collapse";
-    else bracket.dataset.action = "";
-  }
-};
-watch(vjp, updateBrackets);
-useMutationObserver(vjp, updateBrackets, { subtree: true, childList: true });
 </script>
-
-<!-- override VueJsonPretty styles -->
-<style lang="scss">
-.vjs-tree {
-  width: 100%;
-  padding: 20px;
-  color: $white;
-  background: $off-black;
-
-  * {
-    font-family: $mono;
-  }
-}
-
-.vjs-tree__node:hover {
-  background: #ffffff10;
-}
-
-.vjs-key {
-  color: $light-gray;
-  white-space: pre;
-}
-
-.vjs-tree__brackets {
-  color: $gray;
-
-  &:hover {
-    color: $yellow;
-  }
-}
-
-.vjs-comment {
-  color: $gray;
-}
-
-.vjs-value__number {
-  color: $blue-light;
-}
-
-.vjs-value__string {
-  color: $purple-light;
-}
-
-.vjs-tree__indent.has-line {
-  border: none;
-  border-left: solid 1px #ffffff20 !important;
-}
-
-.vjs-tree__brackets:before {
-  color: $dark-gray;
-}
-
-.vjs-tree__brackets:hover:before {
-  color: $yellow;
-}
-
-.vjs-tree__brackets[data-action="collapse"]:before {
-  content: "▾ ";
-}
-
-.vjs-tree__brackets[data-action="expand"]:before {
-  content: "▸ ";
-}
-</style>
