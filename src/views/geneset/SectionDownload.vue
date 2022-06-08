@@ -2,10 +2,10 @@
   <AppSection>
     <AppHeading level="3" icon="download" link="download">Download</AppHeading>
 
-    <!-- controls -->
+    <!-- options -->
     <AppFlex>
-      <AppFlex flow="inline" gap="small">
-        <span>File format:</span>
+      <AppFlex gap="small">
+        <span>Format:</span>
         <select v-model="format">
           <option
             v-for="(formatOption, index) in formatOptions"
@@ -15,20 +15,18 @@
             {{ formatOption.text }}
           </option>
         </select>
+        <AppCheckbox
+          v-model="transpose"
+          v-tippy="'Flip gene rows/columns'"
+          text="Transpose"
+          :disabled="format === 'json' ? true : undefined"
+        />
+        <AppCheckbox
+          v-model="meta"
+          v-tippy="'Include meta info about geneset'"
+          text="Geneset meta"
+        />
       </AppFlex>
-
-      <AppCheckbox
-        v-model="transpose"
-        v-tippy="'Flip gene rows/columns'"
-        text="Transpose"
-        :disabled="format === 'json' ? true : undefined"
-      />
-
-      <AppCheckbox
-        v-model="meta"
-        v-tippy="'Include meta info about geneset'"
-        text="Geneset meta"
-      />
 
       <AppFlex gap="small">
         <span>Gene identifiers:</span>
@@ -195,6 +193,7 @@ const stringify = () => {
   if (format.value === "gmx") stringified.value = stringifyGmx(formatGmx());
 };
 
+// rerun stringify process when any affecting props change
 watch(
   [props.geneset, selectedIdentifiers, format, transpose, meta],
   stringify,

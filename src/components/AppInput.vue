@@ -9,20 +9,20 @@
         v-if="multi"
         ref="element"
         class="textarea"
-        :value="Array.isArray(modelValue) ? modelValue.join('\n') : modelValue"
+        :value="multiValue"
         :placeholder="placeholder"
-        @input="(event) => onInput((event.target as HTMLInputElement).value.split('\n'))"
-        @change="onChange"
+        @input="onMulti"
+        @change="onMulti"
       >
       </textarea>
       <input
         v-else
         ref="element"
         class="input"
-        :value="Array.isArray(modelValue) ? modelValue.join(', ') : modelValue"
+        :value="singleValue"
         :placeholder="placeholder"
-        @input="(event) => onInput((event.target as HTMLInputElement).value)"
-        @change="onChange"
+        @input="onSingle"
+        @change="onSingle"
       />
       <button
         v-if="mode === 'switchable'"
@@ -39,8 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, ref, watch } from "vue";
-import { debounce } from "lodash";
+import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { cloneDeep, debounce, isEqual } from "lodash";
 
 interface Props {
   // state
@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 interface Emits {
   // two-way binding value
-  (event: "update:modelValue", value: string | Array<string>): void;
+  (event: "update:modelValue", value: Props["modelValue"]): void;
   // when input value change "submitted"/"committed" by user
   (event: "change"): void;
 }
@@ -72,24 +72,54 @@ const element = ref();
 // whether field is multi-line
 const multi = ref(props.mode === "multi");
 
+// last on change value that was emitted
+const last = ref<Props["modelValue"]>("");
+
 // when mode switched, trigger input event as if user had typed
 watch(multi, async () => {
   await nextTick();
   element.value.dispatchEvent(new Event("input"));
 });
 
+// input value handler for multi-line mode
+const multiValue = computed(() =>
+  Array.isArray(props.modelValue)
+    ? props.modelValue.join("\n")
+    : props.modelValue
+);
+
+// input value handler for single-line mode
+const singleValue = computed(() =>
+  Array.isArray(props.modelValue)
+    ? props.modelValue.join(", ")
+    : props.modelValue
+);
+
+// update handler for multi-line mode
+const onMulti = (event: Event) =>
+  onInput((event.target as HTMLInputElement).value.split("\n"));
+
+// update handler for single-line mode
+const onSingle = (event: Event) =>
+  onInput((event.target as HTMLInputElement).value);
+
 // when user types in box
-const onInput = (value: string | Array<string>) => {
+const onInput = (value: Props["modelValue"]) => {
   emit("update:modelValue", value);
-  debouncedOnChange();
+  debouncedOnChange(value);
 };
 
 // when user "commits" change to value, e.g. pressing enter, de-focusing, etc
-const onChange = () => {
+const onChange = (value: Props["modelValue"]) => {
   // cancel any pending calls
   debouncedOnChange.cancel();
 
-  emit("change");
+  // if on change (for this value) has not already emitted
+  console.log(value, last.value);
+  if (!isEqual(value, last.value)) {
+    emit("change");
+    last.value = cloneDeep(value);
+  }
 };
 
 // make instance-unique debounced version of on change func

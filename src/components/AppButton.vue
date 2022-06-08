@@ -120,10 +120,12 @@ const onClick = async (event: MouseEvent) => {
   &[data-color="important"] {
     &[data-fill="hollow"] {
       color: $red;
+      border-color: $red;
     }
 
     &[data-fill="filled"] {
       background: $red;
+      border-color: $red;
     }
   }
 }

@@ -9,7 +9,7 @@ import searchGenes from "./search-genes.json";
 
 // flag to conveniently switch between mocking every call (except user info)
 // and mocking no calls, only in development mode
-const mock = false;
+const mock = true;
 
 // api calls to be mocked with fixture data
 export const handlers = [

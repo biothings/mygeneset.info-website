@@ -79,6 +79,6 @@
   "description": "Test description",
   "is_public": true,
   "updated": "2022-01-01T20:43:30.919Z",
-  "source": "kegg",
+  "author": "vincerubinetti",
   "taxid": 9606
 }

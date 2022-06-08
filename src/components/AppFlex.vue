@@ -29,8 +29,8 @@ const alignMap = {
 };
 
 interface Props {
-  // flex display
-  flow: "inline" | "block";
+  // flex display (whether container takes up full width)
+  flow?: "inline" | "block";
   // horizontal or vertical
   direction?: "row" | "col";
   // spacing between items

@@ -159,7 +159,7 @@ const updateField = (field: keyof Geneset, value: unknown) => {
 // update geneset
 const updateGeneset = async () => {
   const {
-    id,
+    id = "",
     name = "",
     description = "",
     isPublic = false,
@@ -170,6 +170,7 @@ const updateGeneset = async () => {
     window.alert("Please enter a name for this geneset!");
     return;
   }
+
   if (fresh.value) {
     if (!window.confirm("Are you sure you want to create this geneset?"))
       return;
@@ -180,11 +181,11 @@ const updateGeneset = async () => {
 
   const success = await updateGenesetApi(
     fresh.value,
-    id || "",
+    id,
     name,
     description,
     isPublic,
-    genes?.map((gene) => gene.id || "") || []
+    genes.map((gene) => gene.id)
   );
 
   // wait for database to refresh
@@ -202,7 +203,7 @@ const deleteGeneset = async () => {
   )
     return;
 
-  const success = await deleteGenesetApi(geneset.value.id || "");
+  const success = await deleteGenesetApi(geneset.value.id);
 
   // wait for database to refresh
   await sleep(1000);

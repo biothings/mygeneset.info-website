@@ -55,6 +55,7 @@ library.add(
     fas.faSignInAlt,
     fas.faTimes,
     fas.faTrashCan,
+    fas.faUpload,
     fas.faUser,
     fas.faUserSecret,
     fas.faWandMagicSparkles,
