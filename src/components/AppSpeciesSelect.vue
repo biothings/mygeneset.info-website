@@ -56,13 +56,6 @@
     <template #spinner>
       <span></span>
     </template>
-
-    <!-- clear button -->
-    <template #clear="{ clear }">
-      <button class="clear" @click="clear">
-        <AppIcon icon="times" />
-      </button>
-    </template>
   </Multiselect>
 </template>
 
@@ -86,6 +79,7 @@ const options = async (query: string) =>
 
 <style scoped lang="scss">
 .button {
+  max-width: min(100%, 200px);
   gap: 8px;
   padding: 2px 5px !important;
 }
