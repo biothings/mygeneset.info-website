@@ -40,13 +40,13 @@ export const request = async <Response>(
 };
 
 // hold the latest call for each type of request
-const cache: Record<string, Symbol> = {};
-const newRequest = (type: string): Symbol => {
+const cache: Record<string, symbol> = {};
+const newRequest = (type: string): symbol => {
   const id = Symbol();
   cache[type] = id;
   return id;
 };
-const latestRequest = (type: string, id: Symbol) => cache[type] === id;
+const latestRequest = (type: string, id: symbol) => cache[type] === id;
 
 // check if error is due to request being stale
 export const isStale = (error: unknown) =>

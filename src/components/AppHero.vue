@@ -60,7 +60,7 @@ const spokes = angles.map((angle) => {
 
 interface Props {
   // font awesome icon code
-  icon: String;
+  icon: string;
 }
 
 defineProps<Props>();

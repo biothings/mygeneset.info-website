@@ -227,7 +227,7 @@ const codeBlock = ref<HTMLElement>();
 const loading = ref(false);
 
 // response state
-const response = ref<{}>();
+const response = ref();
 
 // run request
 const run = async () => {
