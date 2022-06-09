@@ -156,13 +156,8 @@ export const updateGeneset = async (
   const body = JSON.stringify(data);
 
   // make request
-  try {
-    const response = await request(url, type, { body, method });
-    console.info(response);
-    return true;
-  } catch (error) {
-    return false;
-  }
+  const response = await request(url, type, { body, method });
+  console.info(response);
 };
 
 // delete geneset
@@ -172,11 +167,6 @@ export const deleteGeneset = async (id: string) => {
   const method = "DELETE";
 
   // make request
-  try {
-    const response = await request(url, type, { method });
-    console.info(response);
-    return true;
-  } catch (error) {
-    return false;
-  }
+  const response = await request(url, type, { method });
+  console.info(response);
 };

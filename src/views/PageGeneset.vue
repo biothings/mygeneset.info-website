@@ -179,19 +179,23 @@ const updateGeneset = async () => {
       return;
   }
 
-  const success = await updateGenesetApi(
-    fresh.value,
-    id,
-    name,
-    description,
-    isPublic,
-    genes.map((gene) => gene.id)
-  );
+  try {
+    await updateGenesetApi(
+      fresh.value,
+      id,
+      name,
+      description,
+      isPublic,
+      genes.map((gene) => gene.id)
+    );
 
-  // wait for database to refresh
-  await sleep(1000);
-  // go back to build page
-  if (success) router.push("/build");
+    // wait for database to refresh
+    await sleep(1000);
+    // go back to build page
+    router.push("/build");
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // delete geneset
@@ -203,12 +207,16 @@ const deleteGeneset = async () => {
   )
     return;
 
-  const success = await deleteGenesetApi(geneset.value.id);
+  try {
+    await deleteGenesetApi(geneset.value.id);
 
-  // wait for database to refresh
-  await sleep(1000);
-  // go back to build page
-  if (success) router.push("/build");
+    // wait for database to refresh
+    await sleep(1000);
+    // go back to build page
+    router.push("/build");
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 watch([() => route.params.id, () => store.state.loggedIn?.username], load);

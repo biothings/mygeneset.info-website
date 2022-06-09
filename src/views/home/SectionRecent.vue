@@ -26,17 +26,21 @@ const total = ref(0);
 
 const search = async () => {
   // get list of genesets in order of date update
-  const response = await searchGenesets(
-    "getRecentGenesets",
-    undefined,
-    undefined,
-    "updated",
-    start.value,
-    perPage.value
-  );
+  try {
+    const response = await searchGenesets(
+      "getRecentGenesets",
+      undefined,
+      undefined,
+      "updated",
+      start.value,
+      perPage.value
+    );
 
-  recentGenesets.value = response.genesets;
-  total.value = response.total;
+    recentGenesets.value = response.genesets;
+    total.value = response.total;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // run search on pagination change

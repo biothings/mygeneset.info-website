@@ -69,12 +69,17 @@ import { Species, searchSpecies } from "@/api/species";
 const selected = ref<Array<Species>>([]);
 
 // get dropdown options
-const options = async (query: string) =>
-  (await searchSpecies(query)).species.map((species) => ({
-    ...species,
-    // for multiselect tracking
-    full: species.common + " " + species.scientific,
-  }));
+const options = async (query: string) => {
+  try {
+    return (await searchSpecies(query)).species.map((species) => ({
+      ...species,
+      // for multiselect tracking
+      full: species.common + " " + species.scientific,
+    }));
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
 
 <style scoped lang="scss">

@@ -47,11 +47,19 @@ export default createStore<State>({
   actions: {
     // update metadata info
     async getMetadata({ commit }) {
-      commit("getMetadata", await getMetadata());
+      try {
+        commit("getMetadata", await getMetadata());
+      } catch (error) {
+        console.error(error);
+      }
     },
     // update logged in state
     async getUser({ commit }) {
-      commit("getUser", await getUser());
+      try {
+        commit("getUser", await getUser());
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
   modules: {},
