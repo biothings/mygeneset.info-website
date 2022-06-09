@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
+    "test:e2e": "vue-cli-service test:e2e --headless",
     "lint": "vue-cli-service lint",
     "fresh": "rm -rf node_modules yarn.lock && yarn cache clean && yarn install"
   },
@@ -48,7 +48,7 @@
     "@vue/eslint-config-typescript": "^10.0.0",
     "@vue/test-utils": "^2.0.0",
     "chai": "^4.3.6",
-    "cypress": "9.0.0",
+    "cypress": "^9.0.0",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
