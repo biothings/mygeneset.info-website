@@ -21,7 +21,6 @@
           ].join('<br/>')
         "
         :tabindex="0"
-        class="selected"
         fill="filled"
         icon="times"
         design="fitted"
@@ -51,6 +50,8 @@
 import { computed, ref } from "vue";
 import { Gene } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
+import AppButton from "@/components/AppButton.vue";
+import AppPill from "@/components/AppPill.vue";
 
 interface Props {
   // selected genes (current geneset genes)
@@ -70,13 +71,5 @@ const top = 20;
 const expanded = ref(false);
 
 // component to use for each selected gene
-const component = computed(() => (props.editable ? "AppButton" : "span"));
+const component = computed(() => (props.editable ? AppButton : AppPill));
 </script>
-
-<style scoped lang="scss">
-span.selected {
-  padding: 2px 5px;
-  border: solid 2px $light-gray;
-  border-radius: $rounded;
-}
-</style>

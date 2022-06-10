@@ -11,11 +11,14 @@ import searchGenes from "./search-genes.json";
 // and mocking no calls, only in development mode
 const mock = true;
 
+// flag to conveniently switch between logged in and not (anonymous)
+const loggedIn = false;
+
 // api calls to be mocked with fixture data
 export const handlers = [
   rest.get(/mygeneset.info.*user_info/i, (req, res, ctx) => {
-    // return res(ctx.status(200), ctx.json(null)); // not logged in
-    return res(ctx.status(200), ctx.json(userInfo)); // logged in
+    if (loggedIn) return res(ctx.status(200), ctx.json(userInfo));
+    else return res(ctx.status(200), ctx.json(null));
   }),
 
   rest.get(/biothings-data/i, (req, res, ctx) => {

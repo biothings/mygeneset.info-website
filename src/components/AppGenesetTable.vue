@@ -65,9 +65,15 @@
 
     <!-- gene list col -->
     <template #genes="{ cell }: { cell: Geneset['genes'] }">
-      <div class="truncate-3">
-        {{ cell.map((gene) => gene.name).join(", ") }}
-      </div>
+      <AppFlex h-align="left" gap="tiny">
+        <AppPill
+          v-for="(gene, index) in cell.slice(0, 5)"
+          :key="index"
+          v-tippy="gene.name"
+          >{{ gene.name }}</AppPill
+        >
+        <span v-if="cell.length > 5">and {{ cell.length - 5 }} more...</span>
+      </AppFlex>
     </template>
   </AppTable>
 </template>
@@ -75,6 +81,7 @@
 <script setup lang="ts">
 import { Geneset } from "@/api/genesets";
 import AppTable, { Col } from "./AppTable.vue";
+import AppPill from "./AppPill.vue";
 
 interface Props {
   // list of genesets to display as rows

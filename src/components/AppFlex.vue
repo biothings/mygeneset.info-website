@@ -34,7 +34,7 @@ interface Props {
   // horizontal or vertical
   direction?: "row" | "col";
   // spacing between items
-  gap?: "none" | "small" | "medium" | "big";
+  gap?: "none" | "tiny" | "small" | "medium" | "big";
   // horizontal alignment
   hAlign?: "left" | "center" | "right" | "stretch";
   // vertical alignment
@@ -80,6 +80,10 @@ const alignItems = computed(() =>
 
   &[data-gap="none"] {
     gap: 0;
+  }
+
+  &[data-gap="tiny"] {
+    gap: 5px;
   }
 
   &[data-gap="small"] {
