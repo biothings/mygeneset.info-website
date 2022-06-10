@@ -32,7 +32,7 @@
         </template>
       </AppDetail>
 
-      <AppDetail :heading="geneset.author ? 'Author' : 'Source'">
+      <AppDetail :heading="geneset.source ? 'Source' : 'Author'">
         <template v-if="geneset.author">{{ geneset.author }}</template>
         <AppLink
           v-else-if="geneset.source"
