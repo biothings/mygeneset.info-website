@@ -89,7 +89,12 @@ const options = async (query: string) => {
   padding: 2px 5px !important;
 }
 
+.common {
+  min-width: 50px;
+}
+
 .scientific {
+  min-width: 50px;
   color: $off-black;
   font-size: 0.8rem;
 }

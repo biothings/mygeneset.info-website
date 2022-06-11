@@ -19,6 +19,22 @@
             :style="col.style"
           >
             {{ col.heading }}
+            <button
+              v-if="col.sortable"
+              class="sort"
+              :data-active="sort?.col === col.id"
+              @click="changeSort(col.id)"
+            >
+              <AppIcon
+                v-if="sort?.col === col.id && sort?.dir === 'up'"
+                icon="sort-up"
+              />
+              <AppIcon
+                v-else-if="sort?.col === col.id && sort?.dir === 'down'"
+                icon="sort-down"
+              />
+              <AppIcon v-else icon="sort" />
+            </button>
           </th>
         </tr>
       </thead>
@@ -103,7 +119,14 @@ export interface Col {
   width?: string;
   // alignment of column content
   align?: "left" | "center" | "right";
+  // whether column is sortable
+  sortable?: boolean;
 }
+
+export type Sort = {
+  col: string;
+  dir: "up" | "down" | "";
+} | null;
 
 interface Props {
   // rows of data
@@ -116,17 +139,22 @@ interface Props {
   perPage?: number;
   // total number of items
   total?: number;
+  // current sort
+  sort?: Sort;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   start: -1,
   perPage: 0,
   total: 0,
+  sort: null,
 });
 
 interface Emits {
   // page navigation
   (event: "update:start", start: number): void;
+  // sort state
+  (event: "update:sort", sort: Sort): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -163,6 +191,18 @@ const minWidth = computed(() =>
     .map((_col) => parseInt(String(_col.style.width)))
     .reduce((total, value) => total + value, 0)
 );
+
+// change sort
+const changeSort = (id: string) => {
+  let sort: Sort;
+
+  if (props.sort?.col === id) {
+    if (props.sort?.dir === "down") sort = { col: id, dir: "up" };
+    else sort = null;
+  } else sort = { col: id, dir: "down" };
+
+  emit("update:sort", sort);
+};
 </script>
 
 <style scoped lang="scss">
@@ -174,19 +214,37 @@ const minWidth = computed(() =>
 .table {
   border-collapse: collapse;
   width: 100%;
+  height: 100%;
 }
 
-.head {
+.tr {
+  height: 100%;
+}
+
+.head .cell {
   font-weight: $medium;
-  border-bottom: solid 1px $off-white;
 }
 
 .body .cell {
-  border-bottom: solid 1px $off-white;
 }
 
 .cell {
   max-width: 800px;
+  height: 100%;
+  border-bottom: solid 1px $off-white;
   padding: 5px 10px;
+}
+
+.sort {
+  background: none;
+  border: none;
+  padding: 5px;
+  color: $gray;
+  vertical-align: middle;
+  transition: color $fast;
+
+  &[data-active="true"] {
+    color: $black;
+  }
 }
 </style>

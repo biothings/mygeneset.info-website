@@ -7,9 +7,8 @@ import searchGenesets from "./search-genesets.json";
 import searchGenesetsFacetTaxid from "./search-genesets-facet-taxid.json";
 import searchGenes from "./search-genes.json";
 
-// flag to conveniently switch between mocking every call (except user info)
-// and mocking no calls, only in development mode
-const mock = true;
+// flag to conveniently switch between mocking every call and mocking no calls
+const mock = false;
 
 // flag to conveniently switch between logged in and not (anonymous)
 const loggedIn = false;
@@ -17,6 +16,8 @@ const loggedIn = false;
 // api calls to be mocked with fixture data
 export const handlers = [
   rest.get(/mygeneset.info.*user_info/i, (req, res, ctx) => {
+    if (!mock) return req.passthrough();
+
     if (loggedIn) return res(ctx.status(200), ctx.json(userInfo));
     else return res(ctx.status(200), ctx.json(null));
   }),

@@ -5,26 +5,26 @@ import { mygene } from ".";
 export interface _Gene {
   _id?: string;
   mygene_id?: string;
-  name?: string;
-  taxid?: string;
-  alias?: Array<string>;
   symbol?: Array<string>;
+  name?: string;
+  alias?: Array<string>;
   entrezgene?: Array<string>;
   ensemblgene?: Array<string>;
   uniprot?: Array<string | { "Swiss-Prot": string }>;
+  taxid?: string;
   notfound?: boolean;
 }
 
 // for frontend
 export interface Gene {
   id: string;
-  name: string;
-  taxid: string;
-  alias: Array<string>;
   symbol: Array<string>;
+  name: string;
+  alias: Array<string>;
   entrezgene: Array<string>;
   ensemblgene: Array<string>;
   uniprot: Array<string>;
+  taxid: string;
 }
 
 // convert backend format to desired frontend format
@@ -41,6 +41,29 @@ export const mapGene = (gene: _Gene): Gene => ({
       ?.map((u) => (typeof u === "string" ? u : u["Swiss-Prot"]))
       ?.filter((u) => u) || [],
 });
+
+// get displayable label for gene with fallbacks
+export const getGeneLabel = (gene: Gene) =>
+  gene.symbol[0] ||
+  gene.name ||
+  gene.id ||
+  gene.alias[0] ||
+  gene.entrezgene[0] ||
+  gene.ensemblgene[0] ||
+  gene.uniprot[0];
+
+// get displayable tooltip for gene with more info
+export const getGeneTooltip = (gene: Gene) =>
+  [
+    "ID: " + (gene.id || "-"),
+    "Symbol: " + (gene.symbol.join(", ") || "-"),
+    "Name: " + (gene.name || "-"),
+    "Alias: " + (gene.alias.join(", ") || "-"),
+    "Entrez: " + (gene.entrezgene.join(", ") || "-"),
+    "Ensembl: " + (gene.ensemblgene.join(", ") || "-"),
+    "Uniprot: " + (gene.uniprot.join(", ") || "-"),
+    "Taxon: " + (gene.taxid || "-"),
+  ].join("<br/>");
 
 // search genes by keyword
 export const searchGenes = async (

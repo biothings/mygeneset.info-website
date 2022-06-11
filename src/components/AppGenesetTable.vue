@@ -43,7 +43,7 @@
     <!-- name col -->
     <template #name="{ row }">
       <AppLink :to="`/geneset/${row.id}`">{{
-        row.name || row.id?.split("_")?.join(" ") || "..."
+        row.name || row.id?.split("_")?.join(" ") || "-"
       }}</AppLink>
     </template>
 
@@ -67,18 +67,21 @@
     <template #genes="{ cell }: { cell: Geneset['genes'] }">
       <AppFlex h-align="left" gap="tiny">
         <AppPill
-          v-for="(gene, index) in cell.slice(0, 5)"
+          v-for="(gene, index) in cell.slice(0, top)"
           :key="index"
-          v-tippy="gene.name"
-          >{{ gene.name }}</AppPill
+          v-tippy="getGeneTooltip(gene)"
+          >{{ getGeneLabel(gene) }}</AppPill
         >
-        <span v-if="cell.length > 5">and {{ cell.length - 5 }} more...</span>
+        <span v-if="cell.length > top"
+          >and {{ cell.length - top }} more...</span
+        >
       </AppFlex>
     </template>
   </AppTable>
 </template>
 
 <script setup lang="ts">
+import { getGeneLabel, getGeneTooltip } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import AppTable, { Col } from "./AppTable.vue";
 import AppPill from "./AppPill.vue";
@@ -89,6 +92,9 @@ interface Props {
 }
 
 defineProps<Props>();
+
+// show this many genes before cutting of
+const top = 10;
 
 // columns to show
 const cols: Array<Col> = [
@@ -101,12 +107,14 @@ const cols: Array<Col> = [
     id: "name",
     heading: "Name / ID",
     width: "200px",
+    sortable: true,
   },
   {
     id: "author",
     heading: "Author / Source",
-    width: "80px",
+    width: "100px",
     align: "center",
+    sortable: true,
   },
   {
     id: "count",

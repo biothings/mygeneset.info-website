@@ -9,31 +9,13 @@
         :is="component"
         v-for="(gene, index) in expanded ? genes : genes.slice(0, top)"
         :key="index"
-        v-tippy="
-          [
-            'Name: ' + (gene.name || '-'),
-            'ID: ' + (gene.id || '-'),
-            'Alias: ' + (gene.alias.join(', ') || '-'),
-            'Symbol: ' + (gene.symbol.join(', ') || '-'),
-            'Entrez: ' + (gene.entrezgene.join(', ') || '-'),
-            'Ensembl: ' + (gene.ensemblgene.join(', ') || '-'),
-            'Uniprot: ' + (gene.uniprot.join(', ') || '-'),
-          ].join('<br/>')
-        "
+        v-tippy="getGeneTooltip(gene)"
         :tabindex="0"
         fill="filled"
         icon="times"
         design="fitted"
         @click="editable ? removeGene(gene) : null"
-        >{{
-          gene.name ||
-          gene.id ||
-          gene.alias[0] ||
-          gene.symbol[0] ||
-          gene.entrezgene[0] ||
-          gene.ensemblgene[0] ||
-          gene.uniprot[0]
-        }}</component
+        >{{ getGeneLabel(gene) }}</component
       >
     </AppFlex>
 
@@ -48,7 +30,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Gene } from "@/api/genes";
+import { Gene, getGeneLabel, getGeneTooltip } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import AppButton from "@/components/AppButton.vue";
 import AppPill from "@/components/AppPill.vue";

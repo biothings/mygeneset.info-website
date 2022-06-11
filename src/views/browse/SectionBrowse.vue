@@ -21,6 +21,7 @@
     <AppGenesetTable
       v-else-if="genesets.length"
       v-model:start="start"
+      v-model:sort="sort"
       :genesets="genesets"
       :per-page="perPage"
       :total="total"
@@ -33,6 +34,7 @@ import { onMounted, ref, watch } from "vue";
 import AppInput from "@/components/AppInput.vue";
 import AppSpeciesSelect from "@/components/AppSpeciesSelect.vue";
 import AppGenesetTable from "@/components/AppGenesetTable.vue";
+import { Sort } from "@/components/AppTable.vue";
 import AppStatus from "@/components/AppStatus.vue";
 import { Geneset, searchGenesets } from "@/api/genesets";
 import { isStale } from "@/api";
@@ -47,6 +49,9 @@ const species = ref<Array<string>>([]);
 const start = ref(0);
 const perPage = ref(10);
 const total = ref(0);
+
+// sort state
+const sort = ref<Sort>();
 
 // loading state
 const loading = ref(false);
@@ -67,7 +72,7 @@ const search = async () => {
       "browseGenesets",
       keywords.value,
       species.value,
-      undefined,
+      sort.value,
       start.value,
       perPage.value
     );
@@ -90,8 +95,8 @@ const search = async () => {
 // run search on load
 onMounted(search);
 
-// run search on pagination change
-watch([start, perPage], search);
+// run search on state change
+watch([start, perPage, sort], search);
 
 // reset page to 0 when search changes
 watch([keywords, species], () => (start.value = 0));

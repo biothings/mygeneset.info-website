@@ -11,6 +11,8 @@
     />
 
     <template v-if="loggedIn">
+      <AppHeading level="3">Your Genesets</AppHeading>
+
       <AppStatus v-if="loading" status="loading"
         >Loading personal genesets</AppStatus
       >
@@ -18,6 +20,7 @@
       <AppGenesetTable
         v-else-if="userGenesets.length"
         v-model:start="start"
+        v-model:sort="sort"
         :genesets="userGenesets"
         :per-page="perPage"
         :total="total"
@@ -34,6 +37,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch, computed } from "vue";
 import { searchGenesets, Geneset } from "@/api/genesets";
+import { Sort } from "@/components/AppTable.vue";
 import AppGenesetTable from "@/components/AppGenesetTable.vue";
 import AppStatus from "@/components/AppStatus.vue";
 import { useStore } from "@/store";
@@ -48,6 +52,9 @@ const userGenesets = ref<Array<Geneset>>([]);
 const start = ref(0);
 const perPage = ref(10);
 const total = ref(0);
+
+// sort state
+const sort = ref<Sort>();
 
 // loading state
 const loading = ref(false);
@@ -65,7 +72,7 @@ const search = async () => {
       "getUserGenesets",
       `author:${loggedIn.value.username}`,
       undefined,
-      "updated",
+      sort.value,
       start.value,
       perPage.value
     );
@@ -88,8 +95,8 @@ const search = async () => {
 // get logged in state
 const loggedIn = computed(() => store.state.loggedIn);
 
-// run search on pagination change
-watch([start, perPage, loggedIn], search);
+// run search on state change
+watch([loggedIn, start, perPage, sort], search);
 
 // run search on load
 onMounted(search);

@@ -71,7 +71,10 @@ export const searchGenesets = async (
   type: string,
   query?: string,
   species?: Array<string>,
-  sort?: string,
+  sort?: {
+    col: string;
+    dir: "up" | "down" | "";
+  } | null,
   start?: number,
   perPage?: number
 ): Promise<SearchResult> => {
@@ -81,7 +84,14 @@ export const searchGenesets = async (
   // dynamic params
   if (query) params.set("q", query);
   if (species?.length) params.set("species", species.join(","));
-  if (sort) params.set("sort", sort);
+  if (sort) {
+    let cols = [];
+    const dir = sort.dir === "down" ? "-" : "";
+    if (sort.col === "name") cols = ["name", "id"];
+    else if (sort.col === "author") cols = ["author", "source"];
+    else cols = [sort.col];
+    params.set("sort", cols.map((col) => dir + col).join(","));
+  }
   if (start) params.set("from", String(start));
   if (perPage) params.set("size", String(perPage));
   else params.set("size", "100");

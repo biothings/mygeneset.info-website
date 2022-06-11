@@ -90,6 +90,38 @@
       "_score": 5.543135,
       "genes": [
         {
+          "ensemblgene": ["ENSG00000113916"],
+          "mygene_id": "604",
+          "name": "BCL6 transcription repressor",
+          "ncbigene": "604",
+          "symbol": ["BCL6"],
+          "uniprot": ["P41182"]
+        },
+        {
+          "ensemblgene": ["ENSG00000110092"],
+          "mygene_id": "595",
+          "name": "cyclin D1",
+          "ncbigene": "595",
+          "symbol": ["CCND1"],
+          "uniprot": ["P24385"]
+        },
+        {
+          "ensemblgene": ["ENSG00000245848"],
+          "mygene_id": "1050",
+          "name": "CCAAT enhancer binding protein alpha",
+          "ncbigene": "1050",
+          "symbol": ["CEBPA"],
+          "uniprot": ["P49715"]
+        },
+        {
+          "ensemblgene": ["ENSG00000066336"],
+          "mygene_id": "6688",
+          "name": "Spi-1 proto-oncogene",
+          "ncbigene": "6688",
+          "symbol": ["SPI1"],
+          "uniprot": ["P17947"]
+        },
+        {
           "ensemblgene": ["ENSG00000148400"],
           "mygene_id": "4851",
           "name": "notch receptor 1",
