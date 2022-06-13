@@ -23,6 +23,9 @@ export const getMetadata = async (): Promise<MetadataResult> => {
   ).total;
   const privateUserGenesets = userGenesets - publicUserGenesets;
 
+  // other metadata
+  const curatedSources = Object.keys(response.src);
+
   // get usage metadata
   let usage: UsageMetadataResponse = {};
   try {
@@ -37,11 +40,14 @@ export const getMetadata = async (): Promise<MetadataResult> => {
     publicUserGenesets,
     privateUserGenesets,
     curatedGenesets,
+    curatedSources,
     requests: usage["mygeneset.info"]?.no_of_requests || 0,
     ips: usage["mygeneset.info"]?.no_of_unique_ips || 0,
     curatedMeta: mapValues(response.src, (value) => ({
       url: value.url || "",
       logo: value.logo || "",
+      uploaded: value.upload_date ? new Date(value.upload_date) : new Date(),
+      dumped: value.dump_date ? new Date(value.dump_date) : new Date(),
     })),
   };
 };
@@ -58,6 +64,8 @@ interface MetadataResponse {
       };
       url?: string;
       logo?: string;
+      upload_date?: string;
+      dump_date?: string;
     };
   };
 }
@@ -82,6 +90,8 @@ export interface MetadataResult {
   privateUserGenesets: number;
   // number of curated genesets
   curatedGenesets: number;
+  // names/keys of distinct sources for curated genesets
+  curatedSources: Array<string>;
   // number of requests in last 30 days
   requests: number;
   // number of unique IP addresses in last 30 days
@@ -89,8 +99,10 @@ export interface MetadataResult {
   // metadata about curated genesets
   curatedMeta: {
     [key: string]: {
-      url: string;
-      logo: string;
+      url?: string;
+      logo?: string;
+      uploaded?: Date;
+      dumped?: Date;
     };
   };
 }

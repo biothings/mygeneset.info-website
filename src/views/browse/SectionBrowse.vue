@@ -16,6 +16,16 @@
       @select="search"
     />
 
+    <AppFlex>
+      Search by type:
+      <AppSelect v-model="type" :options="typeOptions" />
+      <AppSelect
+        v-if="type === 'curated'"
+        v-model="source"
+        :options="sourceOptions"
+      />
+    </AppFlex>
+
     <AppStatus v-if="loading" status="loading">Loading genesets</AppStatus>
 
     <AppGenesetTable
@@ -30,20 +40,48 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
+import { startCase } from "lodash";
 import AppInput from "@/components/AppInput.vue";
 import AppSpeciesSelect from "@/components/AppSpeciesSelect.vue";
 import AppGenesetTable from "@/components/AppGenesetTable.vue";
+import AppSelect, { Options } from "@/components/AppSelect.vue";
 import { Sort } from "@/components/AppTable.vue";
 import AppStatus from "@/components/AppStatus.vue";
 import { Geneset, searchGenesets } from "@/api/genesets";
 import { isStale } from "@/api";
+import { useStore } from "@/store";
+
+const store = useStore();
 
 // searched keywords
 const keywords = ref("");
 
 // selected species
 const species = ref<Array<string>>([]);
+
+// options for type of geneset
+const typeOptions: Options = [
+  { key: "all", text: "All" },
+  { key: "user", text: "User" },
+  { key: "curated", text: "Curated" },
+  { key: "anonymous", text: "Anonymous" },
+];
+
+// selected type of geneset
+const type = ref("all");
+
+// options for source of curated genesets
+const sourceOptions = computed<Options>(() => [
+  { key: "all", text: "All" },
+  ...(store.state.metadata?.curatedSources?.map((source) => ({
+    key: source,
+    text: startCase(source),
+  })) || []),
+]);
+
+// selected source of curated genesets
+const source = ref("all");
 
 // pagination state
 const start = ref(0);
@@ -67,10 +105,16 @@ const search = async () => {
   // status
   loading.value = true;
 
+  // query string
+  let query = keywords.value;
+  if (type.value === "user") {
+    query += "_exists_:author";
+  }
+
   try {
     const response = await searchGenesets(
       "browseGenesets",
-      keywords.value,
+      query,
       species.value,
       sort.value,
       start.value,

@@ -61,7 +61,7 @@ import {
   downloadGmx,
   downloadGmt,
 } from "@/util/download";
-import { pickBy, zip } from "lodash";
+import { omit, pickBy, zip } from "lodash";
 
 interface Props {
   // current geneset
@@ -115,9 +115,12 @@ const transposeFunc = (data: Table): Table => {
 };
 
 // format data as json
-const formatJson = (): object => ({
+const formatJson = (): Record<string, unknown> => ({
   // all geneset meta
-  ...(meta.value ? props.geneset : {}),
+  ...(meta.value
+    ? { ...omit(props.geneset, "genes"), count: props.geneset.genes.length }
+    : {}),
+
   // format genes
   genes: props.geneset.genes.map((gene) =>
     pickBy(gene, (value, key) =>
@@ -137,14 +140,20 @@ const flattenGene = (value: Gene[keyof Gene]): string => {
 const formatCsv = (): Table => [
   // select geneset meta
   ...(meta.value
-    ? [
-        ["ID", props.geneset.id || ""],
-        ["Name", props.geneset.name || ""],
-        ["Description", props.geneset.description || ""],
-        // spacer
-        [""],
-      ]
+    ? transposeFunc([
+        ["ID", "Name", "Description", "Count"],
+        [
+          props.geneset.id || "",
+          props.geneset.name || "",
+          props.geneset.description || "",
+          String(props.geneset.genes.length) || "",
+        ],
+      ])
     : []),
+
+  // spacer
+  ...(meta.value ? [[""]] : []),
+
   // format genes
   ...transposeFunc([
     // labels
@@ -165,10 +174,13 @@ const formatGmx = () =>
           [props.geneset.id],
           [props.geneset.name],
           [props.geneset.description],
-          // spacer
-          [""],
+          [String(props.geneset.genes.length)],
         ]
       : []),
+
+    // spacer
+    ...(meta.value ? [[""]] : []),
+
     // format genes
     ...props.geneset.genes
       .map((gene) =>

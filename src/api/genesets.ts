@@ -87,10 +87,9 @@ export const searchGenesets = async (
   if (sort) {
     let cols = [];
     const dir = sort.dir === "down" ? "-" : "";
-    if (sort.col === "name") cols = ["name", "id"];
-    else if (sort.col === "author") cols = ["author", "source"];
+    if (sort.col === "author") cols = ["author", "source"];
     else cols = [sort.col];
-    params.set("sort", cols.map((col) => dir + col).join(","));
+    cols.forEach((col) => params.append("sort", dir + col));
   }
   if (start) params.set("from", String(start));
   if (perPage) params.set("size", String(perPage));

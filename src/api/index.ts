@@ -1,7 +1,8 @@
 // api endpoint base urls
 export const biothings = "https://t.biothings.io/v1";
-export const mygeneset = "https://mygeneset.info/v1";
 export const mygene = "https://mygene.info/v3";
+export const mygeneset = "https://mygeneset.info/v1";
+// export const mygeneset = "https://localhost:9200" // when running local instance of backend
 
 // make request and get json results
 export const request = async <Response>(

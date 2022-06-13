@@ -41,10 +41,8 @@
     </template>
 
     <!-- name col -->
-    <template #name="{ row }">
-      <AppLink :to="`/geneset/${row.id}`">{{
-        row.name || row.id?.split("_")?.join(" ") || "-"
-      }}</AppLink>
+    <template #name="{ cell, row }">
+      <AppLink :to="`/geneset/${row.id}`">{{ cell || "-" }}</AppLink>
     </template>
 
     <!-- author/source -->
@@ -56,11 +54,12 @@
       >
         {{ row.source }}
       </AppLink>
+      <template v-else>-</template>
     </template>
 
     <!-- number of genes col -->
     <template #count="{ cell }">
-      {{ cell.length.toLocaleString() }}
+      {{ cell?.toLocaleString() || "-" }}
     </template>
 
     <!-- gene list col -->
@@ -105,7 +104,8 @@ const cols: Array<Col> = [
   },
   {
     id: "name",
-    heading: "Name / ID",
+    key: "name",
+    heading: "Name",
     width: "200px",
     sortable: true,
   },
@@ -118,10 +118,11 @@ const cols: Array<Col> = [
   },
   {
     id: "count",
-    key: "genes",
+    key: "count",
     heading: "# of Genes",
     width: "50px",
     align: "center",
+    sortable: true,
   },
   {
     id: "genes",

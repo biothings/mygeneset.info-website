@@ -15,7 +15,8 @@ const download = (
 };
 
 // format object as json string
-export const stringifyJson = (data: object) => JSON.stringify(data, null, 2);
+export const stringifyJson = (data: Record<string, unknown>) =>
+  JSON.stringify(data, null, 2);
 
 // format array of arrays as csv string
 export const stringifyCsv = (data: Array<Array<string>>) =>

@@ -11,15 +11,15 @@
 </template>
 
 <script setup lang="ts">
-type Option = string;
+export type Option = string;
 
-type Options = Array<{
-  // text to show for option
-  text: string;
+export type Options = Array<{
   // unique key/value for option
   key: string;
+  // text to show for option
+  text: string;
 
-  // allow any other params, will be ignored
+  // allow any other params (will be ignored)
   [key: string]: unknown;
 }>;
 
