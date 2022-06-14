@@ -7,41 +7,39 @@
 
     <!-- icons that identify the type of geneset -->
     <AppFlex class="tags">
+      <!-- new/editable/read-only -->
       <div v-if="fresh">
         <AppIcon icon="wand-magic-sparkles" />
         New
       </div>
-
       <div v-else-if="editable">
         <AppIcon icon="pencil" />
         Editable
       </div>
-
       <div v-else>
         <AppIcon icon="eye" />
         Read-only
       </div>
 
+      <!-- public/private -->
       <div v-if="geneset.isPublic">
         <AppIcon icon="globe" class="icon" />
         Public
       </div>
-
       <div v-else>
         <AppIcon icon="key" class="icon" />
         Private
       </div>
 
+      <!-- curated/user/anonymous -->
       <div v-if="geneset.source">
         <AppIcon icon="box" class="icon" />
         Curated
       </div>
-
       <div v-else-if="geneset.author">
         <AppIcon icon="user" class="icon" />
         User
       </div>
-
       <div v-else>
         <AppIcon icon="user-secret" class="icon" />
         Anonymous

@@ -9,9 +9,10 @@
       website or programmatically through the
       <AppLink to="/api">API</AppLink>.
     </p>
+
+    <!-- key, distilled, succinct use-cases of app and api -->
     <AppFlex direction="col" h-align="stretch">
       <p>Use MyGeneset to:</p>
-      <!-- key, distilled, succinct use-cases of app and api -->
       <ul>
         <li>analyze large genomic data without programming experience</li>
         <li>

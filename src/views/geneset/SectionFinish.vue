@@ -5,13 +5,13 @@
     <!-- diff -->
     <AppFlex direction="col" gap="small">
       <div v-if="edited" class="edited">
-        <span>Edited </span><span>{{ edited }}</span>
+        <span>Edited</span> <span>{{ edited }}</span>
       </div>
       <div v-if="added" class="added">
-        <span>Added </span><span>{{ added }} gene(s)</span>
+        <span>Added</span> <span>{{ added }} gene(s)</span>
       </div>
       <div v-if="removed" class="removed">
-        <span>Removed </span><span>{{ removed }} gene(s)</span>
+        <span>Removed</span> <span>{{ removed }} gene(s)</span>
       </div>
     </AppFlex>
 

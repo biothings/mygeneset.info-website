@@ -3,12 +3,15 @@
 -->
 
 <template>
+  <!-- block of code -->
   <div v-if="flow === 'block'" class="block">
     <div v-if="heading" class="heading">{{ heading }}</div>
     <code ref="code" class="code">
       <slot />
     </code>
   </div>
+
+  <!-- inline code -->
   <span v-else class="inline">
     <code ref="code" class="code">
       <slot />

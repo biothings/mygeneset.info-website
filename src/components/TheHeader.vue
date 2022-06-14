@@ -31,7 +31,10 @@
     <!-- right section (account stuff) -->
     <div class="account" :data-expanded="expanded">
       <template v-if="loggedIn">
+        <!-- log out -->
         <AppLink class="link" @click.prevent="logout">Log Out</AppLink>
+
+        <!-- circle image/initials -->
         <AppLink
           v-tippy="`Your user profile, ${name}`"
           class="avatar"
@@ -43,6 +46,8 @@
           </div>
         </AppLink>
       </template>
+
+      <!-- log in -->
       <template v-else>
         <AppLink class="link" to="/login">Log In</AppLink>
       </template>

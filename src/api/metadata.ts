@@ -46,8 +46,8 @@ export const getMetadata = async (): Promise<MetadataResult> => {
     curatedMeta: mapValues(response.src, (value) => ({
       url: value.url || "",
       logo: value.logo || "",
-      uploaded: value.upload_date ? new Date(value.upload_date) : new Date(),
-      dumped: value.dump_date ? new Date(value.dump_date) : new Date(),
+      uploaded: value.upload_date ? new Date(value.upload_date) : undefined,
+      dumped: value.dump_date ? new Date(value.dump_date) : undefined,
     })),
   };
 };

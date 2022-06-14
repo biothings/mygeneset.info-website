@@ -3,7 +3,9 @@
     <AppHeading level="2" link="try">Try It Out</AppHeading>
 
     <!-- list of demo request options -->
-    <AppChecklist v-model="requests" :single="true" />
+    <AppFlex gap="small">
+      <AppChecklist v-model="requests" :single="true" name="request-types" />
+    </AppFlex>
 
     <!-- request command code box -->
     <AppCode
@@ -12,10 +14,13 @@
       heading="Edit me!"
       @text="(value) => (command = value)"
     >
+      <!-- static text -->
       <span>{{ selected?.method }}</span>
       <span>&nbsp;</span>
       <span>{{ base }}</span>
       <span>{{ selected?.path }}</span>
+
+      <!-- editable fields -->
       <template
         v-for="(field, index) in selected?.fields"
         :key="selected?.text + ' ' + index"

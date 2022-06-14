@@ -137,3 +137,11 @@ export interface SearchResult {
   genes: Array<Gene>;
   total: number;
 }
+
+// make a gene identifier into pure string
+export const flattenGeneId = (id: Gene[keyof Gene]): string => {
+  // if array, only take first value
+  if (Array.isArray(id)) return id[0];
+  if (typeof id === "string") return id;
+  return "";
+};

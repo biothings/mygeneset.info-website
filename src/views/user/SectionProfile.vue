@@ -5,40 +5,45 @@
     }}</AppHeading>
 
     <div class="details">
+      <!-- your genesets -->
       <div>
         <AppIcon icon="dna" class="icon fa-fw" />
         <span>Your Genesets</span>
       </div>
       <AppLink to="/build"
         >{{
-          $store.state.loggedIn?.genesetCount?.toLocaleString() || "..."
+          $store.state.loggedIn?.genesetCount?.toLocaleString() || "-"
         }}
         genesets</AppLink
       >
 
+      <!-- service linked -->
       <div>
         <AppIcon icon="link" class="icon fa-fw" />
         <span>Linked with</span>
       </div>
-      <div>{{ $store.state.loggedIn?.provider }}</div>
+      <div>{{ $store.state.loggedIn?.provider || "-" }}</div>
 
+      <!-- username -->
       <div>
         <AppIcon icon="user" class="icon fa-fw" />
         <span>Username</span>
       </div>
-      <div>{{ $store.state.loggedIn?.username }}</div>
+      <div>{{ $store.state.loggedIn?.username || "-" }}</div>
 
+      <!-- email -->
       <div>
         <AppIcon icon="envelope" class="icon fa-fw" />
         <span>Email</span>
       </div>
-      <div>{{ $store.state.loggedIn?.email }}</div>
+      <div>{{ $store.state.loggedIn?.email || "-" }}</div>
 
+      <!-- organization -->
       <div>
         <AppIcon icon="school" class="icon fa-fw" />
         <span>Organization</span>
       </div>
-      <div>{{ $store.state.loggedIn?.organization }}</div>
+      <div>{{ $store.state.loggedIn?.organization || "-" }}</div>
     </div>
   </AppSection>
 </template>

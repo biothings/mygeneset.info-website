@@ -2,6 +2,7 @@
   <AppSection>
     <AppHeading level="2" icon="sign-in-alt">Log in / Sign up</AppHeading>
 
+    <!-- login buttons -->
     <AppFlex>
       <AppButton
         icon="github"

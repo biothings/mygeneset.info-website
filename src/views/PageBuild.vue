@@ -1,7 +1,9 @@
 <template>
-  <SectionDashboard />
+  <SectionNew />
+  <SectionYourGenesets />
 </template>
 
 <script setup lang="ts">
-import SectionDashboard from "./build/SectionDashboard.vue";
+import SectionNew from "./build/SectionNew.vue";
+import SectionYourGenesets from "./build/SectionYourGenesets.vue";
 </script>

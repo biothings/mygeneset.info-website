@@ -2,6 +2,7 @@
   <AppSection>
     <AppHeading level="2" link="team">Team</AppHeading>
 
+    <!-- overview -->
     <p>
       MyGeneset was made by the
       <AppLink to="https://biothings.io/">BioThings collaboration</AppLink>, a
@@ -10,6 +11,8 @@
       tools for biomedical knowledge. This specific tool was made possible
       thanks to these contributors.
     </p>
+
+    <!-- members -->
     <AppGallery>
       <AppLink
         v-for="(member, index) in members"

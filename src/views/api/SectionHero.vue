@@ -4,8 +4,11 @@
       <template #aTop>{{
         requests ? requests.toLocaleString() : "-"
       }}</template>
+
       <template #aBottom>requests in last 30 days</template>
+
       <template #bTop>{{ ips ? ips.toLocaleString() : "-" }}</template>
+
       <template #bBottom> unique IPs in last 30 days</template>
     </AppHero>
   </AppSection>

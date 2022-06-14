@@ -4,26 +4,34 @@
 
 <template>
   <label class="label">
-    <div class="container">
-      <textarea
-        v-if="multi"
-        ref="element"
-        class="textarea"
-        :value="multiValue"
-        :placeholder="placeholder"
-        @input="onMulti"
-        @change="onMulti"
+    <textarea
+      v-if="multi"
+      ref="element"
+      class="textarea"
+      :value="multiValue"
+      :placeholder="placeholder"
+      @input="onMulti"
+      @change="onMulti"
+    >
+    </textarea>
+    <input
+      v-else
+      ref="element"
+      class="input"
+      :value="singleValue"
+      :placeholder="placeholder"
+      @input="onSingle"
+      @change="onSingle"
+    />
+    <div class="buttons">
+      <button
+        v-if="clearable"
+        v-tippy="'Clear text'"
+        class="button"
+        @click="clear"
       >
-      </textarea>
-      <input
-        v-else
-        ref="element"
-        class="input"
-        :value="singleValue"
-        :placeholder="placeholder"
-        @input="onSingle"
-        @change="onSingle"
-      />
+        <AppIcon icon="times" />
+      </button>
       <button
         v-if="mode === 'switchable'"
         v-tippy="
@@ -49,12 +57,15 @@ interface Props {
   placeholder?: string;
   // line mode
   mode?: "single" | "multi" | "switchable";
+  // whether clear button should show
+  clearable?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: "",
   placeholder: "",
   mode: "single",
+  clearable: true,
 });
 
 interface Emits {
@@ -80,6 +91,14 @@ watch(multi, async () => {
   await nextTick();
   element.value.dispatchEvent(new Event("input"));
 });
+
+// clear text
+const clear = () => {
+  const input = element.value as HTMLInputElement;
+  input.value = "";
+  input.dispatchEvent(new Event("input"));
+  input.dispatchEvent(new Event("change"));
+};
 
 // input value handler for multi-line mode
 const multiValue = computed(() =>
@@ -115,7 +134,6 @@ const onChange = (value: Props["modelValue"]) => {
   debouncedOnChange.cancel();
 
   // if on change (for this value) has not already emitted
-  console.log(value, last.value);
   if (!isEqual(value, last.value)) {
     emit("change");
     last.value = cloneDeep(value);
@@ -132,38 +150,25 @@ onBeforeUnmount(debouncedOnChange.cancel);
 <style scoped lang="scss">
 .label {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
   width: 100%;
+  max-width: 100%;
   --height: 40px;
-}
+  background: $white;
+  border: solid 2px $off-black;
+  border-radius: $rounded;
+  transition: box-shadow $fast;
 
-.container {
-  position: relative;
-  width: 100%;
-}
-
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: var(--height);
-  height: var(--height);
-  background: none;
-  border: none;
+  &:focus-within {
+    box-shadow: 0 0 0 2px $theme;
+  }
 }
 
 .input,
 .textarea {
-  width: 100%;
-  background: $white;
-  border: solid 2px $off-black;
-  border-radius: $rounded;
+  flex-grow: 1;
+  background: none;
+  border: none;
   outline: none;
-  transition: box-shadow $fast;
 }
 
 .input {
@@ -173,25 +178,32 @@ onBeforeUnmount(debouncedOnChange.cancel);
 }
 
 .textarea {
-  min-width: 100%;
-  max-width: 100%;
   min-height: calc(var(--height) * 2);
   height: calc(var(--height) * 2);
   padding: calc(var(--height) * 0.25);
   line-height: 1.5;
 }
 
-.container[data-icon="true"] {
-  .input,
-  .textarea {
-    padding-right: calc(var(--height) * 0.85);
-  }
+.buttons {
+  display: flex;
+  margin-right: calc(0.15 * var(--height));
+  height: var(--height);
 }
 
-.input:hover,
-.input:focus,
-.textarea:hover,
-.textarea:focus {
-  box-shadow: 0 0 0 2px $theme;
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(0.75 * var(--height));
+  height: var(--height);
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color $fast;
+
+  &:hover,
+  &:focus {
+    color: $theme;
+  }
 }
 </style>

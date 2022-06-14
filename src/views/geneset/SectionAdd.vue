@@ -2,36 +2,45 @@
   <AppSection>
     <AppHeading level="3" icon="plus" link="add">Add Genes</AppHeading>
 
+    <!-- note -->
     <i
       >Switch to multi-line mode to paste comma/tab/newline-separated
       keywords</i
     >
 
-    <AppInput
-      v-model="keywords"
-      placeholder="Search genes by keyword"
-      icon="search"
-      mode="switchable"
-      @change="search"
-    />
+    <!-- search -->
+    <AppFlex direction="col">
+      <AppInput
+        v-model="keywords"
+        placeholder="Search genes by keyword"
+        icon="search"
+        mode="switchable"
+        @change="search"
+      />
 
-    <AppSpeciesSelect
-      v-model="species"
-      placeholder="Search genes by species"
-      @deselect="search"
-      @select="search"
-    />
+      <AppSpeciesSelect
+        v-model="species"
+        placeholder="Search genes by species"
+        @deselect="search"
+        @select="search"
+      />
+    </AppFlex>
 
-    <AppStatus v-if="loading" status="loading">Loading genes</AppStatus>
-
+    <!-- gene results -->
     <AppTable
-      v-else-if="results.length"
       v-model:start="start"
-      :rows="results"
+      :rows="geneResults"
       :cols="cols"
       :per-page="perPage"
       :total="total"
     >
+      <!-- status -->
+      <AppStatus v-if="loading" status="loading">Loading genes</AppStatus>
+      <AppStatus v-else-if="!geneResults.length" status="warning"
+        >No genes</AppStatus
+      >
+
+      <!-- action col -->
       <template #action="{ row }">
         <AppButton
           v-tippy="
@@ -84,9 +93,9 @@ const total = ref(0);
 const loading = ref(false);
 
 // gene results
-const results = ref<Array<Gene>>([]);
+const geneResults = ref<Array<Gene>>([]);
 
-// results table columns to show
+// gene results table columns to show
 const cols: Array<Col> = [
   {
     id: "action",
@@ -142,7 +151,7 @@ const search = async () => {
   if (!species.value.length && !keywords.value.length) return;
 
   // reset response
-  results.value = [];
+  geneResults.value = [];
 
   // status
   loading.value = true;
@@ -156,14 +165,14 @@ const search = async () => {
       perPage.value
     );
 
-    results.value = response.genes;
+    geneResults.value = response.genes;
     total.value = response.total;
   } catch (error) {
     console.error(error);
 
     if (isStale(error)) return;
 
-    results.value = [];
+    geneResults.value = [];
     total.value = 0;
   }
 

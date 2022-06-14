@@ -2,6 +2,7 @@
   <AppSection>
     <AppHeading level="2" link="support">Support Us</AppHeading>
 
+    <!-- grants -->
     <p>
       The tools created by the BioThings collaboration are funded by grants from
       the
@@ -25,6 +26,8 @@
       like them to remain that way. If you found our tools useful, please help
       support us by spreading the word and demonstrating its value:
     </p>
+
+    <!-- share/follow actions -->
     <AppFlex>
       <AppButton
         to="https://biothings.io/branding"

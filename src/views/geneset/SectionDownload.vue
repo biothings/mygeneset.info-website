@@ -5,7 +5,7 @@
     <!-- options -->
     <AppFlex>
       <AppFlex gap="small">
-        <span>Format:</span>
+        Format:
         <AppSelect v-model="format" :options="formatOptions" />
         <AppCheckbox
           v-model="transpose"
@@ -21,8 +21,8 @@
       </AppFlex>
 
       <AppFlex gap="small">
-        <span>Gene identifiers:</span>
-        <AppChecklist v-model="identifiers" />
+        Gene identifiers:
+        <AppChecklist v-model="identifiers" name="gene-identifiers" />
       </AppFlex>
     </AppFlex>
 
@@ -48,7 +48,7 @@ import AppChecklist from "@/components/AppChecklist.vue";
 import AppSelect from "@/components/AppSelect.vue";
 import AppCheckbox from "@/components/AppCheckbox.vue";
 import AppCode from "@/components/AppCode.vue";
-import { Gene } from "@/api/genes";
+import { flattenGeneId, Gene } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import {
   stringifyJson,
@@ -74,9 +74,9 @@ const props = defineProps<Props>();
 type Identifier = { text: string; key: keyof Gene; checked: boolean };
 const identifiers = ref<Array<Identifier>>([
   { text: "ID", key: "id", checked: true },
+  { text: "Symbol", key: "symbol", checked: true },
   { text: "Name", key: "name", checked: true },
   { text: "Alias", key: "alias", checked: false },
-  { text: "Symbol", key: "symbol", checked: false },
   { text: "Ensembl", key: "ensemblgene", checked: false },
   { text: "Uniprot", key: "uniprot", checked: false },
 ]);
@@ -89,14 +89,14 @@ const selectedIdentifiers = computed(() =>
 // file format options
 type FormatOption = { text: string; key: string };
 const formatOptions: Array<FormatOption> = [
-  { text: "JSON (.json)", key: "json" },
-  { text: "Comma-separated (.csv)", key: "csv" },
-  { text: "Tab-separated (.tsv)", key: "tsv" },
-  { text: " Gene MatriX (.gmx / .gmt)", key: "gmx" },
+  { key: "csv", text: "Comma-separated (.csv)" },
+  { key: "tsv", text: "Tab-separated (.tsv)" },
+  { key: "json", text: "JSON (.json)" },
+  { key: "gmx", text: " Gene MatriX (.gmx / .gmt)" },
 ];
 
 // selected file format
-const format = ref("csv");
+const format = ref(formatOptions[0].key);
 
 // whether to include geneset meta or just genes
 const meta = ref(false);
@@ -129,13 +129,6 @@ const formatJson = (): Record<string, unknown> => ({
   ),
 });
 
-// make any possible value in gene object into pure string
-const flattenGene = (value: Gene[keyof Gene]): string => {
-  if (Array.isArray(value)) return value[0];
-  if (typeof value === "string") return value;
-  return "";
-};
-
 // format data as csv/tsv
 const formatCsv = (): Table => [
   // select geneset meta
@@ -160,7 +153,7 @@ const formatCsv = (): Table => [
     selectedIdentifiers.value.map((id) => id.text),
     // values
     ...props.geneset.genes.map((gene) =>
-      selectedIdentifiers.value.map((id) => flattenGene(gene[id.key]))
+      selectedIdentifiers.value.map((id) => flattenGeneId(gene[id.key]))
     ),
   ]),
 ];
@@ -184,7 +177,7 @@ const formatGmx = () =>
     // format genes
     ...props.geneset.genes
       .map((gene) =>
-        selectedIdentifiers.value.map((id) => flattenGene(gene[id.key]))
+        selectedIdentifiers.value.map((id) => flattenGeneId(gene[id.key]))
       )
       .flat()
       .filter((gene) => gene)

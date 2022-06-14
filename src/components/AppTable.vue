@@ -10,6 +10,7 @@
       :aria-rowcount="rows.length"
       :style="{ minWidth: minWidth + 'px' }"
     >
+      <!-- head -->
       <thead class="head">
         <tr class="row">
           <th
@@ -18,7 +19,10 @@
             class="cell"
             :style="col.style"
           >
+            <!-- heading content -->
             {{ col.heading }}
+
+            <!-- sort button -->
             <button
               v-if="col.sortable"
               class="sort"
@@ -38,6 +42,8 @@
           </th>
         </tr>
       </thead>
+
+      <!-- body -->
       <tbody class="body">
         <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="row">
           <td
@@ -76,8 +82,14 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- slot for table status -->
+    <div v-if="$slots.default" class="slot">
+      <slot />
+    </div>
   </div>
 
+  <!-- controls -->
   <AppFlex v-if="start >= 0 && perPage > 0 && total > 0" class="controls">
     <AppButton
       v-tippy="'Go to previous page'"
@@ -209,6 +221,10 @@ const changeSort = (id: string) => {
 .wrapper {
   width: 100%;
   overflow: auto;
+}
+
+.slot {
+  max-width: 100vw;
 }
 
 .table {

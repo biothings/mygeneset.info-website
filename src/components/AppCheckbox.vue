@@ -7,7 +7,7 @@
     <input
       class="input"
       :type="type === 'radio' ? 'radio' : 'checkbox'"
-      name="checklist-group"
+      :name="name"
       :checked="modelValue"
       @change="onChange"
     />
@@ -33,9 +33,11 @@ interface Props {
   text: string;
   // type
   type?: "check" | "radio";
+  // name for input, if in check/radio group
+  name?: string;
 }
 
-withDefaults(defineProps<Props>(), { type: "check" });
+withDefaults(defineProps<Props>(), { type: "check", name: undefined });
 
 interface Emits {
   (event: "update:modelValue", checked: boolean): void;

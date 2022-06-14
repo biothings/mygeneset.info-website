@@ -84,13 +84,7 @@ export const searchGenesets = async (
   // dynamic params
   if (query) params.set("q", query);
   if (species?.length) params.set("species", species.join(","));
-  if (sort) {
-    let cols = [];
-    const dir = sort.dir === "down" ? "-" : "";
-    if (sort.col === "author") cols = ["author", "source"];
-    else cols = [sort.col];
-    cols.forEach((col) => params.append("sort", dir + col));
-  }
+  if (sort) params.set("sort", (sort.dir === "down" ? "-" : "") + sort.col);
   if (start) params.set("from", String(start));
   if (perPage) params.set("size", String(perPage));
   else params.set("size", "100");

@@ -3,6 +3,7 @@
     <AppHeading level="2">API</AppHeading>
 
     Use MyGeneset programmatically through its flexible API
+
     <AppFlex>
       <AppButton
         to="/api"

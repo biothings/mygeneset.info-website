@@ -3,6 +3,7 @@
     <AppHeading level="2" link="contact">Contact</AppHeading>
 
     <div class="grid">
+      <!-- email -->
       <AppButton
         to="mailto:biothings@googlegroups.com"
         icon="envelope"
@@ -15,6 +16,8 @@
           >biothings@googlegroups.com</AppLink
         ></span
       >
+
+      <!-- github -->
       <AppButton
         to="https://github.com/biothings/mygeneset.info/"
         icon="github"
@@ -27,6 +30,8 @@
           >GitHub</AppLink
         ></span
       >
+
+      <!-- twitter -->
       <AppButton
         to="https://twitter.com/mygenesetinfo/"
         icon="twitter"
@@ -37,6 +42,8 @@
         >Ask us a question on
         <AppLink to="https://twitter.com/mygenesetinfo/">Twitter</AppLink></span
       >
+
+      <!-- biostars -->
       <AppButton
         to="https://biostars.org/"
         icon="comment"

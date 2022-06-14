@@ -4,6 +4,8 @@
 
 <template>
   <AppTable :rows="genesets" :cols="cols">
+    <slot />
+
     <!-- icons col -->
     <template #icons="{ row }">
       <div class="icons">
@@ -45,16 +47,16 @@
       <AppLink :to="`/geneset/${row.id}`">{{ cell || "-" }}</AppLink>
     </template>
 
-    <!-- author/source -->
-    <template #author="{ row }">
-      <template v-if="row.author">{{ row.author }}</template>
-      <AppLink
-        v-else-if="row.source"
-        :to="$store.state.metadata?.curatedMeta[row.source].url"
-      >
-        {{ row.source }}
+    <!-- author -->
+    <template #author="{ cell }">
+      {{ cell || "-" }}
+    </template>
+
+    <!-- source -->
+    <template #source="{ cell }">
+      <AppLink :to="$store.state.metadata?.curatedMeta[cell]?.url">
+        {{ cell || "-" }}
       </AppLink>
-      <template v-else>-</template>
     </template>
 
     <!-- number of genes col -->
@@ -107,11 +109,20 @@ const cols: Array<Col> = [
     key: "name",
     heading: "Name",
     width: "200px",
-    sortable: true,
+    // sortable: true,
   },
   {
     id: "author",
-    heading: "Author / Source",
+    key: "author",
+    heading: "Author",
+    width: "100px",
+    align: "center",
+    sortable: true,
+  },
+  {
+    id: "source",
+    key: "source",
+    heading: "Source",
     width: "100px",
     align: "center",
     sortable: true,
@@ -119,8 +130,8 @@ const cols: Array<Col> = [
   {
     id: "count",
     key: "count",
-    heading: "# of Genes",
-    width: "50px",
+    heading: "#",
+    width: "80px",
     align: "center",
     sortable: true,
   },
