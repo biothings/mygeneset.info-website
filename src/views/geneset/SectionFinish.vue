@@ -16,7 +16,8 @@
     </AppFlex>
 
     <!-- actions -->
-    <AppFlex>
+    <AppStatus v-if="inProgress" status="loading">Making changes...</AppStatus>
+    <AppFlex v-else>
       <AppButton
         :icon="fresh ? 'wand-magic-sparkles' : 'upload'"
         :text="fresh ? 'Create Geneset' : 'Publish Changes'"
@@ -42,6 +43,7 @@ import { onMounted, ref, watch } from "vue";
 import { reject, startCase } from "lodash";
 import { Geneset } from "@/api/genesets";
 import { Gene } from "@/api/genes";
+import AppStatus from "@/components/AppStatus.vue";
 
 interface Props {
   // current geneset
@@ -53,6 +55,8 @@ interface Props {
   // geneset manipulation functions from parent
   updateGeneset: () => void;
   deleteGeneset: () => void;
+  // whether critical action is in progress
+  inProgress: boolean;
 }
 
 const props = defineProps<Props>();

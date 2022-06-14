@@ -36,7 +36,7 @@ export const request = async <Response>(
 
   // parse response
   if (!response?.ok) throw new Error("Response not ok");
-  const results = response.json();
+  const results = await response.json();
   return results;
 };
 

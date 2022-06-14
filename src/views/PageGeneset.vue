@@ -39,6 +39,7 @@
       :fresh="fresh"
       :update-geneset="updateGeneset"
       :delete-geneset="deleteGeneset"
+      :in-progress="inProgress"
     />
   </template>
 </template>
@@ -99,6 +100,9 @@ const editable = ref(false);
 
 // whether is new geneset (can't use "new" because it's a js keyword)
 const fresh = ref(false);
+
+// whether a critical action (creating/updating/deleting geneset) is in progress
+const inProgress = ref(false);
 
 // load geneset from id in url, or blank if on /new
 const load = async () => {
@@ -179,6 +183,8 @@ const updateGeneset = async () => {
       return;
   }
 
+  inProgress.value = true;
+
   try {
     await updateGenesetApi(
       fresh.value,
@@ -206,6 +212,8 @@ const deleteGeneset = async () => {
     )
   )
     return;
+
+  inProgress.value = true;
 
   try {
     await deleteGenesetApi(geneset.value.id);
