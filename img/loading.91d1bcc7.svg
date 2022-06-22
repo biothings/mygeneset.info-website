@@ -1,0 +1,30 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="15"
+  height="15"
+  viewBox="-50 -50 100 100"
+  id="loading-spinner"
+>
+  <style>
+    #loading-spinner {
+      stroke-dasharray: 212.055;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes loading-spinner-spin {
+      from {
+        dash-strokeoffset: 282.74;
+      }
+      to {
+        dash-strokeoffset: 0;
+      }
+    }
+  </style>
+  <circle
+    fill="none"
+    stroke="currentColor"
+    stroke-width="10"
+    cx="0"
+    cy="0"
+    r="45"
+  />
+</svg>
