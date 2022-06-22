@@ -1,17 +1,26 @@
-import { createApp } from "vue";
+import { createApp, Component } from "vue";
 import { setupWorker } from "msw";
 import App from "@/App.vue";
-import router from "@/router";
-import store from "@/store";
-import { directive } from "@/util/tooltip";
-import vueDebounce from "vue-debounce";
+import components from "@/global/components";
+import plugins from "@/global/plugins";
 import { handlers } from "../tests/fixtures";
 
-createApp(App)
-  .directive("tooltip", directive)
-  .use(store)
-  .use(vueDebounce)
-  .use(router)
-  .mount("#app");
+// create main app object
+let app = createApp(App);
 
-if (process.env.NODE_ENV === "development") setupWorker(...handlers).start();
+// register plugins/middleware
+for (const [plugin, options] of plugins) app = app.use(plugin, options);
+
+// register global components
+for (const [name, component] of Object.entries(components))
+  app = app.component(name, component as Component);
+
+// run app
+(async () => {
+  // use mock api calls when developing locally, like we do during tests
+  if (process.env.NODE_ENV === "development")
+    await setupWorker(...handlers).start({ onUnhandledRequest: "bypass" });
+
+  // render app
+  app.mount("#app");
+})();

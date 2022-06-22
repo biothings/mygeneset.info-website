@@ -1,0 +1,859 @@
+{
+  "took": 5,
+  "total": 34,
+  "max_score": 411.20053,
+  "hits": [
+    {
+      "_id": "17362984",
+      "_score": 411.20053,
+      "accession": {
+        "genomic": ["JH470595.1", "NW_005803919.1"],
+        "protein": ["EKU20152.1", "XP_005856202.1"],
+        "rna": "XM_005856140.1",
+        "translation": { "protein": "XP_005856202.1", "rna": "XM_005856140.1" }
+      },
+      "entrezgene": ["17362984"],
+      "locus_tag": "NGA_2050700",
+      "name": "slingshot",
+      "refseq": {
+        "genomic": "NW_005803919.1",
+        "protein": "XP_005856202.1",
+        "rna": "XM_005856140.1",
+        "translation": { "protein": "XP_005856202.1", "rna": "XM_005856140.1" }
+      },
+      "symbol": ["SSH"],
+      "taxid": 1093141,
+      "type_of_gene": "protein-coding",
+      "uniprot": [{ "TrEMBL": "K8YQU6" }]
+    },
+    {
+      "AllianceGenome": "FB:FBgn0029157",
+      "FLYBASE": "FBgn0029157",
+      "_id": "42986",
+      "_score": 411.20053,
+      "accession": {
+        "genomic": [
+          "AA539164",
+          "AA942485",
+          "AA949797",
+          "AB036834",
+          "AB036834.1",
+          "AE014297.3",
+          "AI295989",
+          "AI532288",
+          "AI532443",
+          "AI945082",
+          "AQ034045",
+          "AW942989",
+          "AY095043",
+          "BF485938",
+          "BF486404",
+          "BF487764",
+          "BF487800",
+          "BF489923",
+          "BF489924",
+          "BF490064",
+          "BF496136",
+          "BF496526",
+          "BF496672",
+          "BF501248",
+          "BF502040",
+          "BF505246",
+          "BF505619",
+          "BF506341",
+          "BF506666",
+          "BG634610",
+          "BG636162",
+          "BG638483",
+          "BT011408",
+          "BT011408.1",
+          "BT120385",
+          "BT120385.1",
+          "CK130863",
+          "CO177066",
+          "CO187389",
+          "CO187502",
+          "CO187901",
+          "CO267713",
+          "CO301525",
+          "CO301604",
+          "CO318680",
+          "CO324018",
+          "CO326795",
+          "EC051629",
+          "EC051633",
+          "EC054261",
+          "EC061724",
+          "EC062291",
+          "EC062762",
+          "EC066855",
+          "EC074004",
+          "EC080103",
+          "EC080486",
+          "EC085234",
+          "EC085236",
+          "EC085237",
+          "EC217916",
+          "EC223575",
+          "EC229444",
+          "EC240897",
+          "EC254439",
+          "EV589018",
+          "EV591890",
+          "EV598461",
+          "NT_033777.3"
+        ],
+        "protein": [
+          "AAF56372.3",
+          "AAM11371",
+          "AAN14027.1",
+          "AAR96200.1",
+          "ACZ95010.1",
+          "ACZ95011.1",
+          "ADD16465.1",
+          "BAA89534",
+          "BAA89534.1",
+          "D3PFH9",
+          "E1JIW2",
+          "NP_001163716.1",
+          "NP_001163717.1",
+          "NP_524492.2",
+          "NP_733063.1",
+          "Q6NN85.2",
+          "Q8SWW1"
+        ],
+        "rna": [
+          "NM_001170245.1",
+          "NM_001170246.1",
+          "NM_079768.4",
+          "NM_170184.2"
+        ],
+        "translation": [
+          { "protein": "NP_001163716.1", "rna": "NM_001170245.1" },
+          { "protein": "NP_001163717.1", "rna": "NM_001170246.1" },
+          { "protein": "NP_733063.1", "rna": "NM_170184.2" },
+          { "protein": "NP_524492.2", "rna": "NM_079768.4" }
+        ]
+      },
+      "alias": [
+        "CG6238",
+        "Dmel\\CG6238",
+        "MKP",
+        "Mkph",
+        "SSH",
+        "Ssh",
+        "l(3)01207"
+      ],
+      "ensembl": {
+        "gene": ["FBgn0029157"],
+        "protein": ["FBpp0084174", "FBpp0084175", "FBpp0290827", "FBpp0290828"],
+        "transcript": [
+          "FBtr0084799",
+          "FBtr0084800",
+          "FBtr0301612",
+          "FBtr0301613"
+        ],
+        "translation": [
+          { "protein": "FBpp0084174", "rna": "FBtr0084799" },
+          { "protein": "FBpp0290827", "rna": "FBtr0301612" },
+          { "protein": "FBpp0290828", "rna": "FBtr0301613" },
+          { "protein": "FBpp0084175", "rna": "FBtr0084800" }
+        ],
+        "type_of_gene": "protein_coding"
+      },
+      "entrezgene": ["42986"],
+      "exons": [
+        {
+          "cdsend": 24943649,
+          "cdsstart": 24939801,
+          "chr": "3R",
+          "position": [
+            [24939002, 24939804],
+            [24939872, 24941781],
+            [24941866, 24942136],
+            [24942202, 24942397],
+            [24942460, 24942526],
+            [24942818, 24943210],
+            [24943275, 24943521],
+            [24943589, 24943895]
+          ],
+          "strand": -1,
+          "transcript": "NM_001170245",
+          "txend": 24943895,
+          "txstart": 24939002
+        },
+        {
+          "cdsend": 24944474,
+          "cdsstart": 24939801,
+          "chr": "3R",
+          "position": [
+            [24939002, 24939804],
+            [24939872, 24941781],
+            [24941866, 24942136],
+            [24942202, 24942397],
+            [24942460, 24942526],
+            [24942818, 24943210],
+            [24943275, 24943521],
+            [24944417, 24944956]
+          ],
+          "strand": -1,
+          "transcript": "NM_001170246",
+          "txend": 24944956,
+          "txstart": 24939002
+        },
+        {
+          "cdsend": 24944474,
+          "cdsstart": 24939428,
+          "chr": "3R",
+          "position": [
+            [24938709, 24941781],
+            [24941866, 24942136],
+            [24942202, 24942397],
+            [24942460, 24942526],
+            [24942818, 24943210],
+            [24943275, 24943521],
+            [24944417, 24944956]
+          ],
+          "strand": -1,
+          "transcript": "NM_079768",
+          "txend": 24944956,
+          "txstart": 24938709
+        },
+        {
+          "cdsend": 24943649,
+          "cdsstart": 24939428,
+          "chr": "3R",
+          "position": [
+            [24939002, 24941781],
+            [24941866, 24942136],
+            [24942202, 24942397],
+            [24942460, 24942526],
+            [24942818, 24943210],
+            [24943275, 24943521],
+            [24943589, 24943895]
+          ],
+          "strand": -1,
+          "transcript": "NM_170184",
+          "txend": 24943895,
+          "txstart": 24939002
+        }
+      ],
+      "generif": [
+        {
+          "pubmed": 16169194,
+          "text": "Ssh acts in the developing eye to limit actin polymerization in the assembling ommatidia, but not in the morphogenetic furrow."
+        },
+        {
+          "pubmed": 22545588,
+          "text": "we found that Capt(Capulet) and Ssh(Slingshot), but not Tsr, share overlapping functions during eye morphogenesis"
+        },
+        {
+          "pubmed": 24587072,
+          "text": "In mature neurons SSH may function as a stabilization factor for filamentous actin instead of promoting actin depolymerization."
+        }
+      ],
+      "genomic_pos": {
+        "chr": "3R",
+        "end": 24944956,
+        "ensemblgene": "FBgn0029157",
+        "start": 24938710,
+        "strand": -1
+      },
+      "go": {
+        "BP": [
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0000278",
+            "pubmed": 17306545,
+            "qualifier": "involved_in",
+            "term": "mitotic cell cycle"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0000902",
+            "pubmed": 11832213,
+            "qualifier": "involved_in",
+            "term": "cell morphogenesis"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0006470",
+            "pubmed": [11832213, 15572110],
+            "qualifier": "involved_in",
+            "term": "protein dephosphorylation"
+          },
+          {
+            "evidence": "NAS",
+            "gocategory": "BP",
+            "id": "GO:0006470",
+            "pubmed": 12367632,
+            "qualifier": "involved_in",
+            "term": "protein dephosphorylation"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0007097",
+            "pubmed": 16169194,
+            "qualifier": "involved_in",
+            "term": "nuclear migration"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0007409",
+            "pubmed": 15572110,
+            "qualifier": "involved_in",
+            "term": "axonogenesis"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0008064",
+            "pubmed": 11832213,
+            "qualifier": "involved_in",
+            "term": "regulation of actin polymerization or depolymerization"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0010591",
+            "pubmed": 17331727,
+            "qualifier": "involved_in",
+            "term": "regulation of lamellipodium assembly"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0016319",
+            "pubmed": 15572110,
+            "qualifier": "involved_in",
+            "term": "mushroom body development"
+          },
+          {
+            "evidence": "IBA",
+            "gocategory": "BP",
+            "id": "GO:0030036",
+            "pubmed": 21873635,
+            "qualifier": "involved_in",
+            "term": "actin cytoskeleton organization"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0030833",
+            "pubmed": 16169194,
+            "qualifier": "involved_in",
+            "term": "regulation of actin filament polymerization"
+          },
+          {
+            "evidence": "IBA",
+            "gocategory": "BP",
+            "id": "GO:0030837",
+            "pubmed": 21873635,
+            "qualifier": "involved_in",
+            "term": "negative regulation of actin filament polymerization"
+          },
+          {
+            "evidence": "IDA",
+            "gocategory": "BP",
+            "id": "GO:0030837",
+            "pubmed": 11832213,
+            "qualifier": "involved_in",
+            "term": "negative regulation of actin filament polymerization"
+          },
+          {
+            "evidence": "IGI",
+            "gocategory": "BP",
+            "id": "GO:0048749",
+            "pubmed": 17097274,
+            "qualifier": "involved_in",
+            "term": "compound eye development"
+          },
+          {
+            "evidence": "IGI",
+            "gocategory": "BP",
+            "id": "GO:0050770",
+            "pubmed": 25411210,
+            "qualifier": "involved_in",
+            "term": "regulation of axonogenesis"
+          },
+          {
+            "evidence": "IMP",
+            "gocategory": "BP",
+            "id": "GO:0050770",
+            "pubmed": 15572110,
+            "qualifier": "involved_in",
+            "term": "regulation of axonogenesis"
+          }
+        ],
+        "CC": [
+          {
+            "evidence": "IBA",
+            "gocategory": "CC",
+            "id": "GO:0005737",
+            "pubmed": 21873635,
+            "qualifier": "is_active_in",
+            "term": "cytoplasm"
+          },
+          {
+            "evidence": "IDA",
+            "gocategory": "CC",
+            "id": "GO:0045177",
+            "pubmed": 16169194,
+            "qualifier": "located_in",
+            "term": "apical part of cell"
+          }
+        ],
+        "MF": [
+          {
+            "category": "MF",
+            "evidence": "IBA",
+            "id": "GO:0003779",
+            "pubmed": 21873635,
+            "qualifier": "enables",
+            "term": "actin binding"
+          },
+          {
+            "category": "MF",
+            "evidence": "IDA",
+            "id": "GO:0003779",
+            "pubmed": 11832213,
+            "qualifier": "enables",
+            "term": "actin binding"
+          },
+          {
+            "category": "MF",
+            "evidence": "IBA",
+            "id": "GO:0004721",
+            "pubmed": 21873635,
+            "qualifier": "enables",
+            "term": "phosphoprotein phosphatase activity"
+          },
+          {
+            "category": "MF",
+            "evidence": "IDA",
+            "id": "GO:0004721",
+            "pubmed": 11832213,
+            "qualifier": "enables",
+            "term": "phosphoprotein phosphatase activity"
+          },
+          {
+            "category": "MF",
+            "evidence": "IDA",
+            "id": "GO:0017017",
+            "pubmed": 16169194,
+            "qualifier": "NOT enables",
+            "term": "MAP kinase tyrosine/serine/threonine phosphatase activity"
+          }
+        ]
+      },
+      "interpro": [
+        {
+          "desc": "Tyrosine specific protein phosphatases domain",
+          "id": "IPR000387",
+          "short_desc": "TYR_PHOSPHATASE_dom"
+        },
+        { "desc": "DEK, C-terminal", "id": "IPR014876", "short_desc": "DEK_C" },
+        {
+          "desc": "Protein-tyrosine phosphatase, active site",
+          "id": "IPR016130",
+          "short_desc": "Tyr_Pase_AS"
+        },
+        {
+          "desc": "Dual specificity protein phosphatase domain",
+          "id": "IPR020422",
+          "short_desc": "TYR_PHOSPHATASE_DUAL_dom"
+        },
+        {
+          "desc": "Protein-tyrosine phosphatase-like",
+          "id": "IPR029021",
+          "short_desc": "Prot-tyrosine_phosphatase-like"
+        },
+        {
+          "desc": "Protein phosphatase Slingshot-like",
+          "id": "IPR043587",
+          "short_desc": "Phosphatase_SSH-like"
+        },
+        {
+          "desc": "Slingshot, N-terminal",
+          "id": "IPR043588",
+          "short_desc": "SSH-N"
+        }
+      ],
+      "locus_tag": "Dmel_CG6238",
+      "map_location": "96B10-96B11|3-86 cM",
+      "name": "slingshot",
+      "other_names": [
+        "CG6238-PA",
+        "CG6238-PB",
+        "CG6238-PC",
+        "CG6238-PD",
+        "MAP-kinase-phosphatase",
+        "MKP-like",
+        "slingshot",
+        "ssh-PA",
+        "ssh-PB",
+        "ssh-PC",
+        "ssh-PD"
+      ],
+      "pfam": ["PF00782", "PF08766"],
+      "prosite": ["PS50054", "PS50056"],
+      "refseq": {
+        "genomic": "NT_033777.3",
+        "protein": [
+          "NP_001163716.1",
+          "NP_001163717.1",
+          "NP_524492.2",
+          "NP_733063.1"
+        ],
+        "rna": [
+          "NM_001170245.1",
+          "NM_001170246.1",
+          "NM_079768.4",
+          "NM_170184.2"
+        ],
+        "translation": [
+          { "protein": "NP_001163716.1", "rna": "NM_001170245.1" },
+          { "protein": "NP_001163717.1", "rna": "NM_001170246.1" },
+          { "protein": "NP_733063.1", "rna": "NM_170184.2" },
+          { "protein": "NP_524492.2", "rna": "NM_079768.4" }
+        ]
+      },
+      "reporter": { "DroGene-1_0": "18195414" },
+      "symbol": ["ssh"],
+      "taxid": 7227,
+      "type_of_gene": "protein-coding",
+      "unigene": "Dm.1518",
+      "uniprot": [{ "Swiss-Prot": "Q6NN85", "TrEMBL": ["E1JIW2", "D3PFH9"] }]
+    },
+    {
+      "_id": "MGG_09210",
+      "_score": 58.906998,
+      "name": "Ssh-4",
+      "taxid": 242507
+    },
+    {
+      "_id": "MAPG_09925",
+      "_score": 58.906998,
+      "ensembl": {
+        "gene": ["MAPG_09925"],
+        "protein": "MAPG_09925T0",
+        "transcript": "MAPG_09925T0",
+        "translation": [{ "protein": "MAPG_09925T0", "rna": "MAPG_09925T0" }],
+        "type_of_gene": "protein_coding"
+      },
+      "genomic_pos": {
+        "chr": "supercont1.12",
+        "end": 362137,
+        "ensemblgene": "MAPG_09925",
+        "start": 358565,
+        "strand": -1
+      },
+      "interpro": [
+        {
+          "desc": "B30.2/SPRY domain",
+          "id": "IPR001870",
+          "short_desc": "B30.2/SPRY"
+        },
+        { "desc": "SPRY domain", "id": "IPR003877", "short_desc": "SPRY_dom" },
+        {
+          "desc": "Concanavalin A-like lectin/glucanase domain superfamily",
+          "id": "IPR013320",
+          "short_desc": "ConA-like_dom_sf"
+        },
+        {
+          "desc": "Ssh4-like, SPRY domain",
+          "id": "IPR035780",
+          "short_desc": "SPRY_Ssh4-like"
+        },
+        {
+          "desc": "B30.2/SPRY domain superfamily",
+          "id": "IPR043136",
+          "short_desc": "B30.2/SPRY_sf"
+        }
+      ],
+      "name": "ssh-4",
+      "pfam": "PF00622",
+      "prosite": "PS50188",
+      "taxid": 644358
+    },
+    {
+      "_id": "20350946",
+      "_score": 58.906998,
+      "accession": {
+        "genomic": ["GL385400.1", "NW_008804550.1"],
+        "protein": ["EJT71228.1", "XP_009226625.1"],
+        "rna": "XM_009228361.1",
+        "translation": { "protein": "XP_009226625.1", "rna": "XM_009228361.1" }
+      },
+      "ensembl": {
+        "gene": ["GGTG_10488"],
+        "protein": "EJT71228",
+        "transcript": "EJT71228",
+        "translation": [{ "protein": "EJT71228", "rna": "EJT71228" }],
+        "type_of_gene": "protein_coding"
+      },
+      "entrezgene": ["20350946"],
+      "genomic_pos": {
+        "chr": "supercont2.6",
+        "end": 401763,
+        "ensemblgene": "GGTG_10488",
+        "start": 400098,
+        "strand": -1
+      },
+      "interpro": [
+        {
+          "desc": "B30.2/SPRY domain",
+          "id": "IPR001870",
+          "short_desc": "B30.2/SPRY"
+        },
+        { "desc": "SPRY domain", "id": "IPR003877", "short_desc": "SPRY_dom" },
+        {
+          "desc": "Concanavalin A-like lectin/glucanase domain superfamily",
+          "id": "IPR013320",
+          "short_desc": "ConA-like_dom_sf"
+        },
+        {
+          "desc": "Ssh4-like, SPRY domain",
+          "id": "IPR035780",
+          "short_desc": "SPRY_Ssh4-like"
+        },
+        {
+          "desc": "B30.2/SPRY domain superfamily",
+          "id": "IPR043136",
+          "short_desc": "B30.2/SPRY_sf"
+        }
+      ],
+      "locus_tag": "GGTG_10488",
+      "name": "ssh-4",
+      "pfam": "PF00622",
+      "prosite": "PS50188",
+      "refseq": {
+        "genomic": "NW_008804550.1",
+        "protein": "XP_009226625.1",
+        "rna": "XM_009228361.1",
+        "translation": { "protein": "XP_009226625.1", "rna": "XM_009228361.1" }
+      },
+      "symbol": ["GGTG_10488"],
+      "taxid": 644352,
+      "type_of_gene": "protein-coding",
+      "uniprot": [{ "TrEMBL": "J3PAG2" }]
+    },
+    {
+      "_id": "3877618",
+      "_score": 58.906998,
+      "accession": {
+        "genomic": ["CM002240.1", "NC_026505.1"],
+        "protein": ["EAA32218.2", "Q96UB6.2", "XP_961454.2"],
+        "rna": "XM_956361.3",
+        "translation": { "protein": "XP_961454.2", "rna": "XM_956361.3" }
+      },
+      "ensembl": {
+        "gene": ["NCU03678"],
+        "protein": "EAA32218",
+        "transcript": "EAA32218",
+        "translation": [{ "protein": "EAA32218", "rna": "EAA32218" }],
+        "type_of_gene": "protein_coding"
+      },
+      "entrezgene": ["3877618"],
+      "genomic_pos": {
+        "chr": "V",
+        "end": 2044859,
+        "ensemblgene": "NCU03678",
+        "start": 2041483,
+        "strand": -1
+      },
+      "homologene": {
+        "genes": [
+          [4896, 2539213],
+          [5141, 3877618],
+          [318829, 2680238]
+        ],
+        "id": 22177
+      },
+      "interpro": [
+        {
+          "desc": "B30.2/SPRY domain",
+          "id": "IPR001870",
+          "short_desc": "B30.2/SPRY"
+        },
+        { "desc": "SPRY domain", "id": "IPR003877", "short_desc": "SPRY_dom" },
+        {
+          "desc": "Concanavalin A-like lectin/glucanase domain superfamily",
+          "id": "IPR013320",
+          "short_desc": "ConA-like_dom_sf"
+        },
+        {
+          "desc": "Ssh4-like, SPRY domain",
+          "id": "IPR035780",
+          "short_desc": "SPRY_Ssh4-like"
+        },
+        {
+          "desc": "B30.2/SPRY domain superfamily",
+          "id": "IPR043136",
+          "short_desc": "B30.2/SPRY_sf"
+        }
+      ],
+      "locus_tag": "NCU03678",
+      "name": "ssh-4",
+      "pfam": "PF00622",
+      "pir": "T48825",
+      "prosite": "PS50188",
+      "refseq": {
+        "genomic": "NC_026505.1",
+        "protein": "XP_961454.2",
+        "rna": "XM_956361.3",
+        "translation": { "protein": "XP_961454.2", "rna": "XM_956361.3" }
+      },
+      "retired": 2704852,
+      "symbol": ["NCU03678"],
+      "taxid": 367110,
+      "type_of_gene": "protein-coding",
+      "uniprot": [{ "Swiss-Prot": "Q96UB6" }]
+    },
+    {
+      "_id": "59309451",
+      "_score": 58.906998,
+      "accession": {
+        "genomic": ["JAAOAV010000171.1", "NW_023502234.1"],
+        "protein": ["KAF5592426.1", "XP_036534343.1"],
+        "rna": "XM_036674733.1",
+        "translation": { "protein": "XP_036534343.1", "rna": "XM_036674733.1" }
+      },
+      "entrezgene": ["59309451"],
+      "locus_tag": "FSUBG_10180",
+      "name": "ssh-4",
+      "other_names": "ssh-4",
+      "refseq": {
+        "genomic": "NW_023502234.1",
+        "protein": "XP_036534343.1",
+        "rna": "XM_036674733.1",
+        "translation": { "protein": "XP_036534343.1", "rna": "XM_036674733.1" }
+      },
+      "symbol": ["FSUBG_10180"],
+      "taxid": 42677,
+      "type_of_gene": "protein-coding"
+    },
+    {
+      "_id": "59299012",
+      "_score": 58.906998,
+      "accession": {
+        "genomic": ["JAAQRI010000440.1", "NW_023501636.1"],
+        "protein": ["KAF5614835.1", "XP_037199396.1"],
+        "rna": "XM_037346742.1",
+        "translation": { "protein": "XP_037199396.1", "rna": "XM_037346742.1" }
+      },
+      "entrezgene": ["59299012"],
+      "locus_tag": "FTJAE_13584",
+      "name": "ssh-4",
+      "other_names": "ssh-4",
+      "refseq": {
+        "genomic": "NW_023501636.1",
+        "protein": "XP_037199396.1",
+        "rna": "XM_037346742.1",
+        "translation": { "protein": "XP_037199396.1", "rna": "XM_037346742.1" }
+      },
+      "symbol": ["FTJAE_13584"],
+      "taxid": 1567544,
+      "type_of_gene": "protein-coding"
+    },
+    {
+      "_id": "55982372",
+      "_score": 58.906998,
+      "accession": {
+        "genomic": ["JAAJBS010000001.1", "NW_023336259.1"],
+        "protein": ["KAF4785644.1", "XP_035338647.1"],
+        "rna": "XM_035477845.1",
+        "translation": { "protein": "XP_035338647.1", "rna": "XM_035477845.1" }
+      },
+      "entrezgene": ["55982372"],
+      "locus_tag": "HER10_EVM0008318",
+      "name": "ssh-4",
+      "other_names": "ssh-4",
+      "refseq": {
+        "genomic": "NW_023336259.1",
+        "protein": "XP_035338647.1",
+        "rna": "XM_035477845.1",
+        "translation": { "protein": "XP_035338647.1", "rna": "XM_035477845.1" }
+      },
+      "symbol": ["HER10_EVM0008318"],
+      "taxid": 1209932,
+      "type_of_gene": "protein-coding"
+    },
+    {
+      "_id": "2680238",
+      "_score": 58.906998,
+      "accession": {
+        "genomic": "NC_017844.1",
+        "protein": ["EHA57218.1", "XP_003709830.1"],
+        "rna": "XM_003709782.1",
+        "translation": { "protein": "XP_003709830.1", "rna": "XM_003709782.1" }
+      },
+      "ensembl": {
+        "gene": ["MGG_09210"],
+        "protein": "MGG_09210T0",
+        "transcript": "MGG_09210T0",
+        "translation": [{ "protein": "MGG_09210T0", "rna": "MGG_09210T0" }],
+        "type_of_gene": "protein_coding"
+      },
+      "entrezgene": ["2680238"],
+      "genomic_pos": {
+        "chr": "1",
+        "end": 3776608,
+        "ensemblgene": "MGG_09210",
+        "start": 3773875,
+        "strand": 1
+      },
+      "homologene": {
+        "genes": [
+          [4896, 2539213],
+          [5141, 3877618],
+          [318829, 2680238]
+        ],
+        "id": 22177
+      },
+      "interpro": [
+        {
+          "desc": "B30.2/SPRY domain",
+          "id": "IPR001870",
+          "short_desc": "B30.2/SPRY"
+        },
+        { "desc": "SPRY domain", "id": "IPR003877", "short_desc": "SPRY_dom" },
+        {
+          "desc": "Concanavalin A-like lectin/glucanase domain superfamily",
+          "id": "IPR013320",
+          "short_desc": "ConA-like_dom_sf"
+        },
+        {
+          "desc": "Ssh4-like, SPRY domain",
+          "id": "IPR035780",
+          "short_desc": "SPRY_Ssh4-like"
+        },
+        {
+          "desc": "B30.2/SPRY domain superfamily",
+          "id": "IPR043136",
+          "short_desc": "B30.2/SPRY_sf"
+        }
+      ],
+      "locus_tag": "MGG_09210",
+      "name": "ssh-4",
+      "other_names": "ssh-4",
+      "pfam": "PF00622",
+      "prosite": "PS50188",
+      "refseq": {
+        "genomic": "NC_017844.1",
+        "protein": "XP_003709830.1",
+        "rna": "XM_003709782.1",
+        "translation": { "protein": "XP_003709830.1", "rna": "XM_003709782.1" }
+      },
+      "symbol": ["MGG_09210"],
+      "taxid": 242507,
+      "type_of_gene": "protein-coding",
+      "uniprot": [{ "TrEMBL": "G4MPS1" }]
+    }
+  ]
+}

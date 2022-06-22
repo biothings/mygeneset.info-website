@@ -1,0 +1,48 @@
+// colors
+$white: #ffffff;
+$off-white: #f8f8f8;
+$light-gray: #eaeaea;
+$gray: #a0a0a0;
+$dark-gray: #707070;
+$off-black: #404040;
+$black: #000000;
+
+// https://www.materialpalette.com/colors
+$red: #f44336;
+$red-light: #ef9a9a;
+$red-pale: #ffebee;
+$yellow: #ffc107;
+$yellow-light: #ffd54f;
+$yellow-pale: #fff8e1;
+$green: #4caf50;
+$green-light: #a5d6a7;
+$green-pale: #e8f5e9;
+$blue: #03a9f4;
+$blue-light: #81d4fa;
+$blue-pale: #e1f5fe;
+$purple: #9c27b0;
+$purple-light: #ce93d8;
+$purple-pale: #f3e5f5;
+
+// theme/accent colors
+$theme: $blue;
+$theme-light: $blue-light;
+$theme-pale: $blue-pale;
+
+// fonts
+$sans: "Jost", sans-serif;
+$mono: "Inconsolata", monospace;
+$regular: 400;
+$medium: 500;
+$semi-bold: 600;
+$bold: 700;
+
+// transition:
+$fast: 0.25s ease;
+$slow: 1s ease;
+
+// shapes
+$rounded: 5px;
+
+// widths
+$section: 1000px;
