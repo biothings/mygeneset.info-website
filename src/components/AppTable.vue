@@ -241,9 +241,6 @@ const changeSort = (id: string) => {
   font-weight: $medium;
 }
 
-.body .cell {
-}
-
 .cell {
   max-width: 800px;
   height: 100%;

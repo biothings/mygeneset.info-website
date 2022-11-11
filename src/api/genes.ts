@@ -83,12 +83,12 @@ export const searchGenes = async (
     method = "POST";
   } else if (query) {
     params.set("q", query);
+    if (start) params.set("from", String(start));
+    if (perPage) params.set("size", String(perPage));
+    else params.set("size", "100");
   }
   if (species?.length) params.set("species", species.join(","));
   if (sort) params.set("sort", sort);
-  if (start) params.set("from", String(start));
-  if (perPage) params.set("size", String(perPage));
-  else params.set("size", "100");
 
   // static params
   params.set("fields", "all");
@@ -115,12 +115,16 @@ export const searchGenes = async (
   const response = await request<SearchResponse>(url, type, { method });
 
   // distinguish between batch and single query
-  if (Array.isArray(response))
-    return { total: response.length, genes: response.map(mapGene) };
-  else
+  if (Array.isArray(response)) {
+    const list = response.filter((hit) => !hit.notfound);
+    return {
+      total: list.length,
+      genes: list.map(mapGene).slice(start || 0, (start || 0) + (perPage || 0)),
+    };
+  } else
     return {
       total: response.total,
-      genes: response.hits.filter((hit) => !hit.notfound).map(mapGene),
+      genes: response.hits.map(mapGene),
     };
 };
 

@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { cloneDeep, debounce, isEqual } from "lodash";
 
 interface Props {
