@@ -12,6 +12,7 @@
     <AppFlex direction="col">
       <AppInput
         v-model="keywords"
+        v-tippy="'Comma/tab/newline-separate to perform batch searches'"
         placeholder="Search genes by keyword"
         icon="search"
         mode="switchable"
@@ -79,7 +80,7 @@ interface Props {
 defineProps<Props>();
 
 // searched keywords
-const keywords = ref<string | Array<string>>("");
+const keywords = ref("");
 
 // selected species
 const species = ref<Array<string>>([]);
@@ -156,9 +157,14 @@ const search = async () => {
   // status
   loading.value = true;
 
+  // if comma/tab/newline-separated, perform batch search
+  let search: Parameters<typeof searchGenes>[0] =
+    keywords.value.split(/[,|\t|\n]/);
+  if (search.length === 1) search = search[0];
+
   try {
     const response = await searchGenes(
-      keywords.value,
+      search,
       species.value,
       undefined,
       start.value,

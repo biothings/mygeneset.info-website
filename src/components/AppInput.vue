@@ -8,20 +8,20 @@
       v-if="multi"
       ref="element"
       class="textarea"
-      :value="multiValue"
+      :value="modelValue"
       :placeholder="placeholder"
-      @input="onMulti"
-      @change="onMulti"
+      @input="onInput"
+      @change="onInput"
     >
     </textarea>
     <input
       v-else
       ref="element"
       class="input"
-      :value="singleValue"
+      :value="modelValue"
       :placeholder="placeholder"
-      @input="onSingle"
-      @change="onSingle"
+      @input="onInput"
+      @change="onInput"
     />
     <div class="buttons">
       <button
@@ -52,7 +52,7 @@ import { cloneDeep, debounce, isEqual } from "lodash";
 
 interface Props {
   // state
-  modelValue?: string | Array<string>;
+  modelValue?: string;
   // placeholder string when nothing typed in
   placeholder?: string;
   // line mode
@@ -100,30 +100,9 @@ const clear = () => {
   input.dispatchEvent(new Event("change"));
 };
 
-// input value handler for multi-line mode
-const multiValue = computed(() =>
-  Array.isArray(props.modelValue)
-    ? props.modelValue.join("\n")
-    : props.modelValue
-);
-
-// input value handler for single-line mode
-const singleValue = computed(() =>
-  Array.isArray(props.modelValue)
-    ? props.modelValue.join(", ")
-    : props.modelValue
-);
-
-// update handler for multi-line mode
-const onMulti = (event: Event) =>
-  onInput((event.target as HTMLInputElement).value.split("\n"));
-
-// update handler for single-line mode
-const onSingle = (event: Event) =>
-  onInput((event.target as HTMLInputElement).value);
-
 // when user types in box
-const onInput = (value: Props["modelValue"]) => {
+const onInput = (event: Event) => {
+  let value = (event.target as HTMLInputElement).value;
   emit("update:modelValue", value);
   debouncedOnChange(value);
 };
