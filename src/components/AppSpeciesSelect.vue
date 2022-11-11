@@ -51,11 +51,6 @@
         {{ option.scientific }}
       </span>
     </template>
-
-    <!-- loading spinner -->
-    <template #spinner>
-      <span></span>
-    </template>
   </Multiselect>
 </template>
 

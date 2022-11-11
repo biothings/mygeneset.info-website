@@ -108,7 +108,7 @@ const _genes = computed(() => {
         .flat()
         // see if any entry in flat array includes search string
         .some((value) =>
-          value.toLowerCase().includes(search.value.toLowerCase())
+          String(value).toLowerCase().includes(search.value.toLowerCase())
         )
     );
 
