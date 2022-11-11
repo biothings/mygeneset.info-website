@@ -12,8 +12,6 @@ export const getMetadata = async (): Promise<Metadata> => {
   const type = "getMetadata";
   const response = await request<_Metadata>(url, type);
 
-  console.log(response);
-
   // calculate geneset numbers
   const totalGenesets = response.stats.total;
   const curatedGenesets = Object.entries(response.src)

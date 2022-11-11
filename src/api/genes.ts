@@ -55,6 +55,8 @@ export const getGeneLabel = (gene: Gene) =>
 // get displayable tooltip for gene with more info
 export const getGeneTooltip = (gene: Gene) =>
   [
+    "Gene details:",
+    "",
     "ID: " + (gene.id || "-"),
     "Symbol: " + (gene.symbol.join(", ") || "-"),
     "Name: " + (gene.name || "-"),

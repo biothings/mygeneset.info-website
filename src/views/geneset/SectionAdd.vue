@@ -73,7 +73,6 @@ import AppStatus from "@/components/AppStatus.vue";
 import { Gene, searchGenes } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import { isStale } from "@/api";
-import router from "@/router";
 
 interface Props {
   // selected genes (current geneset genes)
@@ -181,7 +180,8 @@ const search = async () => {
     geneResults.value = response.genes;
     total.value = response.total;
 
-    router.replace("#add");
+    // reset view to search box
+    document.querySelector("#add")?.scrollIntoView(true);
   } catch (error) {
     console.error(error);
 
