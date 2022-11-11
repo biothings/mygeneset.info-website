@@ -2,12 +2,6 @@
   <AppSection>
     <AppHeading level="3" icon="plus" link="add">Add Genes</AppHeading>
 
-    <!-- note -->
-    <i
-      >Switch to multi-line mode to paste comma/tab/newline-separated
-      keywords</i
-    >
-
     <!-- search -->
     <AppFlex direction="col">
       <AppInput
