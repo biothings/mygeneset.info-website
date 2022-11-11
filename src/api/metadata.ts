@@ -6,11 +6,13 @@ const usageUrl =
   "https://biothings-data.s3.us-west-2.amazonaws.com/stats/biothings_30day_usage.json";
 
 // get metadata about mygenset.info
-export const getMetadata = async (): Promise<MetadataResult> => {
+export const getMetadata = async (): Promise<Metadata> => {
   // get metadata info
   const url = `${mygeneset}/metadata`;
   const type = "getMetadata";
-  const response = await request<MetadataResponse>(url, type);
+  const response = await request<_Metadata>(url, type);
+
+  console.log(response);
 
   // calculate geneset numbers
   const totalGenesets = response.stats.total;
@@ -27,9 +29,9 @@ export const getMetadata = async (): Promise<MetadataResult> => {
   const curatedSources = Object.keys(response.src);
 
   // get usage metadata
-  let usage: UsageMetadataResponse = {};
+  let usage: _Usage = {};
   try {
-    usage = await request<UsageMetadataResponse>(usageUrl, "getUsage");
+    usage = await request<_Usage>(usageUrl, "getUsage");
   } catch (error) {
     console.error(error);
   }
@@ -47,13 +49,15 @@ export const getMetadata = async (): Promise<MetadataResult> => {
       url: value.url || "",
       logo: value.logo || "",
       uploaded: value.upload_date ? new Date(value.upload_date) : undefined,
-      dumped: value.dump_date ? new Date(value.dump_date) : undefined,
+      downloaded: value.download_date
+        ? new Date(value.download_date)
+        : undefined,
     })),
   };
 };
 
 // from backend
-interface MetadataResponse {
+interface _Metadata {
   stats: {
     total: number;
   };
@@ -65,13 +69,13 @@ interface MetadataResponse {
       url?: string;
       logo?: string;
       upload_date?: string;
-      dump_date?: string;
+      download_date?: string;
     };
   };
 }
 
 // from backend
-interface UsageMetadataResponse {
+interface _Usage {
   [key: string]: {
     no_of_requests: number;
     no_of_unique_ips: number;
@@ -79,7 +83,7 @@ interface UsageMetadataResponse {
 }
 
 // for frontend
-export interface MetadataResult {
+export interface Metadata {
   // total number of genesets
   totalGenesets: number;
   // number of user genesets
@@ -102,7 +106,7 @@ export interface MetadataResult {
       url?: string;
       logo?: string;
       uploaded?: Date;
-      dumped?: Date;
+      downloaded?: Date;
     };
   };
 }

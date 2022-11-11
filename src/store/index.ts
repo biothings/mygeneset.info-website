@@ -1,6 +1,6 @@
 import { InjectionKey } from "vue";
 import { createStore, useStore as baseUseStore, Store } from "vuex";
-import { getMetadata, MetadataResult } from "@/api/metadata";
+import { getMetadata, Metadata } from "@/api/metadata";
 import { getUser } from "@/api/login";
 
 // global state type
@@ -14,7 +14,7 @@ export interface State {
     provider: string;
     genesetCount: number;
   } | null;
-  metadata: MetadataResult | null;
+  metadata: Metadata | null;
 }
 
 // global state store

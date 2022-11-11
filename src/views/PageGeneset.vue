@@ -17,6 +17,7 @@
     <SectionDetails
       :geneset="geneset"
       :editable="editable"
+      :fresh="fresh"
       @update-field="updateField"
     />
     <SectionSelected
@@ -87,6 +88,7 @@ const makeBlank = (): Geneset =>
     description: "",
     isPublic: true,
     genes: [],
+    count: 0,
   });
 
 // current state of geneset (changes when editing)
@@ -160,7 +162,7 @@ const updateField = (field: keyof Geneset, value: unknown) => {
   if (field === "isPublic") geneset.value.isPublic = value as boolean;
 };
 
-// update geneset
+// create or update geneset
 const updateGeneset = async () => {
   const {
     id = "",
@@ -186,7 +188,7 @@ const updateGeneset = async () => {
   inProgress.value = true;
 
   try {
-    await updateGenesetApi(
+    const response = await updateGenesetApi(
       fresh.value,
       id,
       name,
@@ -197,10 +199,14 @@ const updateGeneset = async () => {
 
     // wait for database to refresh
     await sleep(1000);
-    // go back to build page
-    router.push("/build");
+    // go to geneset's page (new or refresh)
+    if (response._id) router.push("/geneset/" + response._id);
+    else router.push("/build");
   } catch (error) {
+    window.alert("Error saving geneset");
     console.error(error);
+  } finally {
+    inProgress.value = false;
   }
 };
 
@@ -223,7 +229,10 @@ const deleteGeneset = async () => {
     // go back to build page
     router.push("/build");
   } catch (error) {
+    window.alert("Error deleting geneset");
     console.error(error);
+  } finally {
+    inProgress.value = false;
   }
 };
 

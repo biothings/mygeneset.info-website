@@ -12,7 +12,7 @@ import searchGenes from "./search-genes.json";
 const mock = false;
 
 // flag to conveniently switch between logged in and not (anonymous)
-const loggedIn = true;
+const loggedIn = false;
 
 // api calls to be mocked with fixture data
 export const handlers = [

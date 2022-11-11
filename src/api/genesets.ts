@@ -13,6 +13,7 @@ export interface _Geneset {
   description?: string;
   is_public?: boolean;
   genes?: Array<_Gene>;
+  count?: number;
 }
 
 // for frontend
@@ -26,6 +27,7 @@ export interface Geneset {
   description: string;
   isPublic: boolean;
   genes: Array<Gene>;
+  count: number;
 }
 
 // convert backend format to desired frontend format
@@ -39,6 +41,7 @@ const mapGeneset = (geneset: _Geneset): Geneset => ({
   description: geneset.description || "",
   isPublic: !!geneset.is_public,
   genes: geneset.genes?.map(mapGene) || [],
+  count: geneset.count || 0,
 });
 
 // look up geneset from id
@@ -159,8 +162,9 @@ export const updateGeneset = async (
   const body = JSON.stringify(data);
 
   // make request
-  const response = await request(url, type, { body, method });
+  const response = await request<_Geneset>(url, type, { body, method });
   console.info(response);
+  return response;
 };
 
 // delete geneset

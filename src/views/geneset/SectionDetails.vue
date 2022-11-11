@@ -38,7 +38,7 @@
       <AppDetail v-if="geneset.author" heading="Author">
         {{ geneset.author }}
       </AppDetail>
-      <AppDetail v-if="geneset.source" heading="Source">
+      <AppDetail v-else-if="geneset.source" heading="Source">
         <AppLink :to="curatedMeta?.url || ''">
           {{ geneset.source }}
         </AppLink>
@@ -47,7 +47,7 @@
       <!-- visibility -->
       <AppDetail heading="Visibility">
         <AppCheckbox
-          v-if="editable"
+          v-if="editable && geneset.author"
           text="Public"
           :model-value="geneset.isPublic"
           @update:model-value="
@@ -61,26 +61,26 @@
 
       <!-- dates -->
       <AppDetail v-if="geneset.created" heading="Created">
-        {{ geneset.created.toLocaleString() }}
+        <AppAgo :date="geneset.created" />
       </AppDetail>
       <AppDetail v-if="geneset.updated" heading="Updated">
-        {{ geneset.updated.toLocaleString() }}
+        <AppAgo :date="geneset.updated" />
       </AppDetail>
       <AppDetail
-        v-if="curatedMeta?.dumped"
-        v-tippy="'Date when geneset was downloaded from its upstream source'"
+        v-if="curatedMeta?.downloaded"
+        tooltip="'Date when geneset was downloaded from its upstream source'"
         heading="Downloaded"
       >
-        {{ curatedMeta.dumped.toLocaleString() }}
+        <AppAgo :date="curatedMeta.downloaded" />
       </AppDetail>
       <AppDetail
-        v-if="curatedMeta?.dumped"
-        v-tippy="
+        v-if="curatedMeta?.uploaded"
+        tooltip="
           'Date when geneset was parsed, processed, etc. and uploaded to the database'
         "
         heading="Uploaded"
       >
-        {{ curatedMeta.dumped.toLocaleString() }}
+        <AppAgo :date="curatedMeta.uploaded" />
       </AppDetail>
     </div>
   </AppSection>
@@ -93,7 +93,8 @@ import AppInput from "@/components/AppInput.vue";
 import AppCheckbox from "@/components/AppCheckbox.vue";
 import { Geneset } from "@/api/genesets";
 import { useStore } from "@/store";
-import { MetadataResult } from "@/api/metadata";
+import { Metadata } from "@/api/metadata";
+import AppAgo from "@/components/AppAgo.vue";
 
 const store = useStore();
 
@@ -102,6 +103,8 @@ interface Props {
   geneset: Geneset;
   // whether geneset is editable
   editable: boolean;
+  // whether geneset is new
+  fresh: boolean;
 }
 
 const props = defineProps<Props>();
@@ -114,7 +117,7 @@ interface Emits {
 defineEmits<Emits>();
 
 // if geneset is curated, metadata from global metadata
-type CuratedMeta = MetadataResult["curatedMeta"][string];
+type CuratedMeta = Metadata["curatedMeta"][string];
 const curatedMeta = computed<CuratedMeta | null>(
   () => store.state.metadata?.curatedMeta[props.geneset.source || ""] || null
 );
