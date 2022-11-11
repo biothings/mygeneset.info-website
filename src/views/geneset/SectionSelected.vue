@@ -36,7 +36,7 @@
         v-tippy="getGeneTooltip(gene)"
         :tabindex="0"
         fill="filled"
-        icon="times"
+        :icon="editable ? 'times' : ''"
         design="fitted"
         @click="editable ? removeGenes(gene) : null"
         >{{ getGeneLabel(gene) }}</component
@@ -157,7 +157,7 @@ watch(
       console.error(error);
     }
   },
-  { deep: true }
+  { deep: true, immediate: true }
 );
 </script>
 
