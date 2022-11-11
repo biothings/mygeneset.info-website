@@ -44,11 +44,23 @@
               : 'Add this gene to geneset'
           "
           :color="geneInSet(row) ? 'important' : 'normal'"
-          :icon="geneInSet(row) ? 'trash-can' : 'plus'"
-          @click="geneInSet(row) ? removeGene(row) : addGene(row)"
+          :icon="geneInSet(row) ? 'times' : 'plus'"
+          @click="geneInSet(row) ? removeGenes(row) : addGenes(row)"
         />
       </template>
     </AppTable>
+    <AppFlex>
+      <AppButton
+        text="Add page"
+        icon="plus"
+        @click="addGenes(...geneResults)"
+      />
+      <AppButton
+        text="Remove page"
+        icon="times"
+        @click="removeGenes(...geneResults)"
+      />
+    </AppFlex>
   </AppSection>
 </template>
 
@@ -61,14 +73,15 @@ import AppStatus from "@/components/AppStatus.vue";
 import { Gene, searchGenes } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import { isStale } from "@/api";
+import router from "@/router";
 
 interface Props {
   // selected genes (current geneset genes)
   genes: Geneset["genes"];
   // gene manipulation functions from parent
   geneInSet: (gene: Gene) => boolean;
-  addGene: (gene: Gene) => void;
-  removeGene: (gene: Gene) => void;
+  addGenes: (...genes: Array<Gene>) => void;
+  removeGenes: (...genes: Array<Gene>) => void;
 }
 
 defineProps<Props>();
@@ -167,6 +180,8 @@ const search = async () => {
 
     geneResults.value = response.genes;
     total.value = response.total;
+
+    router.replace("#add");
   } catch (error) {
     console.error(error);
 

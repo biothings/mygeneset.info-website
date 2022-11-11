@@ -135,12 +135,20 @@ svg {
 }
 
 @for $i from 1 through 5 {
+  .truncate-#{$i}:focus {
+    outline: solid 2px $black;
+  }
+
   .truncate-#{$i}:not(:focus) {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: $i;
     overflow: hidden;
-    // cursor: zoom-in;
+    max-width: 100%;
+  }
+
+  .truncate-#{$i}:not(:focus)[tabindex="0"] {
+    cursor: zoom-in;
   }
 }
 

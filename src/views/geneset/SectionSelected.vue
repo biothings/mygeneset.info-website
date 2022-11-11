@@ -38,7 +38,7 @@
         fill="filled"
         icon="times"
         design="fitted"
-        @click="editable ? removeGene(gene) : null"
+        @click="editable ? removeGenes(gene) : null"
         >{{ getGeneLabel(gene) }}</component
       >
     </AppFlex>
@@ -69,7 +69,7 @@ interface Props {
   // whether geneset is editable
   editable: boolean;
   // gene manipulation functions from parent
-  removeGene: (gene: Gene) => void;
+  removeGenes: (...genes: Array<Gene>) => void;
 }
 
 const props = defineProps<Props>();

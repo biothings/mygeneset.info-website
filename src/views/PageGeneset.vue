@@ -23,14 +23,14 @@
     <SectionSelected
       :genes="geneset.genes"
       :editable="editable"
-      :remove-gene="removeGene"
+      :remove-genes="removeGenes"
     />
     <SectionAdd
       v-if="editable"
       :genes="geneset.genes"
       :gene-in-set="geneInSet"
-      :add-gene="addGene"
-      :remove-gene="removeGene"
+      :add-genes="addGenes"
+      :remove-genes="removeGenes"
     />
     <SectionDownload :geneset="geneset" />
     <SectionFinish
@@ -147,12 +147,17 @@ const geneInSet = (gene: Gene) =>
   geneset.value.genes.findIndex((g) => g.id === gene.id) !== -1;
 
 // add gene to set
-const addGene = (gene: Gene) => geneset.value.genes.push(gene);
+const addGenes = (...genes: Array<Gene>) => {
+  const newGenes = genes.filter((gene) => !geneInSet(gene));
+  geneset.value.genes.push(...newGenes);
+};
 
 // remove gene from set
-const removeGene = (gene: Gene) => {
-  const index = geneset.value.genes.findIndex((g) => g.id === gene.id);
-  if (index !== -1) geneset.value.genes.splice(index, 1);
+const removeGenes = (...genes: Array<Gene>) => {
+  const ids = genes.map((gene) => gene.id);
+  geneset.value.genes = geneset.value.genes.filter(
+    (gene) => !ids.includes(gene.id)
+  );
 };
 
 // update field in geneset
