@@ -4,7 +4,7 @@ import { biothings } from ".";
 
 // from backend
 export interface _Species {
-  _id?: string;
+  _id?: number;
   scientific_name?: string;
   genbank_common_name?: Array<string>;
   common_name?: Array<string>;
@@ -22,7 +22,7 @@ export interface Species {
 
 // convert backend format to desired frontend format
 const mapSpecies = (species: _Species): Species => ({
-  id: species._id || "",
+  id: String(species._id) || "",
   common: [
     species.genbank_common_name,
     species.common_name,

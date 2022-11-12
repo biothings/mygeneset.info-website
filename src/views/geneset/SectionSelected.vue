@@ -69,20 +69,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { map, sortBy, uniq } from "lodash";
+import { computed, ref } from "vue";
+import { sortBy } from "lodash";
 import { flattenGeneId, Gene, getGeneLabel, getGeneTooltip } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import AppButton from "@/components/AppButton.vue";
 import AppPill from "@/components/AppPill.vue";
 import AppInput from "@/components/AppInput.vue";
 import AppSelect, { Options } from "@/components/AppSelect.vue";
-import {
-  getSpeciesLabel,
-  getSpeciesTooltip,
-  searchSpecies,
-  Species,
-} from "@/api/species";
+import { getSpeciesLabel, getSpeciesTooltip, Species } from "@/api/species";
 
 interface Props {
   // selected genes (current geneset genes)
@@ -91,6 +86,8 @@ interface Props {
   editable: boolean;
   // gene manipulation functions from parent
   removeGenes: (...genes: Array<Gene>) => void;
+  // unique species in selected genes
+  species: Array<Species>;
 }
 
 const props = defineProps<Props>();
@@ -103,9 +100,6 @@ const expanded = ref(false);
 
 // search string to filter by
 const search = ref("");
-
-// unique species in selected genes
-const species = ref<Array<Species>>([]);
 
 // sort mode options
 const sortOptions: Options = [
@@ -145,20 +139,6 @@ const _genes = computed(() => {
 
   return genes;
 });
-
-// when selected genes change
-watch(
-  () => props.genes,
-  async () => {
-    try {
-      const ids = uniq(map(props.genes, "taxid"));
-      species.value = (await searchSpecies(ids)).species;
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  { deep: true, immediate: true }
-);
 </script>
 
 <style scoped lang="scss">

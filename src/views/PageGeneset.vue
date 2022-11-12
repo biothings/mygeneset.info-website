@@ -24,6 +24,7 @@
       :genes="geneset.genes"
       :editable="editable"
       :remove-genes="removeGenes"
+      :species="species"
     />
     <SectionAdd
       v-if="editable"
@@ -32,7 +33,7 @@
       :add-genes="addGenes"
       :remove-genes="removeGenes"
     />
-    <SectionDownload :geneset="geneset" />
+    <SectionDownload :geneset="geneset" :species="species" />
     <SectionFinish
       v-if="editable"
       :geneset="geneset"
@@ -63,9 +64,10 @@ import {
   deleteGeneset as deleteGenesetApi,
 } from "@/api/genesets";
 import { Gene } from "@/api/genes";
-import { cloneDeep } from "lodash";
+import { cloneDeep, map, uniq } from "lodash";
 import { sleep } from "@/util/debug";
 import SectionOverview from "./geneset/SectionOverview.vue";
+import { searchSpecies, Species } from "@/api/species";
 
 const router = useRouter();
 const route = useRoute();
@@ -105,6 +107,9 @@ const fresh = ref(false);
 
 // whether a critical action (creating/updating/deleting geneset) is in progress
 const inProgress = ref(false);
+
+// unique species in selected genes
+const species = ref<Array<Species>>([]);
 
 // load geneset from id in url, or blank if on /new
 const load = async () => {
@@ -240,6 +245,20 @@ const deleteGeneset = async () => {
     inProgress.value = false;
   }
 };
+
+// when selected genes change
+watch(
+  () => geneset.value.genes,
+  async () => {
+    try {
+      const ids = uniq(map(geneset.value.genes, "taxid"));
+      species.value = (await searchSpecies(ids)).species;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  { deep: true, immediate: true }
+);
 
 watch([() => route.params.id, () => store.state.loggedIn?.username], load);
 onMounted(load);

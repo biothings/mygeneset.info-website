@@ -11,7 +11,7 @@ export interface _Gene {
   entrezgene?: Array<string>;
   ensemblgene?: Array<string>;
   uniprot?: Array<string | { "Swiss-Prot": string }>;
-  taxid?: string;
+  taxid?: number;
   notfound?: boolean;
 }
 
@@ -31,7 +31,7 @@ export interface Gene {
 export const mapGene = (gene: _Gene): Gene => ({
   id: gene._id || gene.mygene_id || "",
   name: gene.name || "",
-  taxid: gene.taxid || "",
+  taxid: String(gene.taxid) || "",
   alias: gene.alias || [],
   entrezgene: gene.entrezgene || [],
   symbol: gene.symbol || [],
@@ -149,5 +149,6 @@ export const flattenGeneId = (id: Gene[keyof Gene]): string => {
   // if array, only take first value
   if (Array.isArray(id)) return id[0];
   if (typeof id === "string") return id;
+  if (typeof id === "number") return String(id);
   return "";
 };
