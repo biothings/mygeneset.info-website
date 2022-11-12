@@ -25,6 +25,7 @@ export interface Gene {
   ensemblgene: Array<string>;
   uniprot: Array<string>;
   taxid: string;
+  species?: Array<string>;
 }
 
 // convert backend format to desired frontend format
@@ -146,9 +147,11 @@ export interface SearchResult {
 
 // make a gene identifier into pure string
 export const flattenGeneId = (id: Gene[keyof Gene]): string => {
+  let string = "";
   // if array, only take first value
-  if (Array.isArray(id)) return id[0];
-  if (typeof id === "string") return id;
-  if (typeof id === "number") return String(id);
-  return "";
+  if (Array.isArray(id) && id[0]) string = id[0];
+  if (typeof id === "string") string = id;
+  if (typeof id === "number") string = String(id);
+  // get rid of chars that would interfere with csv/tsv
+  return string.replaceAll(/[,|\t]/g, "");
 };

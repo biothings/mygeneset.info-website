@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { map, mapValues, pickBy, zip } from "lodash";
+import { map, pickBy, zip } from "lodash";
 import AppChecklist from "@/components/AppChecklist.vue";
 import AppSelect from "@/components/AppSelect.vue";
 import AppCheckbox from "@/components/AppCheckbox.vue";
@@ -91,6 +91,7 @@ const identifiers = ref<Array<Identifier>>([
   { text: "Ensembl", key: "ensemblgene", checked: false },
   { text: "Uniprot", key: "uniprot", checked: false },
   { text: "Taxon ID", key: "taxid", checked: false },
+  { text: "Species", key: "species", checked: false },
 ]);
 
 // selected gene identifiers
@@ -126,10 +127,20 @@ const transposeFunc = (data: Table): Table => {
   else return data;
 };
 
+// transform taxon id into species name
+const mapTaxon = (genes: Array<Gene>) =>
+  genes.map((gene) => {
+    const { common = "", scientific = "" } =
+      props.species.find((species) => species.id === gene.taxid) || {};
+    return { ...gene, species: [scientific, common] };
+  });
+
 // format data as json
 const formatJson = (): Record<string, unknown> => {
   let { genes, ...rest } = props.geneset;
   const keys = map(selectedIdentifiers.value, "key");
+
+  genes = mapTaxon(genes);
 
   return {
     // all geneset meta
@@ -137,19 +148,18 @@ const formatJson = (): Record<string, unknown> => {
 
     // format genes
     genes: genes.map((gene) =>
-      mapValues(
-        pickBy(gene, (value, key) => keys.includes(key as keyof Gene)),
-        flattenGeneId
-      )
+      pickBy(gene, (value, key) => keys.includes(key as keyof Gene))
     ),
   };
 };
 
 // format data as csv/tsv
 const formatCsv = (): Table => {
-  const { id = "", name = "", description = "", genes = [] } = props.geneset;
+  let { id = "", name = "", description = "", genes = [] } = props.geneset;
   const keys = map(selectedIdentifiers.value, "key");
   const labels = map(selectedIdentifiers.value, "text");
+
+  genes = mapTaxon(genes);
 
   return [
     // select geneset meta
@@ -175,8 +185,10 @@ const formatCsv = (): Table => {
 
 // format data as gmx/gmt
 const formatGmx = () => {
-  const { id = "", name = "", description = "", genes = [] } = props.geneset;
+  let { id = "", name = "", description = "", genes = [] } = props.geneset;
   const keys = map(selectedIdentifiers.value, "key");
+
+  genes = mapTaxon(genes);
 
   return transposeFunc([
     // select geneset meta
