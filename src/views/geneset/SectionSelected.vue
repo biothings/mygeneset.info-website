@@ -3,7 +3,7 @@
     <AppHeading level="3" icon="dna" link="genes">Genes</AppHeading>
 
     <!-- note -->
-    {{ genes.length.toLocaleString() }} selected genes
+    {{ genes.length.toLocaleString() }} selected gene(s)
 
     <!-- filters -->
     <AppFlex>
@@ -16,7 +16,7 @@
           :clearable="true"
         />
         <template v-if="_genes.length !== genes.length">
-          {{ _genes.length.toLocaleString() }} matches
+          {{ _genes.length.toLocaleString() }} match(es)
         </template>
       </AppFlex>
 
@@ -55,7 +55,7 @@
     {{ species.length.toLocaleString() }} species
 
     <!-- species -->
-    <AppFlex gap="tiny">
+    <AppFlex gap="small">
       <AppPill
         v-for="(s, index) in species"
         :key="index"
