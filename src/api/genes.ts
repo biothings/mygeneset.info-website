@@ -84,11 +84,10 @@ export const searchGenes = async (
   if (Array.isArray(query)) {
     params.set("q", query.join());
     method = "POST";
-  } else if (query) {
-    params.set("q", query);
-    if (start) params.set("from", String(start));
-    if (perPage) params.set("size", String(perPage));
-    else params.set("size", "100");
+  } else {
+    if (query) params.set("q", query);
+    params.set("from", String(start || 0));
+    params.set("size", String(perPage || 100));
   }
   if (species?.length) params.set("species", species.join(","));
   if (sort) params.set("sort", sort);
