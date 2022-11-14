@@ -123,7 +123,7 @@ router.afterEach(async ({ name }) => {
   // https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
   await nextTick();
 
-  document.title = process.env.VUE_APP_TITLE + " - " + String(name);
+  document.title = String(name) + " | " + process.env.VUE_APP_TITLE;
 });
 
 export default router;

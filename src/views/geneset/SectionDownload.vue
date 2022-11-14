@@ -44,6 +44,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
+import { map, pickBy, zip } from "lodash";
 import AppChecklist from "@/components/AppChecklist.vue";
 import AppSelect from "@/components/AppSelect.vue";
 import AppCheckbox from "@/components/AppCheckbox.vue";
@@ -61,17 +62,27 @@ import {
   downloadGmx,
   downloadGmt,
 } from "@/util/download";
-import { omit, pickBy, zip } from "lodash";
+import { Species } from "@/api/species";
 
 interface Props {
   // current geneset
   geneset: Geneset;
+  // unique species in selected genes
+  species: Array<Species>;
 }
 
 const props = defineProps<Props>();
 
-// list of gene identifiers
-type Identifier = { text: string; key: keyof Gene; checked: boolean };
+interface Identifier {
+  // label
+  text: string;
+  // whether selected
+  checked: boolean;
+  // key of gene object to access
+  key: keyof Gene;
+}
+
+// list of gene identifier types
 const identifiers = ref<Array<Identifier>>([
   { text: "ID", key: "id", checked: true },
   { text: "Symbol", key: "symbol", checked: true },
@@ -79,6 +90,8 @@ const identifiers = ref<Array<Identifier>>([
   { text: "Alias", key: "alias", checked: false },
   { text: "Ensembl", key: "ensemblgene", checked: false },
   { text: "Uniprot", key: "uniprot", checked: false },
+  { text: "Taxon ID", key: "taxid", checked: false },
+  { text: "Species", key: "species", checked: false },
 ]);
 
 // selected gene identifiers
@@ -114,75 +127,86 @@ const transposeFunc = (data: Table): Table => {
   else return data;
 };
 
-// format data as json
-const formatJson = (): Record<string, unknown> => ({
-  // all geneset meta
-  ...(meta.value
-    ? { ...omit(props.geneset, "genes"), count: props.geneset.genes.length }
-    : {}),
+// transform taxon id into species name
+const mapTaxon = (genes: Array<Gene>) =>
+  genes.map((gene) => {
+    const { common = "", scientific = "" } =
+      props.species.find((species) => species.id === gene.taxid) || {};
+    return { ...gene, species: [scientific, common] };
+  });
 
-  // format genes
-  genes: props.geneset.genes.map((gene) =>
-    pickBy(gene, (value, key) =>
-      selectedIdentifiers.value.find((id) => id.key === key)
-    )
-  ),
-});
+// format data as json
+const formatJson = (): Record<string, unknown> => {
+  let { genes, ...rest } = props.geneset;
+  const keys = map(selectedIdentifiers.value, "key");
+
+  genes = mapTaxon(genes);
+
+  return {
+    // all geneset meta
+    ...(meta.value ? { ...rest, count: genes.length } : {}),
+
+    // format genes
+    genes: genes.map((gene) =>
+      pickBy(gene, (value, key) => keys.includes(key as keyof Gene))
+    ),
+  };
+};
 
 // format data as csv/tsv
-const formatCsv = (): Table => [
-  // select geneset meta
-  ...(meta.value
-    ? transposeFunc([
-        ["ID", "Name", "Description", "Count"],
-        [
-          props.geneset.id || "",
-          props.geneset.name || "",
-          props.geneset.description || "",
-          String(props.geneset.genes.length) || "",
-        ],
-      ])
-    : []),
+const formatCsv = (): Table => {
+  let { id = "", name = "", description = "", genes = [] } = props.geneset;
+  const keys = map(selectedIdentifiers.value, "key");
+  const labels = map(selectedIdentifiers.value, "text");
 
-  // spacer
-  ...(meta.value ? [[""]] : []),
+  genes = mapTaxon(genes);
 
-  // format genes
-  ...transposeFunc([
-    // labels
-    selectedIdentifiers.value.map((id) => id.text),
-    // values
-    ...props.geneset.genes.map((gene) =>
-      selectedIdentifiers.value.map((id) => flattenGeneId(gene[id.key]))
-    ),
-  ]),
-];
-
-// format data as gmx/gmt
-const formatGmx = () =>
-  transposeFunc([
+  return [
     // select geneset meta
     ...(meta.value
-      ? [
-          [props.geneset.id],
-          [props.geneset.name],
-          [props.geneset.description],
-          [String(props.geneset.genes.length)],
-        ]
+      ? transposeFunc([
+          ["ID", "Name", "Description", "Count"],
+          [id || "", name || "", description || "", String(genes.length) || ""],
+        ])
       : []),
 
     // spacer
     ...(meta.value ? [[""]] : []),
 
     // format genes
-    ...props.geneset.genes
-      .map((gene) =>
-        selectedIdentifiers.value.map((id) => flattenGeneId(gene[id.key]))
-      )
+    ...transposeFunc([
+      // labels
+      labels,
+      // values
+      ...genes.map((gene) => keys.map((key) => flattenGeneId(gene[key]))),
+    ]),
+  ];
+};
+
+// format data as gmx/gmt
+const formatGmx = () => {
+  let { id = "", name = "", description = "", genes = [] } = props.geneset;
+  const keys = map(selectedIdentifiers.value, "key");
+
+  genes = mapTaxon(genes);
+
+  return transposeFunc([
+    // select geneset meta
+    ...(meta.value
+      ? [[id], [name], [description], [String(genes.length)]]
+      : []),
+
+    // spacer
+    ...(meta.value ? [[""]] : []),
+
+    // format genes
+    ...genes
+      .map((gene) => keys.map((key) => flattenGeneId(gene[key])))
       .flat()
       .filter((gene) => gene)
       .map((gene) => [gene]),
   ]);
+};
 
 // format and stringify
 const stringify = () => {
@@ -194,7 +218,7 @@ const stringify = () => {
 
 // rerun stringify process when any affecting props change
 watch(
-  [props.geneset, selectedIdentifiers, format, transpose, meta],
+  [() => props.geneset, selectedIdentifiers, format, transpose, meta],
   stringify,
   { deep: true, immediate: true }
 );

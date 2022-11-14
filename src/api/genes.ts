@@ -11,7 +11,7 @@ export interface _Gene {
   entrezgene?: Array<string>;
   ensemblgene?: Array<string>;
   uniprot?: Array<string | { "Swiss-Prot": string }>;
-  taxid?: string;
+  taxid?: number;
   notfound?: boolean;
 }
 
@@ -25,13 +25,14 @@ export interface Gene {
   ensemblgene: Array<string>;
   uniprot: Array<string>;
   taxid: string;
+  species?: Array<string>;
 }
 
 // convert backend format to desired frontend format
 export const mapGene = (gene: _Gene): Gene => ({
   id: gene._id || gene.mygene_id || "",
   name: gene.name || "",
-  taxid: gene.taxid || "",
+  taxid: String(gene.taxid) || "",
   alias: gene.alias || [],
   entrezgene: gene.entrezgene || [],
   symbol: gene.symbol || [],
@@ -55,6 +56,8 @@ export const getGeneLabel = (gene: Gene) =>
 // get displayable tooltip for gene with more info
 export const getGeneTooltip = (gene: Gene) =>
   [
+    "Gene details:",
+    "",
     "ID: " + (gene.id || "-"),
     "Symbol: " + (gene.symbol.join(", ") || "-"),
     "Name: " + (gene.name || "-"),
@@ -81,14 +84,13 @@ export const searchGenes = async (
   if (Array.isArray(query)) {
     params.set("q", query.join());
     method = "POST";
-  } else if (query) {
-    params.set("q", query);
+  } else {
+    if (query) params.set("q", query);
+    params.set("from", String(start || 0));
+    params.set("size", String(perPage || 100));
   }
   if (species?.length) params.set("species", species.join(","));
   if (sort) params.set("sort", sort);
-  if (start) params.set("from", String(start));
-  if (perPage) params.set("size", String(perPage));
-  else params.set("size", "100");
 
   // static params
   params.set("fields", "all");
@@ -115,12 +117,16 @@ export const searchGenes = async (
   const response = await request<SearchResponse>(url, type, { method });
 
   // distinguish between batch and single query
-  if (Array.isArray(response))
-    return { total: response.length, genes: response.map(mapGene) };
-  else
+  if (Array.isArray(response)) {
+    const list = response.filter((hit) => !hit.notfound);
+    return {
+      total: list.length,
+      genes: list.map(mapGene).slice(start || 0, (start || 0) + (perPage || 0)),
+    };
+  } else
     return {
       total: response.total,
-      genes: response.hits.filter((hit) => !hit.notfound).map(mapGene),
+      genes: response.hits.map(mapGene),
     };
 };
 
@@ -140,8 +146,11 @@ export interface SearchResult {
 
 // make a gene identifier into pure string
 export const flattenGeneId = (id: Gene[keyof Gene]): string => {
+  let string = "";
   // if array, only take first value
-  if (Array.isArray(id)) return id[0];
-  if (typeof id === "string") return id;
-  return "";
+  if (Array.isArray(id) && id[0]) string = id[0];
+  if (typeof id === "string") string = id;
+  if (typeof id === "number") string = String(id);
+  // get rid of chars that would interfere with csv/tsv
+  return string.replaceAll(/[,|\t]/g, "");
 };

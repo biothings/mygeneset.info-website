@@ -2,16 +2,11 @@
   <AppSection>
     <AppHeading level="3" icon="plus" link="add">Add Genes</AppHeading>
 
-    <!-- note -->
-    <i
-      >Switch to multi-line mode to paste comma/tab/newline-separated
-      keywords</i
-    >
-
     <!-- search -->
     <AppFlex direction="col">
       <AppInput
         v-model="keywords"
+        v-tippy="'Comma/tab/newline-separate to perform batch searches'"
         placeholder="Search genes by keyword"
         icon="search"
         mode="switchable"
@@ -49,11 +44,23 @@
               : 'Add this gene to geneset'
           "
           :color="geneInSet(row) ? 'important' : 'normal'"
-          :icon="geneInSet(row) ? 'trash-can' : 'plus'"
-          @click="geneInSet(row) ? removeGene(row) : addGene(row)"
+          :icon="geneInSet(row) ? 'times' : 'plus'"
+          @click="geneInSet(row) ? removeGenes(row) : addGenes(row)"
         />
       </template>
     </AppTable>
+    <AppFlex>
+      <AppButton
+        text="Add page"
+        icon="plus"
+        @click="addGenes(...geneResults)"
+      />
+      <AppButton
+        text="Remove page"
+        icon="times"
+        @click="removeGenes(...geneResults)"
+      />
+    </AppFlex>
   </AppSection>
 </template>
 
@@ -72,14 +79,14 @@ interface Props {
   genes: Geneset["genes"];
   // gene manipulation functions from parent
   geneInSet: (gene: Gene) => boolean;
-  addGene: (gene: Gene) => void;
-  removeGene: (gene: Gene) => void;
+  addGenes: (...genes: Array<Gene>) => void;
+  removeGenes: (...genes: Array<Gene>) => void;
 }
 
 defineProps<Props>();
 
 // searched keywords
-const keywords = ref<string | Array<string>>("");
+const keywords = ref("");
 
 // selected species
 const species = ref<Array<string>>([]);
@@ -156,9 +163,14 @@ const search = async () => {
   // status
   loading.value = true;
 
+  // if comma/tab/newline-separated, perform batch search
+  let search: Parameters<typeof searchGenes>[0] =
+    keywords.value.split(/[,|\t|\n]/);
+  if (search.length === 1) search = search[0];
+
   try {
     const response = await searchGenes(
-      keywords.value,
+      search,
       species.value,
       undefined,
       start.value,
@@ -167,6 +179,9 @@ const search = async () => {
 
     geneResults.value = response.genes;
     total.value = response.total;
+
+    // reset view to search box
+    document.querySelector("#add")?.scrollIntoView(true);
   } catch (error) {
     console.error(error);
 

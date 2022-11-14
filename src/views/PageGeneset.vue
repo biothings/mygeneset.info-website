@@ -17,21 +17,23 @@
     <SectionDetails
       :geneset="geneset"
       :editable="editable"
+      :fresh="fresh"
       @update-field="updateField"
     />
     <SectionSelected
       :genes="geneset.genes"
       :editable="editable"
-      :remove-gene="removeGene"
+      :remove-genes="removeGenes"
+      :species="species"
     />
     <SectionAdd
       v-if="editable"
       :genes="geneset.genes"
       :gene-in-set="geneInSet"
-      :add-gene="addGene"
-      :remove-gene="removeGene"
+      :add-genes="addGenes"
+      :remove-genes="removeGenes"
     />
-    <SectionDownload :geneset="geneset" />
+    <SectionDownload :geneset="geneset" :species="species" />
     <SectionFinish
       v-if="editable"
       :geneset="geneset"
@@ -62,9 +64,10 @@ import {
   deleteGeneset as deleteGenesetApi,
 } from "@/api/genesets";
 import { Gene } from "@/api/genes";
-import { cloneDeep } from "lodash";
+import { cloneDeep, map, uniq } from "lodash";
 import { sleep } from "@/util/debug";
 import SectionOverview from "./geneset/SectionOverview.vue";
+import { searchSpecies, Species } from "@/api/species";
 
 const router = useRouter();
 const route = useRoute();
@@ -87,6 +90,7 @@ const makeBlank = (): Geneset =>
     description: "",
     isPublic: true,
     genes: [],
+    count: 0,
   });
 
 // current state of geneset (changes when editing)
@@ -103,6 +107,9 @@ const fresh = ref(false);
 
 // whether a critical action (creating/updating/deleting geneset) is in progress
 const inProgress = ref(false);
+
+// unique species in selected genes
+const species = ref<Array<Species>>([]);
 
 // load geneset from id in url, or blank if on /new
 const load = async () => {
@@ -145,12 +152,17 @@ const geneInSet = (gene: Gene) =>
   geneset.value.genes.findIndex((g) => g.id === gene.id) !== -1;
 
 // add gene to set
-const addGene = (gene: Gene) => geneset.value.genes.push(gene);
+const addGenes = (...genes: Array<Gene>) => {
+  const newGenes = genes.filter((gene) => !geneInSet(gene));
+  geneset.value.genes.push(...newGenes);
+};
 
 // remove gene from set
-const removeGene = (gene: Gene) => {
-  const index = geneset.value.genes.findIndex((g) => g.id === gene.id);
-  if (index !== -1) geneset.value.genes.splice(index, 1);
+const removeGenes = (...genes: Array<Gene>) => {
+  const ids = genes.map((gene) => gene.id);
+  geneset.value.genes = geneset.value.genes.filter(
+    (gene) => !ids.includes(gene.id)
+  );
 };
 
 // update field in geneset
@@ -160,7 +172,7 @@ const updateField = (field: keyof Geneset, value: unknown) => {
   if (field === "isPublic") geneset.value.isPublic = value as boolean;
 };
 
-// update geneset
+// create or update geneset
 const updateGeneset = async () => {
   const {
     id = "",
@@ -186,7 +198,7 @@ const updateGeneset = async () => {
   inProgress.value = true;
 
   try {
-    await updateGenesetApi(
+    const response = await updateGenesetApi(
       fresh.value,
       id,
       name,
@@ -197,10 +209,14 @@ const updateGeneset = async () => {
 
     // wait for database to refresh
     await sleep(1000);
-    // go back to build page
-    router.push("/build");
+    // go to geneset's page (new or refresh)
+    if (response._id) router.push("/geneset/" + response._id);
+    else router.push("/build");
   } catch (error) {
+    window.alert("Error saving geneset");
     console.error(error);
+  } finally {
+    inProgress.value = false;
   }
 };
 
@@ -223,9 +239,26 @@ const deleteGeneset = async () => {
     // go back to build page
     router.push("/build");
   } catch (error) {
+    window.alert("Error deleting geneset");
     console.error(error);
+  } finally {
+    inProgress.value = false;
   }
 };
+
+// when selected genes change
+watch(
+  () => geneset.value.genes,
+  async () => {
+    try {
+      const ids = uniq(map(geneset.value.genes, "taxid"));
+      species.value = (await searchSpecies(ids)).species;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  { deep: true, immediate: true }
+);
 
 watch([() => route.params.id, () => store.state.loggedIn?.username], load);
 onMounted(load);

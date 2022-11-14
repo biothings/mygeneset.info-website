@@ -3,7 +3,7 @@
     <AppHeading level="3" icon="dna" link="genes">Genes</AppHeading>
 
     <!-- note -->
-    {{ genes.length.toLocaleString() }} selected genes
+    {{ genes.length.toLocaleString() }} selected gene(s)
 
     <!-- filters -->
     <AppFlex>
@@ -16,7 +16,7 @@
           :clearable="true"
         />
         <template v-if="_genes.length !== genes.length">
-          {{ _genes.length.toLocaleString() }} matches
+          {{ _genes.length.toLocaleString() }} match(es)
         </template>
       </AppFlex>
 
@@ -36,9 +36,9 @@
         v-tippy="getGeneTooltip(gene)"
         :tabindex="0"
         fill="filled"
-        icon="times"
+        :icon="editable ? 'times' : ''"
         design="fitted"
-        @click="editable ? removeGene(gene) : null"
+        @click="editable ? removeGenes(gene) : null"
         >{{ getGeneLabel(gene) }}</component
       >
     </AppFlex>
@@ -50,6 +50,21 @@
       :text="expanded ? 'Show less' : 'Show all'"
       @click="expanded = !expanded"
     />
+
+    <!-- note -->
+    {{ species.length.toLocaleString() }} species
+
+    <!-- species -->
+    <AppFlex gap="small">
+      <AppPill
+        v-for="(s, index) in species"
+        :key="index"
+        v-tippy="getSpeciesTooltip(s)"
+        :icon="s.icon"
+      >
+        {{ getSpeciesLabel(s) }}</AppPill
+      >
+    </AppFlex>
   </AppSection>
 </template>
 
@@ -62,6 +77,7 @@ import AppButton from "@/components/AppButton.vue";
 import AppPill from "@/components/AppPill.vue";
 import AppInput from "@/components/AppInput.vue";
 import AppSelect, { Options } from "@/components/AppSelect.vue";
+import { getSpeciesLabel, getSpeciesTooltip, Species } from "@/api/species";
 
 interface Props {
   // selected genes (current geneset genes)
@@ -69,7 +85,9 @@ interface Props {
   // whether geneset is editable
   editable: boolean;
   // gene manipulation functions from parent
-  removeGene: (gene: Gene) => void;
+  removeGenes: (...genes: Array<Gene>) => void;
+  // unique species in selected genes
+  species: Array<Species>;
 }
 
 const props = defineProps<Props>();
@@ -108,7 +126,7 @@ const _genes = computed(() => {
         .flat()
         // see if any entry in flat array includes search string
         .some((value) =>
-          value.toLowerCase().includes(search.value.toLowerCase())
+          String(value).toLowerCase().includes(search.value.toLowerCase())
         )
     );
 

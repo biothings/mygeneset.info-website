@@ -4,11 +4,12 @@ import { biothings } from ".";
 
 // from backend
 export interface _Species {
-  _id?: string;
+  _id?: number;
   scientific_name?: string;
   genbank_common_name?: Array<string>;
   common_name?: Array<string>;
   other_names?: Array<string>;
+  notfound?: boolean;
 }
 
 // for frontend
@@ -21,7 +22,7 @@ export interface Species {
 
 // convert backend format to desired frontend format
 const mapSpecies = (species: _Species): Species => ({
-  id: species._id || "",
+  id: String(species._id) || "",
   common: [
     species.genbank_common_name,
     species.common_name,
@@ -34,18 +35,37 @@ const mapSpecies = (species: _Species): Species => ({
   icon: species.scientific_name || "",
 });
 
+// get displayable label for species with fallbacks
+export const getSpeciesLabel = (species: Species) =>
+  species.common || species.scientific || species.id;
+
+// get displayable tooltip for species with more info
+export const getSpeciesTooltip = (species: Species) =>
+  [
+    "Species details:",
+    "",
+    "ID: " + (species.id || "-"),
+    "Common: " + (species.common || "-"),
+    "Scientific: " + (species.scientific || "-"),
+  ].join("<br/>");
+
 // search for species by keyword
-export const searchSpecies = async (query?: string): Promise<SearchResult> => {
+export const searchSpecies = async (
+  query?: string | Array<string>
+): Promise<SearchResult> => {
   // params
   const params = new URLSearchParams();
 
   // dynamic params
   let method;
   if (query) {
-    params.set("q", query);
+    if (Array.isArray(query)) {
+      params.set("q", query.join());
+      method = "POST";
+    } else params.set("q", query);
   } else {
-    method = "POST";
     params.set("q", (await getPopularSpecies()).join(","));
+    method = "POST";
   }
 
   // static params
@@ -62,9 +82,11 @@ export const searchSpecies = async (query?: string): Promise<SearchResult> => {
   const response = await request<SearchResponse>(url, type, { method });
 
   // distinguish between batch and single query
-  if (Array.isArray(response))
-    return { total: response.length, species: response.map(mapSpecies) };
-  else return { total: response.total, species: response.hits.map(mapSpecies) };
+  if (Array.isArray(response)) {
+    const list = response.filter((hit) => !hit.notfound);
+    return { total: list.length, species: list.map(mapSpecies) };
+  } else
+    return { total: response.total, species: response.hits.map(mapSpecies) };
 };
 
 // from backend

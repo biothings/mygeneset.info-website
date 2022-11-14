@@ -23,7 +23,7 @@
     <!-- selected species -->
     <template #tag="{ option, handleTagRemove, disabled }">
       <AppButton
-        v-tippy="option.common + ' - ' + option.scientific"
+        v-tippy="getSpeciesTooltip(option)"
         class="button"
         icon="times"
         fill="filled"
@@ -51,11 +51,6 @@
         {{ option.scientific }}
       </span>
     </template>
-
-    <!-- loading spinner -->
-    <template #spinner>
-      <span></span>
-    </template>
   </Multiselect>
 </template>
 
@@ -63,7 +58,7 @@
 import { ref } from "vue";
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
-import { Species, searchSpecies } from "@/api/species";
+import { Species, searchSpecies, getSpeciesTooltip } from "@/api/species";
 
 // selected species
 const selected = ref<Array<Species>>([]);

@@ -4,7 +4,7 @@
 
 <template>
   <AppFlex class="detail" direction="col" gap="small" h-align="left">
-    <div class="heading">{{ heading }}</div>
+    <div v-tippy="tooltip" class="heading">{{ heading }}</div>
     <slot />
   </AppFlex>
 </template>
@@ -13,6 +13,8 @@
 interface Props {
   // heading to place above slot
   heading: string;
+  // tooltip to put on heading
+  tooltip?: string;
 }
 
 defineProps<Props>();

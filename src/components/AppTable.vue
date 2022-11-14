@@ -65,19 +65,27 @@
             <template v-else-if="!col.key"></template>
 
             <!-- default formatting for array -->
-            <template v-else-if="Array.isArray(row[col.key])">
+            <div
+              v-else-if="Array.isArray(row[col.key])"
+              class="truncate-2"
+              tabindex="0"
+            >
               {{ row[col.key].join(", ") || "-" }}
-            </template>
+            </div>
 
             <!-- default formatting for number -->
-            <template v-else-if="typeof row[col.key] === 'number'">
+            <div
+              v-else-if="typeof row[col.key] === 'number'"
+              class="truncate-2"
+              tabindex="0"
+            >
               {{ row[col.key].toLocaleString() || "-" }}
-            </template>
+            </div>
 
             <!-- otherwise just display raw value -->
-            <template v-else>
+            <div v-else class="truncate-2" tabindex="0">
               {{ row[col.key] || "-" }}
-            </template>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -239,9 +247,6 @@ const changeSort = (id: string) => {
 
 .head .cell {
   font-weight: $medium;
-}
-
-.body .cell {
 }
 
 .cell {
