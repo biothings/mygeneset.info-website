@@ -86,19 +86,22 @@ import { getGeneLabel, getGeneTooltip } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import AppTable, { Col } from "./AppTable.vue";
 import AppPill from "./AppPill.vue";
+import { computed } from "vue";
 
 interface Props {
   // list of genesets to display as rows
   genesets: Array<Geneset>;
+  // whether sortable
+  sortable?: boolean;
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), { sortable: true });
 
 // show this many genes before cutting of
 const top = 10;
 
 // columns to show
-const cols: Array<Col> = [
+const cols = computed<Array<Col>>(() => [
   {
     id: "icons",
     heading: "",
@@ -109,7 +112,6 @@ const cols: Array<Col> = [
     key: "name",
     heading: "Name",
     width: "200px",
-    // sortable: true,
   },
   {
     id: "author",
@@ -117,7 +119,7 @@ const cols: Array<Col> = [
     heading: "Author",
     width: "100px",
     align: "center",
-    sortable: true,
+    sortable: !!props.sortable,
   },
   {
     id: "source",
@@ -125,7 +127,7 @@ const cols: Array<Col> = [
     heading: "Source",
     width: "100px",
     align: "center",
-    sortable: true,
+    sortable: !!props.sortable,
   },
   {
     id: "count",
@@ -133,7 +135,7 @@ const cols: Array<Col> = [
     heading: "#",
     width: "80px",
     align: "center",
-    sortable: true,
+    sortable: !!props.sortable,
   },
   {
     id: "genes",
@@ -141,7 +143,7 @@ const cols: Array<Col> = [
     heading: "Genes",
     width: "500px",
   },
-];
+]);
 </script>
 
 <style scoped lang="scss">

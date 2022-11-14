@@ -102,7 +102,7 @@ const clear = () => {
 
 // when user types in box
 const onInput = (event: Event) => {
-  let value = (event.target as HTMLInputElement).value;
+  const value = (event.target as HTMLInputElement).value;
   emit("update:modelValue", value);
   debouncedOnChange(value);
 };

@@ -137,17 +137,17 @@ const mapTaxon = (genes: Array<Gene>) =>
 
 // format data as json
 const formatJson = (): Record<string, unknown> => {
-  let { genes, ...rest } = props.geneset;
+  const { genes, ...rest } = props.geneset;
   const keys = map(selectedIdentifiers.value, "key");
 
-  genes = mapTaxon(genes);
+  const mappedGenes = mapTaxon(genes);
 
   return {
     // all geneset meta
     ...(meta.value ? { ...rest, count: genes.length } : {}),
 
     // format genes
-    genes: genes.map((gene) =>
+    genes: mappedGenes.map((gene) =>
       pickBy(gene, (value, key) => keys.includes(key as keyof Gene))
     ),
   };
@@ -155,11 +155,11 @@ const formatJson = (): Record<string, unknown> => {
 
 // format data as csv/tsv
 const formatCsv = (): Table => {
-  let { id = "", name = "", description = "", genes = [] } = props.geneset;
+  const { id = "", name = "", description = "", genes = [] } = props.geneset;
   const keys = map(selectedIdentifiers.value, "key");
   const labels = map(selectedIdentifiers.value, "text");
 
-  genes = mapTaxon(genes);
+  const mappedGenes = mapTaxon(genes);
 
   return [
     // select geneset meta
@@ -178,17 +178,17 @@ const formatCsv = (): Table => {
       // labels
       labels,
       // values
-      ...genes.map((gene) => keys.map((key) => flattenGeneId(gene[key]))),
+      ...mappedGenes.map((gene) => keys.map((key) => flattenGeneId(gene[key]))),
     ]),
   ];
 };
 
 // format data as gmx/gmt
 const formatGmx = () => {
-  let { id = "", name = "", description = "", genes = [] } = props.geneset;
+  const { id = "", name = "", description = "", genes = [] } = props.geneset;
   const keys = map(selectedIdentifiers.value, "key");
 
-  genes = mapTaxon(genes);
+  const mappedGenes = mapTaxon(genes);
 
   return transposeFunc([
     // select geneset meta
@@ -200,7 +200,7 @@ const formatGmx = () => {
     ...(meta.value ? [[""]] : []),
 
     // format genes
-    ...genes
+    ...mappedGenes
       .map((gene) => keys.map((key) => flattenGeneId(gene[key])))
       .flat()
       .filter((gene) => gene)

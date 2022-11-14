@@ -7,6 +7,7 @@
       :genesets="recentGenesets"
       :per-page="perPage"
       :total="total"
+      :sortable="false"
     />
   </AppSection>
 </template>

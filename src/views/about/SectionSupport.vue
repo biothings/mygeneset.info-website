@@ -31,7 +31,7 @@
     <AppFlex>
       <AppButton
         to="https://biothings.io/branding"
-        text='"Powered by" Branding'
+        text='\"Powered by\" Branding'
         fill="filled"
       />
       <AppButton to="#how-to-cite" text="Cite Us" fill="filled" />

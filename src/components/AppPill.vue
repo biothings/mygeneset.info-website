@@ -14,7 +14,7 @@
 <script setup lang="ts">
 interface Props {
   // font awesome icon code
-  icon: string;
+  icon?: string;
 }
 
 defineProps<Props>();
