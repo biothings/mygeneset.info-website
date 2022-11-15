@@ -32,7 +32,7 @@ const search = async () => {
       "getRecentGenesets",
       undefined,
       undefined,
-      { col: "updated", dir: "up" },
+      { col: "updated", dir: "down" },
       start.value,
       perPage.value
     );
