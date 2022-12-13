@@ -4,8 +4,9 @@
 
 <template>
   <AppFlex v-if="show" class="banner" direction="col">
-    This website uses cookies for user authentication and analytics purposes. By
-    continuing to use this website, you consent to using cookies.
+    This website uses cookies for user authentication (keeping a registered user
+    logged-in) and analytics purposes. By continuing to use this website, you
+    consent to using cookies.
     <AppButton text="Don't show again" icon="times" @click="show = false" />
   </AppFlex>
 </template>
