@@ -2,6 +2,7 @@
   <TheHeader />
   <main>
     <router-view />
+    <AppBanner />
   </main>
   <TheFooter />
 </template>
@@ -14,6 +15,7 @@ import "@/global/icons";
 import "@/global/styles.scss"; // keep these last so they take priority
 import TheHeader from "./components/TheHeader.vue";
 import TheFooter from "./components/TheFooter.vue";
+import AppBanner from "./components/AppBanner.vue";
 
 const store = useStore();
 
