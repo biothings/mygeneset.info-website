@@ -31,17 +31,15 @@ export default createStore<State>({
     },
     // update logged in state
     getUser(state, payload: Awaited<ReturnType<typeof getUser>>) {
-      state.loggedIn = payload?.name
-        ? {
-            name: payload?.name || "",
-            username: payload?.username || "",
-            email: payload?.email || "",
-            organization: payload?.organization || "",
-            avatar: payload?.avatar_url || "",
-            provider: payload?.oauth_provider || "",
-            genesetCount: payload?.genesetCount || 0,
-          }
-        : null;
+      state.loggedIn = {
+        name: payload?.name || "",
+        username: payload?.username || "",
+        email: payload?.email || "",
+        organization: payload?.organization || "",
+        avatar: payload?.avatar_url || "",
+        provider: payload?.oauth_provider || "",
+        genesetCount: payload?.genesetCount || 0,
+      };
     },
   },
   actions: {
