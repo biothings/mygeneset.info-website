@@ -40,32 +40,11 @@
         genesets come from various public sources:
       </p>
       <ul>
-        <li>
-          <AppLink to="https://ctdbase.org"
-            >CTD (Comparative Toxicogenomics Database)</AppLink
-          >
-        </li>
-        <li>
-          <AppLink to="https://disease-ontology.org"
-            >DO (Disease Ontology)</AppLink
-          >
-        </li>
-        <li>
-          <AppLink to="http://geneontology.org">GO (Gene Ontology)</AppLink>
-        </li>
-        <li>
-          <AppLink to="https://www.kegg.jp"
-            >KEGG (Kyoto Encyclopedia of Genes and Genomes)</AppLink
-          >
-        </li>
-        <li>
-          <AppLink to="https://www.gsea-msigdb.org/gsea/msigdb"
-            >MSigDB (Molecular Signatures Database)</AppLink
-          >
-        </li>
-        <li><AppLink to="https://reactome.org/">Reactome</AppLink></li>
-        <li>
-          <AppLink to="https://www.wikipathways.org/">WikiPathways</AppLink>
+        <li
+          v-for="(source, key, index) in $store.state.metadata?.curatedMeta"
+          :key="index"
+        >
+          <AppLink :to="source.url">{{ String(key).toUpperCase() }}</AppLink>
         </li>
       </ul>
 
