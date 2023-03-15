@@ -52,10 +52,10 @@
       <p>
         User-created genesets are available right away. Built-in genesets
         (listed above) are
-        <AppLink to="http://mygeneset.info/v1/metadata"
+        <AppLink to="https://mygeneset.info/v1/metadata"
           >updated from their original sources weekly</AppLink
         >. The genes themselves (their annotation data) are also
-        <AppLink to="http://mygene.info/v1/metadata">updated weekly</AppLink>.
+        <AppLink to="https://mygene.info/metadata">updated weekly</AppLink>.
       </p>
 
       <AppHeading level="3">What's behind MyGeneset?</AppHeading>

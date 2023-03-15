@@ -41,13 +41,15 @@ export const getSpeciesLabel = (species: Species) =>
 
 // get displayable tooltip for species with more info
 export const getSpeciesTooltip = (species: Species) =>
-  [
-    "Species details:",
-    "",
-    "ID: " + (species.id || "-"),
-    "Common: " + (species.common || "-"),
-    "Scientific: " + (species.scientific || "-"),
-  ].join("<br/>");
+  `
+<table>
+<tr><th>Species details</th></tr>
+<tr><td><b>ID</b></td><td>${species.id || "-"}</td></tr>
+<tr><td><b>Common</b></td><td>${species.common || "-"}</td></tr>
+<tr><td><b>Scientific</b></td><td>${species.scientific || "-"}</td></tr>
+</td></tr>
+</table>
+`;
 
 // search for species by keyword
 export const searchSpecies = async (

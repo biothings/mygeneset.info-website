@@ -21,8 +21,13 @@
 
       <!-- filters -->
       <AppFlex h-align="left" gap="small">
-        Search by type:
-        <AppSelect v-model="type" :options="typeOptions" />
+        <AppSelect
+          v-model="type"
+          text="Search by type"
+          :options="typeOptions"
+        />
+        <AppNumber v-model="countMin" text="Min genes" />
+        <AppNumber v-model="countMax" text="Max genes" />
       </AppFlex>
       <AppFlex v-if="type === 'curated'" h-align="left" gap="small">
         Source:
@@ -61,6 +66,7 @@ import AppSelect, {
 import AppChecklist, {
   Options as ChecklistOptions,
 } from "@/components/AppChecklist.vue";
+import AppNumber from "@/components/AppNumber.vue";
 import { Sort } from "@/components/AppTable.vue";
 import AppStatus from "@/components/AppStatus.vue";
 import { Geneset, searchGenesets } from "@/api/genesets";
@@ -85,6 +91,10 @@ const typeOptions: SelectOptions = [
 
 // selected type of geneset
 const type = ref(typeOptions[0].key);
+
+// number of genes
+const countMin = ref(0);
+const countMax = ref(999999);
 
 // selected sources of curated genesets
 const sources = ref<ChecklistOptions>([]);
@@ -139,6 +149,7 @@ const search = async () => {
   }
   if (type.value === "anonymous")
     fields = "NOT _exists_:author AND NOT _exists_:source";
+  fields += ` count:[${countMin.value} TO ${countMax.value}]`;
 
   // assembled query string
   const query = [keywords.value, fields].filter((part) => part).join(" AND ");
@@ -171,9 +182,15 @@ const search = async () => {
 // run search on load
 onMounted(search);
 
-// run search on state change
-watch([start, perPage, sort, type], search);
+// when any search params change, re-run search
+watch(
+  [keywords, species, type, sources, countMin, countMax, sort, start, perPage],
+  search
+);
 
-// reset page to 0 when search changes
-watch([keywords, species, type, sources], () => (start.value = 0));
+// reset page to 0 when search params (except start) change
+watch(
+  [keywords, species, type, sources, countMin, countMax, sort, perPage],
+  () => (start.value = 0)
+);
 </script>

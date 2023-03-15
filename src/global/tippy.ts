@@ -15,10 +15,9 @@ export const options = {
     duration: 200,
     offset: [13, 13],
     allowHTML: true,
+    interactive: true,
+    appendTo: () => document.body,
     onShow,
     onHide,
   },
 };
-
-// https://github.com/KABBOUCHI/vue-tippy/issues/140
-export const appendToBody = (): Element => document.body;

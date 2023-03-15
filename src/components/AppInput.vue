@@ -51,7 +51,7 @@ import { nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { cloneDeep, debounce, isEqual } from "lodash";
 
 interface Props {
-  // state
+  // internal input state
   modelValue?: string;
   // placeholder string when nothing typed in
   placeholder?: string;

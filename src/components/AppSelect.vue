@@ -1,13 +1,20 @@
 <template>
-  <select
-    :value="modelValue"
-    class="select"
-    @change="(event: Event) => emit('update:modelValue', (event?.target as HTMLSelectElement).value || '')"
-  >
-    <option v-for="(option, index) in options" :key="index" :value="option.key">
-      {{ option.text }}
-    </option>
-  </select>
+  <label>
+    {{ text }}:
+    <select
+      :value="modelValue"
+      class="select"
+      @change="(event: Event) => emit('update:modelValue', (event?.target as HTMLSelectElement).value || '')"
+    >
+      <option
+        v-for="(option, index) in options"
+        :key="index"
+        :value="option.key"
+      >
+        {{ option.text }}
+      </option>
+    </select>
+  </label>
 </template>
 
 <script setup lang="ts">
@@ -18,7 +25,6 @@ export type Options = Array<{
   key: string;
   // text to show for option
   text: string;
-
   // allow any other params (will be ignored)
   [key: string]: unknown;
 }>;
@@ -28,11 +34,14 @@ interface Props {
   modelValue: Option;
   // options to select from
   options: Options;
+  // label text
+  text: string;
 }
 
 defineProps<Props>();
 
 interface Emits {
+  // two-way binding value
   (event: "update:modelValue", value: string): void;
 }
 

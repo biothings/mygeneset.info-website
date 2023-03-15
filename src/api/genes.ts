@@ -53,20 +53,26 @@ export const getGeneLabel = (gene: Gene) =>
   gene.ensemblgene[0] ||
   gene.uniprot[0];
 
+const biogps = "http://biogps.org/#goto=genereport&id=";
+
 // get displayable tooltip for gene with more info
 export const getGeneTooltip = (gene: Gene) =>
-  [
-    "Gene details:",
-    "",
-    "ID: " + (gene.id || "-"),
-    "Symbol: " + (gene.symbol.join(", ") || "-"),
-    "Name: " + (gene.name || "-"),
-    "Alias: " + (gene.alias.join(", ") || "-"),
-    "Entrez: " + (gene.entrezgene.join(", ") || "-"),
-    "Ensembl: " + (gene.ensemblgene.join(", ") || "-"),
-    "Uniprot: " + (gene.uniprot.join(", ") || "-"),
-    "Taxon: " + (gene.taxid || "-"),
-  ].join("<br/>");
+  `
+<table>
+<tr><th>Gene details</th></tr>
+<tr><td><b>ID</b></td><td>${gene.id || "-"}</td></tr>
+<tr><td><b>Symbol</b></td><td>${gene.symbol.join(", ") || "-"}</td></tr>
+<tr><td><b>Name</b></td><td>${gene.name || "-"}</td></tr>
+<tr><td><b>Alias</b></td><td>${gene.alias.join(", ") || "-"}</td></tr>
+<tr><td><b>Entrez</b></td><td>${gene.entrezgene.join(", ") || "-"}</td></tr>
+<tr><td><b>Ensembl</b></td><td>${gene.ensemblgene.join(", ") || "-"}</td></tr>
+<tr><td><b>Uniprot</b></td><td>${gene.uniprot.join(", ") || "-"}</td></tr>
+<tr><td><b>Taxon</b></td><td>${gene.taxid || "-"}</td></tr>
+<tr><td><b>Links</b></td><td>
+<a href="${biogps}${gene.id || "-"}" target="_blank">on BioGPS</a>
+</td></tr>
+</table>
+`;
 
 // search genes by keyword
 export const searchGenes = async (
