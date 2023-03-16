@@ -67,11 +67,11 @@ defineProps<Props>();
 </script>
 
 <style scoped lang="scss">
-$breakpoint: 500px;
+$breakpoint: 650px;
 
 .hero {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 120px);
   gap: 40px;
 }
 

@@ -10,6 +10,7 @@ export interface _Gene {
   alias?: Array<string>;
   entrezgene?: Array<string>;
   ensemblgene?: Array<string>;
+  ensembl?: { gene: Array<string> };
   uniprot?: Array<string | { "Swiss-Prot": string }>;
   taxid?: number;
   notfound?: boolean;
@@ -21,8 +22,8 @@ export interface Gene {
   symbol: Array<string>;
   name: string;
   alias: Array<string>;
-  entrezgene: Array<string>;
-  ensemblgene: Array<string>;
+  entrez: Array<string>;
+  ensembl: Array<string>;
   uniprot: Array<string>;
   taxid: string;
   species?: Array<string>;
@@ -31,16 +32,16 @@ export interface Gene {
 // convert backend format to desired frontend format
 export const mapGene = (gene: _Gene): Gene => ({
   id: gene._id || gene.mygene_id || "",
-  name: gene.name || "",
-  taxid: String(gene.taxid) || "",
-  alias: gene.alias || [],
-  entrezgene: gene.entrezgene || [],
   symbol: gene.symbol || [],
-  ensemblgene: gene.ensemblgene || [],
+  name: gene.name || "",
+  alias: gene.alias || [],
+  entrez: gene.entrezgene || [],
+  ensembl: gene.ensemblgene || gene.ensembl?.gene || [],
   uniprot:
     gene.uniprot
       ?.map((u) => (typeof u === "string" ? u : u["Swiss-Prot"]))
       ?.filter((u) => u) || [],
+  taxid: String(gene.taxid) || "",
 });
 
 // get displayable label for gene with fallbacks
@@ -49,24 +50,30 @@ export const getGeneLabel = (gene: Gene) =>
   gene.name ||
   gene.id ||
   gene.alias[0] ||
-  gene.entrezgene[0] ||
-  gene.ensemblgene[0] ||
+  gene.entrez[0] ||
+  gene.ensembl[0] ||
   gene.uniprot[0];
+
+const biogps = "http://biogps.org/#goto=genereport&id=";
 
 // get displayable tooltip for gene with more info
 export const getGeneTooltip = (gene: Gene) =>
-  [
-    "Gene details:",
-    "",
-    "ID: " + (gene.id || "-"),
-    "Symbol: " + (gene.symbol.join(", ") || "-"),
-    "Name: " + (gene.name || "-"),
-    "Alias: " + (gene.alias.join(", ") || "-"),
-    "Entrez: " + (gene.entrezgene.join(", ") || "-"),
-    "Ensembl: " + (gene.ensemblgene.join(", ") || "-"),
-    "Uniprot: " + (gene.uniprot.join(", ") || "-"),
-    "Taxon: " + (gene.taxid || "-"),
-  ].join("<br/>");
+  `
+<table>
+<tr><th>Gene details</th></tr>
+<tr><td><b>ID</b></td><td>${gene.id || "-"}</td></tr>
+<tr><td><b>Symbol</b></td><td>${gene.symbol.join(", ") || "-"}</td></tr>
+<tr><td><b>Name</b></td><td>${gene.name || "-"}</td></tr>
+<tr><td><b>Alias</b></td><td>${gene.alias.join(", ") || "-"}</td></tr>
+<tr><td><b>Entrez</b></td><td>${gene.entrez.join(", ") || "-"}</td></tr>
+<tr><td><b>Ensembl</b></td><td>${gene.ensembl.join(", ") || "-"}</td></tr>
+<tr><td><b>Uniprot</b></td><td>${gene.uniprot.join(", ") || "-"}</td></tr>
+<tr><td><b>Taxon</b></td><td>${gene.taxid || "-"}</td></tr>
+<tr><td><b>Links</b></td><td>
+<a href="${biogps}${gene.id || "-"}" target="_blank">on BioGPS</a>
+</td></tr>
+</table>
+`;
 
 // search genes by keyword
 export const searchGenes = async (
@@ -82,7 +89,7 @@ export const searchGenes = async (
   // dynamic params
   let method;
   if (Array.isArray(query)) {
-    params.set("q", query.join());
+    params.set("q", query.join(","));
     method = "POST";
   } else {
     if (query) params.set("q", query);

@@ -7,7 +7,7 @@
       <AppInput
         v-model="keywords"
         v-tippy="'Comma/tab/newline-separate to perform batch searches'"
-        placeholder="Search genes by keyword"
+        placeholder="Search genes by keyword, symbol, alias, entrez, ensemble, uniprot"
         icon="search"
         mode="switchable"
         @change="search"

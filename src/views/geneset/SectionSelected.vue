@@ -21,10 +21,7 @@
       </AppFlex>
 
       <!-- sort -->
-      <AppFlex flow="inline" gap="small">
-        Sort by:
-        <AppSelect v-model="sort" :options="sortOptions" />
-      </AppFlex>
+      <AppSelect v-model="sort" text="Sort by" :options="sortOptions" />
     </AppFlex>
 
     <!-- list of genes -->

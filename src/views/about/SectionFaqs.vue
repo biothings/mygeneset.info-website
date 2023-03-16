@@ -36,15 +36,38 @@
       <p>
         The genes themselves come from the BioThings
         <AppLink to="https://mygene.info/">MyGene</AppLink> project, which
-        contains millions of genes from thousands of species. The built-in
-        genesets come from various public sources:
+        contains millions of genes from thousands of species. All of the genes
+        from MyGene.info can be searched for and selected in the
+        <AppLink to="/build">geneset builder</AppLink>
+        .
+      </p>
+      <p>
+        Detailed information on the sources of gene annotations in MyGene.info
+        can be found
+        <AppLink
+          to="https://docs.mygene.info/en/latest/doc/data.html#data-sources"
+          >here (major sources)</AppLink
+        >
+        and
+        <AppLink
+          to="https://docs.mygene.info/en/latest/doc/data.html#available-fields"
+          >here (additional sources and annotation fields)</AppLink
+        >. Detailed information on the species coverage of MyGene.info can be
+        found
+        <AppLink to="https://docs.mygene.info/en/latest/doc/data.html#species"
+          >here</AppLink
+        >.
+      </p>
+      <p>
+        The built-in/curated genesets are publicly-accessible and come from the
+        following sources:
       </p>
       <ul>
         <li
-          v-for="(source, key, index) in $store.state.metadata?.curatedMeta"
+          v-for="(source, index) in $store.state.metadata?.curatedMeta"
           :key="index"
         >
-          <AppLink :to="source.url">{{ String(key).toUpperCase() }}</AppLink>
+          <AppLink :to="source.url">{{ source.name }}</AppLink>
         </li>
       </ul>
 
@@ -52,10 +75,10 @@
       <p>
         User-created genesets are available right away. Built-in genesets
         (listed above) are
-        <AppLink to="http://mygeneset.info/v1/metadata"
+        <AppLink to="https://mygeneset.info/v1/metadata"
           >updated from their original sources weekly</AppLink
         >. The genes themselves (their annotation data) are also
-        <AppLink to="http://mygene.info/v1/metadata">updated weekly</AppLink>.
+        <AppLink to="https://mygene.info/metadata">updated weekly</AppLink>.
       </p>
 
       <AppHeading level="3">What's behind MyGeneset?</AppHeading>

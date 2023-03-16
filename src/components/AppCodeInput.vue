@@ -21,6 +21,7 @@ interface Props {
 defineProps<Props>();
 
 interface Emits {
+  // two-way binding value
   (event: "update:modelValue", value: string): void;
 }
 

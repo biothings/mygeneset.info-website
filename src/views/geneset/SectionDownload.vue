@@ -5,8 +5,7 @@
     <!-- options -->
     <AppFlex>
       <AppFlex gap="small">
-        Format:
-        <AppSelect v-model="format" :options="formatOptions" />
+        <AppSelect v-model="format" text="Format" :options="formatOptions" />
         <AppCheckbox
           v-model="transpose"
           v-tippy="'Flip gene rows/columns'"

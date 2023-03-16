@@ -64,6 +64,21 @@
       {{ cell?.toLocaleString() || "-" }}
     </template>
 
+    <!-- species col -->
+    <template #species="{ cell }">
+      <AppFlex h-align="left" gap="small">
+        <template v-for="(id, index) in uniq(map(cell, 'taxid'))" :key="index">
+          <AppPill
+            v-if="species[id]"
+            v-tippy="getSpeciesTooltip(species[id])"
+            :icon="species[id].icon"
+          >
+            {{ getSpeciesLabel(species[id]) }}</AppPill
+          ></template
+        >
+      </AppFlex>
+    </template>
+
     <!-- gene list col -->
     <template #genes="{ cell }: { cell: Geneset['genes'] }">
       <AppFlex h-align="left" gap="tiny">
@@ -82,11 +97,19 @@
 </template>
 
 <script setup lang="ts">
-import { getGeneLabel, getGeneTooltip } from "@/api/genes";
+import { ref, watch } from "vue";
+import { Gene, getGeneLabel, getGeneTooltip } from "@/api/genes";
 import { Geneset } from "@/api/genesets";
 import AppTable, { Col } from "./AppTable.vue";
 import AppPill from "./AppPill.vue";
 import { computed } from "vue";
+import {
+  getSpeciesLabel,
+  getSpeciesTooltip,
+  searchSpecies,
+  Species,
+} from "@/api/species";
+import { flatten, keyBy, map, uniq } from "lodash";
 
 interface Props {
   // list of genesets to display as rows
@@ -96,6 +119,9 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), { sortable: true });
+
+// unique species in displayed genes
+const species = ref<Record<Gene["taxid"], Species>>({});
 
 // show this many genes before cutting of
 const top = 10;
@@ -111,13 +137,13 @@ const cols = computed<Array<Col>>(() => [
     id: "name",
     key: "name",
     heading: "Name",
-    width: "200px",
+    width: "180px",
   },
   {
     id: "author",
     key: "author",
     heading: "Author",
-    width: "100px",
+    width: "90px",
     align: "center",
     sortable: !!props.sortable,
   },
@@ -125,7 +151,7 @@ const cols = computed<Array<Col>>(() => [
     id: "source",
     key: "source",
     heading: "Source",
-    width: "100px",
+    width: "80px",
     align: "center",
     sortable: !!props.sortable,
   },
@@ -133,17 +159,37 @@ const cols = computed<Array<Col>>(() => [
     id: "count",
     key: "count",
     heading: "#",
-    width: "80px",
+    width: "60px",
     align: "center",
     sortable: !!props.sortable,
+  },
+  {
+    id: "species",
+    key: "genes",
+    heading: "Species",
+    width: "140px",
   },
   {
     id: "genes",
     key: "genes",
     heading: "Genes",
-    width: "500px",
+    width: "400px",
   },
 ]);
+
+// when genesets change
+watch(
+  () => props.genesets,
+  async () => {
+    try {
+      const ids = uniq(map(flatten(map(props.genesets, "genes")), "taxid"));
+      species.value = keyBy((await searchSpecies(ids)).species, "id");
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  { deep: true, immediate: true }
+);
 </script>
 
 <style scoped lang="scss">

@@ -112,7 +112,7 @@
   </svg>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .shadow {
   fill: #00000010;
   animation: shadow 4s cubic-bezier(0.5, 0, 0.5, 1) forwards infinite;
