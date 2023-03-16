@@ -18,8 +18,8 @@ for (const [name, component] of Object.entries(components))
 // run app
 (async () => {
   // use mock api calls when developing locally, like we do during tests
-  // if (process.env.NODE_ENV === "development")
-  //   await setupWorker(...handlers).start({ onUnhandledRequest: "bypass" });
+  if (process.env.NODE_ENV === "development")
+    await setupWorker(...handlers).start({ onUnhandledRequest: "bypass" });
 
   // render app
   app.mount("#app");

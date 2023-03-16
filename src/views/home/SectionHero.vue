@@ -2,27 +2,33 @@
   <AppSection>
     <AppHero icon="dna">
       <template #aTop>
-        {{ userGenesets ? userGenesets.toLocaleString() : "-" }}
+        {{ $store.state.metadata?.stats.total?.toLocaleString() || "-" }}
+      </template>
+
+      <template #aBottom>total genesets</template>
+
+      <template #bTop>
+        {{ $store.state.metadata?.stats.curated?.toLocaleString() || "-" }}
+      </template>
+
+      <template #bBottom>curated genesets</template>
+    </AppHero>
+    <AppHero icon="dna">
+      <template #aTop>
+        {{ $store.state.metadata?.stats.user?.toLocaleString() || "-" }}
       </template>
 
       <template #aBottom>user genesets</template>
 
       <template #bTop>
-        {{ curatedGenesets ? curatedGenesets.toLocaleString() : "-" }}
+        {{ $store.state.metadata?.stats.anonymous?.toLocaleString() || "-" }}
       </template>
 
-      <template #bBottom>curated genesets</template>
+      <template #bBottom>anonymous genesets</template>
     </AppHero>
   </AppSection>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useStore } from "@/store";
 import AppHero from "@/components/AppHero.vue";
-
-const store = useStore();
-
-const userGenesets = computed(() => store.state.metadata?.userGenesets);
-const curatedGenesets = computed(() => store.state.metadata?.curatedGenesets);
 </script>

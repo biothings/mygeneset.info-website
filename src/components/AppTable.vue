@@ -124,7 +124,7 @@ import { computed, StyleValue } from "vue";
 import AppButton from "./AppButton.vue";
 
 // eslint-disable-next-line
-export type Row = Record<string, any>;
+export type Row = any;
 
 export interface Col {
   // unique id of column

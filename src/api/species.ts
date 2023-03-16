@@ -62,7 +62,7 @@ export const searchSpecies = async (
   let method;
   if (query) {
     if (Array.isArray(query)) {
-      params.set("q", query.join());
+      params.set("q", query.join(","));
       method = "POST";
     } else params.set("q", query);
   } else {
