@@ -29,7 +29,7 @@ const mapSpecies = (species: _Species): Species => ({
     species.other_names,
   ]
     .flat()
-    .filter((name) => name)
+    .filter(Boolean)
     .join(", "),
   scientific: species.scientific_name || "",
   icon: species.scientific_name || "",

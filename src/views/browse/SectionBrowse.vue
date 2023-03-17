@@ -152,7 +152,7 @@ const search = async () => {
   fields += ` count:[${countMin.value} TO ${countMax.value}]`;
 
   // assembled query string
-  const query = [keywords.value, fields].filter((part) => part).join(" AND ");
+  const query = [keywords.value, fields].filter(Boolean).join(" AND ");
 
   try {
     const response = await searchGenesets(

@@ -82,7 +82,7 @@ const name = computed(() => store.state.loggedIn?.name);
 const userInitials = computed(() =>
   store.state.loggedIn?.name
     .split(/\s/)
-    .filter((w: string) => w)
+    .filter(Boolean)
     .map((w: string) => w[0])
     .slice(0, 2)
     .join("")

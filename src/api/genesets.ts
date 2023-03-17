@@ -53,9 +53,9 @@ export const lookupGeneset = async (id: string): Promise<Geneset> => {
     "always_list",
     [
       "genes",
+      "genes.symbol",
       "genes.alias",
       "genes.entrezgene",
-      "genes.symbol",
       "genes.ensembl",
       "genes.ensemblgene",
       "genes.uniprot",
@@ -98,9 +98,9 @@ export const searchGenesets = async (
     "always_list",
     [
       "genes",
+      "genes.symbol",
       "genes.alias",
       "genes.entrezgene",
-      "genes.symbol",
       "genes.ensembl",
       "genes.ensemblgene",
       "genes.uniprot",

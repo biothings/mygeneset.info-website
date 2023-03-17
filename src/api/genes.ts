@@ -11,7 +11,7 @@ export interface _Gene {
   entrezgene?: Array<string>;
   ensemblgene?: Array<string>;
   ensembl?: { gene: Array<string> };
-  uniprot?: Array<string | { "Swiss-Prot": string }>;
+  uniprot?: Array<string | { "Swiss-Prot": string } | { TrEMBL: string }>;
   taxid?: number;
   notfound?: boolean;
 }
@@ -39,8 +39,13 @@ export const mapGene = (gene: _Gene): Gene => ({
   ensembl: gene.ensemblgene || gene.ensembl?.gene || [],
   uniprot:
     gene.uniprot
-      ?.map((u) => (typeof u === "string" ? u : u["Swiss-Prot"]))
-      ?.filter((u) => u) || [],
+      ?.map((u) => {
+        if (typeof u === "string") return u;
+        if ("Swiss-Prot" in u) return u["Swiss-Prot"];
+        if ("TrEMBL" in u) return u["TrEMBL"];
+        return "";
+      })
+      ?.filter(Boolean) || [],
   taxid: String(gene.taxid) || "",
 });
 
@@ -59,20 +64,31 @@ const biogps = "http://biogps.org/#goto=genereport&id=";
 // get displayable tooltip for gene with more info
 export const getGeneTooltip = (gene: Gene) =>
   `
-<table>
-<tr><th>Gene details</th></tr>
-<tr><td><b>ID</b></td><td>${gene.id || "-"}</td></tr>
-<tr><td><b>Symbol</b></td><td>${gene.symbol.join(", ") || "-"}</td></tr>
-<tr><td><b>Name</b></td><td>${gene.name || "-"}</td></tr>
-<tr><td><b>Alias</b></td><td>${gene.alias.join(", ") || "-"}</td></tr>
-<tr><td><b>Entrez</b></td><td>${gene.entrez.join(", ") || "-"}</td></tr>
-<tr><td><b>Ensembl</b></td><td>${gene.ensembl.join(", ") || "-"}</td></tr>
-<tr><td><b>Uniprot</b></td><td>${gene.uniprot.join(", ") || "-"}</td></tr>
-<tr><td><b>Taxon</b></td><td>${gene.taxid || "-"}</td></tr>
-<tr><td><b>Links</b></td><td>
-<a href="${biogps}${gene.id || "-"}" target="_blank">on BioGPS</a>
-</td></tr>
-</table>
+<div style="display: grid; grid-template-columns: auto auto; gap: 5px 20px;">
+<b style="grid-column: 1 / -1;">Gene details</b>
+<b>ID</b>
+<span>${gene.id || "-"}</span>
+<b>Symbol</b>
+<span>${gene.symbol.join(", ") || "-"}</span>
+<b>Name</b>
+<span>${gene.name || "-"}</span>
+<b>Alias</b>
+<span>${gene.alias.join(", ") || "-"}</span>
+<b>Entrez</b>
+<a href="https://www.ncbi.nlm.nih.gov/gene/${gene.entrez[0] || ""}">
+${gene.entrez.join(", ") || "-"}
+</a>
+<b>Ensembl</b>
+<span>${gene.ensembl.join(", ") || "-"}</span>
+<b>Uniprot</b>
+<a href="http://www.uniprot.org/uniprot/${gene.uniprot[0] || ""}">
+${gene.uniprot.join(", ") || "-"}
+</a>
+<b>Taxon</b>
+<span>${gene.taxid || "-"}</span>
+<b>BioGPS</b>
+<a href="${biogps}${gene.id || "-"}" target="_blank">link</a>
+</div>
 `;
 
 // search genes by keyword
@@ -104,18 +120,20 @@ export const searchGenes = async (
   params.set(
     "scopes",
     [
-      "gene",
       "_id",
+      "symbol",
+      "gene",
       "alias",
       "entrezgene",
-      "symbol",
       "ensemblgene",
       "uniprot",
     ].join(",")
   );
   params.set(
     "always_list",
-    ["alias", "entrezgene", "symbol", "ensemblgene", "uniprot"].join(",")
+    ["symbol", "alias", "entrezgene", "ensembl", "ensemblgene", "uniprot"].join(
+      ","
+    )
   );
 
   // query

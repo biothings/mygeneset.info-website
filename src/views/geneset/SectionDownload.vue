@@ -87,7 +87,7 @@ const identifiers = ref<Array<Identifier>>([
   { text: "Symbol", key: "symbol", checked: true },
   { text: "Name", key: "name", checked: true },
   { text: "Alias", key: "alias", checked: false },
-  { text: "Ensembl", key: "ensemblgene", checked: false },
+  { text: "Ensembl", key: "ensembl", checked: false },
   { text: "Uniprot", key: "uniprot", checked: false },
   { text: "Taxon ID", key: "taxid", checked: false },
   { text: "Species", key: "species", checked: false },
@@ -202,7 +202,7 @@ const formatGmx = () => {
     ...mappedGenes
       .map((gene) => keys.map((key) => flattenGeneId(gene[key])))
       .flat()
-      .filter((gene) => gene)
+      .filter(Boolean)
       .map((gene) => [gene]),
   ]);
 };
