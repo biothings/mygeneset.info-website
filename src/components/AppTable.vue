@@ -52,7 +52,7 @@
             class="cell"
             :style="col.style"
           >
-            <!-- named slot for custom formatting -->
+            <!-- named slot. only needed if cell/col needs custom formatting. -->
             <slot
               v-if="$slots[col.id]"
               :name="col.id"

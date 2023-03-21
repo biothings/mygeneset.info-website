@@ -32,24 +32,26 @@
         @mousedown.prevent.stop="handleTagRemove(option, $event)"
       >
         <AppIcon v-if="option.icon" :icon="option.icon" class="icon" />
-        <span v-if="option.common" class="common truncate">
-          {{ option.common }}
-        </span>
         <span v-if="option.scientific" class="scientific truncate">
-          {{ option.scientific }}
+          {{ getSpeciesLabel(option) }}
+        </span>
+        <span v-if="option.secondary" class="secondary truncate">
+          {{ option.secondary.join(", ") }}
         </span>
       </AppButton>
     </template>
 
     <!-- species results/options -->
     <template #option="{ option }">
-      <AppIcon v-if="option.icon" :icon="option.icon" class="icon" />
-      <span v-if="option.common" class="common truncate">
-        {{ option.common }}
-      </span>
-      <span v-if="option.scientific" class="scientific truncate">
-        {{ option.scientific }}
-      </span>
+      <div v-tippy="getSpeciesTooltip(option)" class="result">
+        <AppIcon v-if="option.icon" :icon="option.icon" class="icon" />
+        <span v-if="option.scientific" class="scientific truncate">
+          {{ getSpeciesLabel(option) }}
+        </span>
+        <span v-if="option.secondary" class="secondary truncate">
+          {{ option.secondary.join(", ") }}
+        </span>
+      </div>
     </template>
   </Multiselect>
 </template>
@@ -58,7 +60,12 @@
 import { ref } from "vue";
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
-import { Species, searchSpecies, getSpeciesTooltip } from "@/api/species";
+import {
+  Species,
+  searchSpecies,
+  getSpeciesTooltip,
+  getSpeciesLabel,
+} from "@/api/species";
 
 // selected species
 const selected = ref<Array<Species>>([]);
@@ -66,10 +73,10 @@ const selected = ref<Array<Species>>([]);
 // get dropdown options
 const options = async (query: string) => {
   try {
-    return (await searchSpecies(query)).species.map((species) => ({
+    return (await searchSpecies(query, true)).species.map((species) => ({
       ...species,
       // for multiselect tracking
-      full: species.common + " " + species.scientific,
+      full: species.scientific + " " + species.secondary,
     }));
   } catch (error) {
     console.error(error);
@@ -84,14 +91,22 @@ const options = async (query: string) => {
   padding: 2px 5px !important;
 }
 
-.common {
-  min-width: 50px;
+.scientific {
+  min-width: max-content;
 }
 
-.scientific {
+.secondary {
   min-width: 50px;
-  color: $off-black;
+  color: $dark-gray;
   font-size: 0.8rem;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 5px 10px;
 }
 </style>
 
@@ -132,9 +147,7 @@ const options = async (query: string) => {
 }
 
 .multiselect-option {
-  display: flex;
-  gap: 10px;
-  padding: 5px 10px;
+  padding: 0;
 }
 
 .multiselect-option.is-pointed {
