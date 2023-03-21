@@ -68,7 +68,7 @@
       </AppDetail>
       <AppDetail
         v-if="curatedMeta?.downloaded"
-        tooltip="'Date when geneset was downloaded from its upstream source'"
+        tooltip="'Date when geneset were downloaded from its upstream source'"
         heading="Downloaded"
       >
         <AppAgo :date="curatedMeta.downloaded" />
