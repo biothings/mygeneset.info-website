@@ -11,6 +11,7 @@
     value-prop="id"
     no-options-text="No results"
     no-results-text="No results"
+    :resolve-on-load="false"
     :options="options"
     :filterResults="false"
     :searchable="true"
@@ -53,6 +54,9 @@
         </span>
       </div>
     </template>
+
+    <!-- spinner -->
+    <template #spinner>{{ "loading" }}</template>
   </Multiselect>
 </template>
 
@@ -158,5 +162,8 @@ const options = async (query: string) => {
   color: $gray;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.multiselect-spinner {
 }
 </style>

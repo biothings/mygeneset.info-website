@@ -57,7 +57,7 @@ export const getSpeciesTooltip = (species: Species) =>
   `
 <div style="display: grid; grid-template-columns: auto auto; gap: 5px 20px;">
 <b style="grid-column: 1 / -1;">Species details</b>
-<b>ID</b>
+<b>Taxon ID</b>
 <span>${species.id || "-"}</span>
 <b>Scientific name</b>
 <span>${species.scientific || "-"}</span>
@@ -74,7 +74,6 @@ export const getSpeciesTooltip = (species: Species) =>
 
 // add weights to certain types of species names
 const weightedQuery = (query: string) => {
-  console.log(query);
   const weights: Partial<Record<keyof _Species, number>> = {
     taxid: 10,
     scientific_name: 8,
@@ -125,8 +124,6 @@ export const searchSpecies = async (
   const url = `${biothings}/query?${params.toString()}`;
   const type = "searchSpecies";
   const response = await request<SearchResponse>(url, type, { method });
-
-  console.log(url);
 
   // distinguish between batch and single query
   if (Array.isArray(response)) {

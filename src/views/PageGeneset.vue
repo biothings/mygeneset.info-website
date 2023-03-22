@@ -126,9 +126,12 @@ const load = async () => {
       fresh.value = false;
       editable.value = response.author === store.state.loggedIn?.username;
     } catch (error) {
-      console.error(error);
+      if (isStale(error)) {
+        console.info("Stale query");
+        return;
+      }
 
-      if (isStale(error)) return;
+      console.error(error);
 
       problem.value = true;
       editable.value = false;

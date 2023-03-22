@@ -183,9 +183,12 @@ const search = async () => {
     // reset view to search box
     document.querySelector("#add")?.scrollIntoView(true);
   } catch (error) {
-    console.error(error);
+    if (isStale(error)) {
+      console.info("Stale query");
+      return;
+    }
 
-    if (isStale(error)) return;
+    console.error(error);
 
     geneResults.value = [];
     total.value = 0;

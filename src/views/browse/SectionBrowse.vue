@@ -167,9 +167,12 @@ const search = async () => {
     genesetResults.value = response.genesets;
     total.value = response.total;
   } catch (error) {
-    console.error(error);
+    if (isStale(error)) {
+      console.info("Stale query");
+      return;
+    }
 
-    if (isStale(error)) return;
+    console.error(error);
 
     genesetResults.value = [];
     total.value = 0;
@@ -184,13 +187,13 @@ onMounted(search);
 
 // when any search params change, re-run search
 watch(
-  [keywords, species, type, sources, countMin, countMax, sort, start, perPage],
+  [keywords, species, type, countMin, countMax, sort, start, perPage],
   search
 );
 
 // reset page to 0 when search params (except start) change
 watch(
-  [keywords, species, type, sources, countMin, countMax, sort, perPage],
+  [keywords, species, type, countMin, countMax, sort, perPage],
   () => (start.value = 0)
 );
 </script>

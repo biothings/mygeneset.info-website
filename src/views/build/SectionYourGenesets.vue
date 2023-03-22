@@ -103,9 +103,12 @@ const search = async () => {
     yourGenesets.value = response.genesets;
     total.value = response.total;
   } catch (error) {
-    console.error(error);
+    if (isStale(error)) {
+      console.info("Stale query");
+      return;
+    }
 
-    if (isStale(error)) return;
+    console.error(error);
 
     yourGenesets.value = [];
     total.value = 0;

@@ -143,7 +143,7 @@ const cols = computed<Array<Col>>(() => [
     id: "author",
     key: "author",
     heading: "Author",
-    width: "90px",
+    width: "100px",
     align: "center",
     sortable: !!props.sortable,
   },
@@ -151,9 +151,15 @@ const cols = computed<Array<Col>>(() => [
     id: "source",
     key: "source",
     heading: "Source",
-    width: "80px",
+    width: "100px",
     align: "center",
     sortable: !!props.sortable,
+  },
+  {
+    id: "category",
+    key: "category",
+    heading: "Type",
+    width: "100px",
   },
   {
     id: "count",
@@ -167,13 +173,13 @@ const cols = computed<Array<Col>>(() => [
     id: "genes",
     key: "genes",
     heading: "Genes",
-    width: "400px",
+    width: "380px",
   },
   {
     id: "species",
     key: "genes",
     heading: "Species",
-    width: "140px",
+    width: "150px",
   },
 ]);
 

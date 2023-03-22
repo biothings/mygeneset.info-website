@@ -187,22 +187,29 @@ const nextPage = () =>
 
 // processed cols prop
 const _cols = computed(() =>
-  props.cols.map((col) => {
-    const style: StyleValue = {};
+  props.cols
+    .map((col) => {
+      const style: StyleValue = {};
 
-    // defaults
-    const { width = "100px", align = "left" } = col;
+      // defaults
+      const { width = "100px", align = "left" } = col;
 
-    // width
-    style.width = width;
+      // width
+      style.width = width;
 
-    // align
-    const flexMap = { left: "flex-start", center: "center", right: "flex-end" };
-    style.justifyContent = flexMap[align];
-    style.textAlign = align;
+      // align
+      const flexMap = {
+        left: "flex-start",
+        center: "center",
+        right: "flex-end",
+      };
+      style.justifyContent = flexMap[align];
+      style.textAlign = align;
 
-    return { ...col, style };
-  })
+      return { ...col, style };
+    })
+    // filter out cols without any content
+    .filter((col) => props.rows.some((row) => (col.key ? row[col.key] : true)))
 );
 
 // min width of table
