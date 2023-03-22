@@ -14,6 +14,11 @@ export interface _Geneset {
   is_public?: boolean;
   genes?: Array<_Gene>;
   count?: number;
+  msigdb?: {
+    category: {
+      name: string;
+    };
+  };
 }
 
 // for frontend
@@ -28,6 +33,7 @@ export interface Geneset {
   isPublic: boolean;
   genes: Array<Gene>;
   count: number;
+  category?: string;
 }
 
 // convert backend format to desired frontend format
@@ -42,6 +48,7 @@ const mapGeneset = (geneset: _Geneset): Geneset => ({
   isPublic: !!geneset.is_public,
   genes: geneset.genes?.map(mapGene) || [],
   count: geneset.count || 0,
+  category: geneset.msigdb?.category?.name || undefined,
 });
 
 // look up geneset from id
@@ -55,6 +62,7 @@ export const lookupGeneset = async (id: string): Promise<Geneset> => {
       "genes",
       "genes.symbol",
       "genes.alias",
+      "genes.ncbigene",
       "genes.entrezgene",
       "genes.ensembl",
       "genes.ensemblgene",
@@ -100,6 +108,7 @@ export const searchGenesets = async (
       "genes",
       "genes.symbol",
       "genes.alias",
+      "genes.ncbigene",
       "genes.entrezgene",
       "genes.ensembl",
       "genes.ensemblgene",

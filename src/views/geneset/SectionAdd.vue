@@ -7,7 +7,7 @@
       <AppInput
         v-model="keywords"
         v-tippy="'Comma/tab/newline-separate to perform batch searches'"
-        placeholder="Search genes by keyword, symbol, alias, entrez, ensemble, uniprot"
+        placeholder="Search genes by keyword, symbol, alias, ncbi, ensembl, uniprot"
         icon="search"
         mode="switchable"
         @change="search"
@@ -133,9 +133,9 @@ const cols: Array<Col> = [
     width: "80px",
   },
   {
-    id: "entrez",
-    key: "entrez",
-    heading: "Entrez",
+    id: "ncbi",
+    key: "ncbi",
+    heading: "NCBI",
     width: "80px",
   },
   {
@@ -183,9 +183,12 @@ const search = async () => {
     // reset view to search box
     document.querySelector("#add")?.scrollIntoView(true);
   } catch (error) {
-    console.error(error);
+    if (isStale(error)) {
+      console.info("Stale query");
+      return;
+    }
 
-    if (isStale(error)) return;
+    console.error(error);
 
     geneResults.value = [];
     total.value = 0;

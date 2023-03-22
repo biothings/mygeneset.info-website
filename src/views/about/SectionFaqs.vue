@@ -1,3 +1,5 @@
+import AppAgo from '@/components/AppAgo.vue';
+
 <template>
   <AppSection>
     <AppHeading level="2" link="faq">FAQ's</AppHeading>
@@ -62,14 +64,47 @@
         The built-in/curated genesets are publicly-accessible and come from the
         following sources:
       </p>
-      <ul>
-        <li
-          v-for="(source, index) in $store.state.metadata?.curatedMeta"
-          :key="index"
-        >
-          <AppLink :to="source.url">{{ source.name }}</AppLink>
-        </li>
-      </ul>
+      <div class="table-wrapper">
+        <table>
+          <tr>
+            <th>Source</th>
+            <th>Sets</th>
+            <th
+              v-tippy="
+                'Date when genesets were downloaded from their upstream source'
+              "
+            >
+              Downloaded
+            </th>
+            <th
+              v-tippy="
+                'Date when genesets were parsed, processed, etc. and uploaded to the database'
+              "
+            >
+              Uploaded
+            </th>
+            <th>License</th>
+          </tr>
+          <tr
+            v-for="(source, index) in $store.state.metadata?.curatedMeta"
+            :key="index"
+          >
+            <td>
+              <AppLink :to="source.url">{{ source.name }}</AppLink>
+            </td>
+            <td>{{ source.count.toLocaleString() }}</td>
+            <td>
+              <AppAgo v-if="source.downloaded" :date="source.downloaded" />
+            </td>
+            <td>
+              <AppAgo v-if="source.uploaded" :date="source.uploaded" />
+            </td>
+            <td>
+              <AppLink :to="source.licenseUrl">{{ source.license }}</AppLink>
+            </td>
+          </tr>
+        </table>
+      </div>
 
       <AppHeading level="3">How often is the data updated?</AppHeading>
       <p>
@@ -79,6 +114,17 @@
           >updated from their original sources weekly</AppLink
         >. The genes themselves (their annotation data) are also
         <AppLink to="https://mygene.info/metadata">updated weekly</AppLink>.
+      </p>
+
+      <AppHeading level="3">How are Gene IDs mapped?</AppHeading>
+      <p>
+        Gene IDs are mapped using MyGene.info. Detailed information on the data
+        integration process used to build MyGene.info can be found in the
+        <AppLink
+          to="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0953-9"
+        >
+          publication from Genome Biology
+        </AppLink>
       </p>
 
       <AppHeading level="3">What's behind MyGeneset?</AppHeading>
@@ -91,3 +137,23 @@
     </AppFlex>
   </AppSection>
 </template>
+
+<script setup lang="ts">
+import AppAgo from "@/components/AppAgo.vue";
+</script>
+
+<style lang="scss" scoped>
+.table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  text-align: left;
+}
+
+th,
+td {
+  padding: 5px 20px;
+}
+</style>

@@ -248,9 +248,12 @@ const run = async () => {
   try {
     response.value = await request(url, type, { method });
   } catch (error) {
-    console.error(error);
+    if (isStale(error)) {
+      console.info("Stale query");
+      return;
+    }
 
-    if (isStale(error)) return;
+    console.error(error);
 
     response.value = undefined;
   }

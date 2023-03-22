@@ -129,9 +129,9 @@ const transposeFunc = (data: Table): Table => {
 // transform taxon id into species name
 const mapTaxon = (genes: Array<Gene>) =>
   genes.map((gene) => {
-    const { common = "", scientific = "" } =
+    const { scientific = "" } =
       props.species.find((species) => species.id === gene.taxid) || {};
-    return { ...gene, species: [scientific, common] };
+    return { ...gene, species: scientific };
   });
 
 // format data as json

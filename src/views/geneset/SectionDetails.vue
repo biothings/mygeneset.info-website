@@ -44,6 +44,11 @@
         </AppLink>
       </AppDetail>
 
+      <!-- category -->
+      <AppDetail v-if="geneset.category" heading="Category">
+        {{ geneset.category }}
+      </AppDetail>
+
       <!-- visibility -->
       <AppDetail heading="Visibility">
         <AppCheckbox

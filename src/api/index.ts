@@ -13,6 +13,9 @@ export const request = async <Response>(
   // fetch options
   options: RequestInit = {}
 ): Promise<Response> => {
+  // log unique id for request
+  const id = newRequest(type);
+
   // merge headers
   const headers = new Headers(options.headers);
   headers.append("pragma", "no-cache");
@@ -25,9 +28,6 @@ export const request = async <Response>(
   // other options
   options.cache = "no-store";
 
-  // log unique id for request
-  const id = newRequest(type);
-
   // make request
   const response = await fetch(url, options);
 
@@ -37,6 +37,10 @@ export const request = async <Response>(
   // parse response
   if (!response?.ok) throw new Error("Response not ok");
   const results = await response.json();
+
+  // check if request is still latest of type
+  if (!latestRequest(type, id)) throw new Error("Stale request");
+
   return results;
 };
 

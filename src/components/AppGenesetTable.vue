@@ -64,21 +64,6 @@
       {{ cell?.toLocaleString() || "-" }}
     </template>
 
-    <!-- species col -->
-    <template #species="{ cell }">
-      <AppFlex h-align="left" gap="small">
-        <template v-for="(id, index) in uniq(map(cell, 'taxid'))" :key="index">
-          <AppPill
-            v-if="species[id]"
-            v-tippy="getSpeciesTooltip(species[id])"
-            :icon="species[id].icon"
-          >
-            {{ getSpeciesLabel(species[id]) }}</AppPill
-          ></template
-        >
-      </AppFlex>
-    </template>
-
     <!-- gene list col -->
     <template #genes="{ cell }: { cell: Geneset['genes'] }">
       <AppFlex h-align="left" gap="tiny">
@@ -90,6 +75,21 @@
         >
         <span v-if="cell.length > top"
           >and {{ cell.length - top }} more...</span
+        >
+      </AppFlex>
+    </template>
+
+    <!-- species col -->
+    <template #species="{ cell }">
+      <AppFlex h-align="left" gap="small">
+        <template v-for="(id, index) in uniq(map(cell, 'taxid'))" :key="index">
+          <AppPill
+            v-if="species[id]"
+            v-tippy="getSpeciesTooltip(species[id])"
+            :icon="species[id].icon"
+          >
+            {{ getSpeciesLabel(species[id]) }}</AppPill
+          ></template
         >
       </AppFlex>
     </template>
@@ -143,7 +143,7 @@ const cols = computed<Array<Col>>(() => [
     id: "author",
     key: "author",
     heading: "Author",
-    width: "90px",
+    width: "100px",
     align: "center",
     sortable: !!props.sortable,
   },
@@ -151,9 +151,15 @@ const cols = computed<Array<Col>>(() => [
     id: "source",
     key: "source",
     heading: "Source",
-    width: "80px",
+    width: "100px",
     align: "center",
     sortable: !!props.sortable,
+  },
+  {
+    id: "category",
+    key: "category",
+    heading: "Type",
+    width: "100px",
   },
   {
     id: "count",
@@ -164,16 +170,16 @@ const cols = computed<Array<Col>>(() => [
     sortable: !!props.sortable,
   },
   {
-    id: "species",
-    key: "genes",
-    heading: "Species",
-    width: "140px",
-  },
-  {
     id: "genes",
     key: "genes",
     heading: "Genes",
-    width: "400px",
+    width: "380px",
+  },
+  {
+    id: "species",
+    key: "genes",
+    heading: "Species",
+    width: "150px",
   },
 ]);
 

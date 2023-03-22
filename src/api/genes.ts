@@ -8,6 +8,7 @@ export interface _Gene {
   symbol?: Array<string>;
   name?: string;
   alias?: Array<string>;
+  ncbigene?: Array<string>;
   entrezgene?: Array<string>;
   ensemblgene?: Array<string>;
   ensembl?: { gene: Array<string> };
@@ -22,7 +23,7 @@ export interface Gene {
   symbol: Array<string>;
   name: string;
   alias: Array<string>;
-  entrez: Array<string>;
+  ncbi: Array<string>;
   ensembl: Array<string>;
   uniprot: Array<string>;
   taxid: string;
@@ -35,7 +36,7 @@ export const mapGene = (gene: _Gene): Gene => ({
   symbol: gene.symbol || [],
   name: gene.name || "",
   alias: gene.alias || [],
-  entrez: gene.entrezgene || [],
+  ncbi: gene.ncbigene || gene.entrezgene || [],
   ensembl: gene.ensemblgene || gene.ensembl?.gene || [],
   uniprot:
     gene.uniprot
@@ -55,7 +56,7 @@ export const getGeneLabel = (gene: Gene) =>
   gene.name ||
   gene.id ||
   gene.alias[0] ||
-  gene.entrez[0] ||
+  gene.ncbi[0] ||
   gene.ensembl[0] ||
   gene.uniprot[0];
 
@@ -74,9 +75,9 @@ export const getGeneTooltip = (gene: Gene) =>
 <span>${gene.name || "-"}</span>
 <b>Alias</b>
 <span>${gene.alias.join(", ") || "-"}</span>
-<b>Entrez</b>
-<a href="https://www.ncbi.nlm.nih.gov/gene/${gene.entrez[0] || ""}">
-${gene.entrez.join(", ") || "-"}
+<b>NCBI</b>
+<a href="https://www.ncbi.nlm.nih.gov/gene/${gene.ncbi[0] || ""}">
+${gene.ncbi.join(", ") || "-"}
 </a>
 <b>Ensembl</b>
 <span>${gene.ensembl.join(", ") || "-"}</span>
@@ -124,6 +125,7 @@ export const searchGenes = async (
       "symbol",
       "gene",
       "alias",
+      "ncbigene",
       "entrezgene",
       "ensemblgene",
       "uniprot",
