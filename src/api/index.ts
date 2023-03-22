@@ -28,8 +28,6 @@ export const request = async <Response>(
   // other options
   options.cache = "no-store";
 
-  console.log(url);
-
   // make request
   const response = await fetch(url, options);
 
