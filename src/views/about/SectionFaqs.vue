@@ -116,6 +116,17 @@ import AppAgo from '@/components/AppAgo.vue';
         <AppLink to="https://mygene.info/metadata">updated weekly</AppLink>.
       </p>
 
+      <AppHeading level="3">How are Gene IDs mapped?</AppHeading>
+      <p>
+        Gene IDs are mapped using MyGene.info. Detailed information on the data
+        integration process used to build MyGene.info can be found in the
+        <AppLink
+          to="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0953-9"
+        >
+          publication from Genome Biology
+        </AppLink>
+      </p>
+
       <AppHeading level="3">What's behind MyGeneset?</AppHeading>
       <p>
         MyGeneset uses the powerful
