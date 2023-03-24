@@ -131,8 +131,11 @@ import AppAgo from '@/components/AppAgo.vue';
       <p>
         MyGeneset uses the powerful
         <AppLink to="https://www.elastic.co/">Elasticsearch</AppLink> for its
-        backend database and query engine. Its web service API was built with the <AppLink to="https://pypi.org/project/biothings/">BioThings SDK</AppLink>. This allows querying for data to be
-        simple, flexible, and performative.
+        backend database and query engine. Its web service API was built with
+        the
+        <AppLink to="https://pypi.org/project/biothings/">BioThings SDK</AppLink
+        >. This allows querying for data to be simple, flexible, and
+        performative.
       </p>
     </AppFlex>
   </AppSection>

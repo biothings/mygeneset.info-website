@@ -68,7 +68,9 @@ export const getGeneTooltip = (gene: Gene) =>
 <div style="display: grid; grid-template-columns: auto auto; gap: 5px 20px;">
 <b style="grid-column: 1 / -1;">Gene details</b>
 <b>ID</b>
-<span>${gene.id || "-"}</span>
+<a href="https://mygene.info/v3/gene/${gene.id || "-"}?format=html">
+${gene.id || "-"}
+</a>
 <b>Symbol</b>
 <span>${gene.symbol.join(", ") || "-"}</span>
 <b>Name</b>
@@ -80,13 +82,19 @@ export const getGeneTooltip = (gene: Gene) =>
 ${gene.ncbi.join(", ") || "-"}
 </a>
 <b>Ensembl</b>
-<span>${gene.ensembl.join(", ") || "-"}</span>
+<a href="https://www.ensembl.org/id/${gene.ensembl[0] || ""}">
+${gene.ensembl.join(", ") || "-"}
+</a>
 <b>Uniprot</b>
 <a href="http://www.uniprot.org/uniprot/${gene.uniprot[0] || ""}">
 ${gene.uniprot.join(", ") || "-"}
 </a>
 <b>Taxon</b>
-<span>${gene.taxid || "-"}</span>
+<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=${
+    gene.taxid || "-"
+  }">
+${gene.taxid || "-"}
+</a>
 <b>BioGPS</b>
 <a href="${biogps}${gene.id || "-"}" target="_blank">link</a>
 </div>
