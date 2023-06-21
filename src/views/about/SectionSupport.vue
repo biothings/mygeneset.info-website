@@ -34,7 +34,7 @@
         text="“Powered by” Branding"
         fill="filled"
       />
-      <AppButton to="#how-to-cite" text="Cite Us" fill="filled" />
+      <AppButton to="#cite" text="Cite Us" fill="filled" />
     </AppFlex>
     <AppFlex class="buttons">
       <AppLink
